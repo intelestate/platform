@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal — intelEstate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#07070f;--deep:#0c0c1a;--card:#101020;--border:#1c1c32;--gold:#c8a84b;--gold-dim:rgba(200,168,75,0.12);--white:#eeedf6;--muted:#6e6e92;--green:#27ae60;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.7;}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:18px 52px;background:rgba(7,7,15,0.95);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-0.03em;text-decoration:none;color:var(--white);}
+.logo span{color:var(--gold);}
+.nav-back{color:var(--muted);text-decoration:none;font-size:0.82rem;transition:color 0.2s;}
+.nav-back:hover{color:var(--white);}
+.lang-sw{display:flex;}
+.lb{background:none;border:1px solid var(--border);color:var(--muted);padding:5px 10px;font-size:0.72rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.lb:first-child{border-radius:4px 0 0 4px;}
+.lb:last-child{border-radius:0 4px 4px 0;}
+.lb.active{background:var(--gold);border-color:var(--gold);color:var(--black);}
+.layout{display:flex;min-height:100vh;}
+.sidebar{width:260px;min-height:100vh;background:var(--deep);border-right:1px solid var(--border);padding:32px 0;position:sticky;top:61px;align-self:flex-start;height:calc(100vh - 61px);overflow-y:auto;}
+.sidebar-section{padding:0 0 24px;margin-bottom:24px;border-bottom:1px solid var(--border);}
+.sidebar-section:last-child{border-bottom:none;}
+.sidebar-title{font-size:0.68rem;font-weight:500;color:var(--gold);text-transform:uppercase;letter-spacing:0.12em;padding:0 24px;margin-bottom:10px;}
+.sidebar-link{display:block;padding:8px 24px;color:var(--muted);text-decoration:none;font-size:0.84rem;transition:all 0.2s;border-left:3px solid transparent;}
+.sidebar-link:hover{color:var(--white);background:rgba(255,255,255,0.03);}
+.sidebar-link.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-dim);}
+.content{flex:1;padding:52px 64px;max-width:860px;}
+.doc-section{display:none;}
+.doc-section.active{display:block;}
+.doc-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--border);}
+.doc-label{font-size:0.72rem;font-weight:500;color:var(--gold);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:12px;}
+.doc-title{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;letter-spacing:-0.025em;margin-bottom:12px;}
+.doc-meta{font-size:0.82rem;color:var(--muted);}
+.doc-meta span{color:var(--gold);}
+h2{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin:40px 0 14px;padding-top:40px;border-top:1px solid var(--border);color:var(--white);}
+h2:first-of-type{border-top:none;padding-top:0;}
+h3{font-family:'Syne',sans-serif;font-size:0.96rem;font-weight:700;margin:24px 0 10px;color:var(--white);}
+p{color:var(--muted);margin-bottom:14px;font-size:0.9rem;}
+ul,ol{color:var(--muted);margin:0 0 16px 20px;font-size:0.9rem;}
+li{margin-bottom:6px;line-height:1.65;}
+strong{color:var(--white);font-weight:500;}
+a{color:var(--gold);text-decoration:none;}
+a:hover{text-decoration:underline;}
+.info-box{background:var(--gold-dim);border:1px solid rgba(200,168,75,0.25);border-radius:8px;padding:16px 20px;margin:20px 0;}
+.info-box p{color:var(--white);margin:0;font-size:0.88rem;}
+.table-wrap{overflow-x:auto;margin:16px 0;}
+table{width:100%;border-collapse:collapse;font-size:0.84rem;}
+th{text-align:left;padding:10px 14px;background:var(--deep);color:var(--muted);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;border:1px solid var(--border);}
+td{padding:10px 14px;border:1px solid var(--border);color:var(--muted);vertical-align:top;}
+td strong{color:var(--white);}
+.contact-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin-top:20px;}
+.contact-card p{margin:4px 0;font-size:0.88rem;}
+footer{background:var(--black);border-top:1px solid var(--border);padding:32px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.fcopy{font-size:0.78rem;color:var(--muted);}
+.flinks{display:flex;gap:20px;}
+.flinks a{font-size:0.78rem;color:var(--muted);text-decoration:none;}
+.flinks a:hover{color:var(--white);}
+@media(max-width:900px){.sidebar{display:none;}.content{padding:32px 24px;}.nav{padding:14px 20px;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="index.html">intel<span>Estate</span></a>
+  <a class="nav-back" href="index.html" data-pl="← Powrót do strony głównej" data-en="← Back to homepage">← Powrót do strony głównej</a>
+  <div class="lang-sw">
+    <button class="lb active" onclick="setLang('pl')">PL</button>
+    <button class="lb" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title" data-pl="Dokumenty prawne" data-en="Legal documents">Dokumenty prawne</div>
+      <a class="sidebar-link active" href="#" onclick="showDoc('privacy')" data-pl="Polityka prywatności" data-en="Privacy Policy">Polityka prywatności</a>
+      <a class="sidebar-link" href="#" onclick="showDoc('cookies')" data-pl="Polityka cookies" data-en="Cookie Policy">Polityka cookies</a>
+      <a class="sidebar-link" href="#" onclick="showDoc('terms')" data-pl="Regulamin" data-en="Terms of Service">Regulamin</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title" data-pl="Kontakt" data-en="Contact">Kontakt</div>
+      <a class="sidebar-link" href="/cdn-cgi/l/email-protection#e494968d9285879da48d8a908188a19790859081ca9488"><span class="__cf_email__" data-cfemail="f282809b8493918bb29b9c86979eb78186938697dc829e">[email&#160;protected]</span></a>
+      <a class="sidebar-link" href="/cdn-cgi/l/email-protection#bdd1d8dadcd1fdd4d3c9d8d1f8cec9dcc9d893cdd1"><span class="__cf_email__" data-cfemail="c4a8a1a3a5a884adaab0a1a881b7b0a5b0a1eab4a8">[email&#160;protected]</span></a>
+      <a class="sidebar-link" href="mailto:iod@intelEstate.pl">iod@intelEstate.pl</a>
+      <a class="sidebar-link" href="mailto:billing@intelEstate.pl">billing@intelEstate.pl</a>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <!-- PRIVACY POLICY -->
+    <div class="doc-section active" id="doc-privacy">
+      <div class="doc-header">
+        <div class="doc-label" data-pl="Dokument prawny" data-en="Legal document">Dokument prawny</div>
+        <div class="doc-title" data-pl="Polityka prywatności" data-en="Privacy Policy">Polityka prywatności</div>
+        <div class="doc-meta" data-pl="Ostatnia aktualizacja: <span>5 marca 2026</span> · Zgodna z RODO/GDPR" data-en="Last updated: <span>5 March 2026</span> · GDPR compliant">Ostatnia aktualizacja: <span>5 marca 2026</span> · Zgodna z RODO/GDPR</div>
+      </div>
+
+      <div class="info-box"><p data-pl="intelEstate jest zobowiązany do ochrony Twojej prywatności. Niniejsza polityka wyjaśnia, jakie dane zbieramy, jak je wykorzystujemy i jakie masz prawa." data-en="intelEstate is committed to protecting your privacy. This policy explains what data we collect, how we use it, and what rights you have.">intelEstate jest zobowiązany do ochrony Twojej prywatności. Niniejsza polityka wyjaśnia, jakie dane zbieramy, jak je wykorzystujemy i jakie masz prawa.</p></div>
+
+      <h2 data-pl="1. Administrator danych" data-en="1. Data Controller">1. Administrator danych</h2>
+      <p data-pl="Administratorem Twoich danych osobowych jest intelEstate (intelEstate.pl / intelEstate.eu). Kontakt: privacy@intelEstate.pl" data-en="The data controller is intelEstate (intelEstate.pl / intelEstate.eu). Contact: privacy@intelEstate.pl">Administratorem Twoich danych osobowych jest intelEstate (intelEstate.pl / intelEstate.eu). Kontakt: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b9c9cbd0cfd8dac0f9d0d7cddcd5fccacdd8cddc97c9d5">[email&#160;protected]</a></p>
+
+      <h2 data-pl="1a. Przetwarzanie danych publicznych" data-en="1a. Processing of Public Data">1a. Przetwarzanie danych publicznych</h2>
+      <p data-pl="intelEstate zbiera i przetwarza dane z publicznie dostępnych źródeł, w szczególności z portalu licytacje.komornik.pl, prowadzonego przez Krajową Radę Komorniczą. Dane te obejmują informacje o licytacjach nieruchomości ogłoszonych przez komorników sądowych i są publicznie dostępne zgodnie z przepisami Kodeksu postępowania cywilnego." data-en="intelEstate collects and processes data from publicly available sources, in particular from licytacje.komornik.pl, operated by the National Council of Bailiffs. This data includes information on property auctions announced by court bailiffs and is publicly available under the Code of Civil Procedure.">intelEstate zbiera i przetwarza dane z publicznie dostępnych źródeł, w szczególności z portalu <a href="https://licytacje.komornik.pl" target="_blank">licytacje.komornik.pl</a>. Dane te obejmują informacje o licytacjach nieruchomości ogłoszonych przez komorników sądowych i są publicznie dostępne zgodnie z przepisami Kodeksu postępowania cywilnego.</p>
+      <p data-pl="Dane te są udostępniane użytkownikom wyłącznie w celach informacyjnych i analitycznych. intelEstate nie ponosi odpowiedzialności za błędy w danych źródłowych ani za decyzje podjęte na ich podstawie. Użytkownik zobowiązany jest do samodzielnej weryfikacji danych w oficjalnych źródłach." data-en="This data is made available to users for informational and analytical purposes only. intelEstate is not liable for errors in source data or decisions made based on it. Users are required to independently verify data in official sources.">Dane te są udostępniane wyłącznie w celach informacyjnych i analitycznych. intelEstate nie ponosi odpowiedzialności za błędy w danych źródłowych. Użytkownik zobowiązany jest do samodzielnej weryfikacji danych w oficjalnych źródłach, w szczególności w <a href="https://ekw.ms.gov.pl" target="_blank">Elektronicznych Księgach Wieczystych</a>.</p>
+
+      <h2 data-pl="2. Jakie dane zbieramy" data-en="2. Data We Collect">2. Jakie dane zbieramy</h2>
+      <h3 data-pl="2.1 Dane osobowe" data-en="2.1 Personal Data">2.1 Dane osobowe</h3>
+      <ul>
+        <li data-pl="<strong>Dane konta:</strong> Adres email i hasło (zaszyfrowane) przy rejestracji." data-en="<strong>Account data:</strong> Email address and password (hashed) upon registration."><strong>Dane konta:</strong> Adres email i hasło (zaszyfrowane) przy rejestracji.</li>
+        <li data-pl="<strong>Dane płatności:</strong> Dane rozliczeniowe przetwarzane przez Stripe. Nie przechowujemy numerów kart." data-en="<strong>Payment data:</strong> Billing details processed by Stripe. We do not store card numbers."><strong>Dane płatności:</strong> Dane rozliczeniowe przetwarzane przez Stripe. Nie przechowujemy numerów kart.</li>
+        <li data-pl="<strong>Dane użytkowania:</strong> Adres IP, typ przeglądarki, odwiedzone strony, znaczniki czasu." data-en="<strong>Usage data:</strong> IP address, browser type, pages visited, timestamps."><strong>Dane użytkowania:</strong> Adres IP, typ przeglądarki, odwiedzone strony, znaczniki czasu.</li>
+        <li data-pl="<strong>Preferencje:</strong> Zapisane filtry, ustawienia alertów, obserwowane oferty." data-en="<strong>Preferences:</strong> Saved filters, alert settings, watchlists."><strong>Preferencje:</strong> Zapisane filtry, ustawienia alertów, obserwowane oferty.</li>
+      </ul>
+      <h3 data-pl="2.2 Dane nieosobowe" data-en="2.2 Non-Personal Data">2.2 Dane nieosobowe</h3>
+      <ul>
+        <li data-pl="Zagregowane statystyki licytacji (np. średnie dyskonta, scoring)." data-en="Aggregated auction statistics (e.g. average discounts, deal scores).">Zagregowane statystyki licytacji (np. średnie dyskonta, scoring).</li>
+        <li data-pl="Anonimowe dane analityczne do ulepszania usług." data-en="Anonymous usage analytics to improve our services.">Anonimowe dane analityczne do ulepszania usług.</li>
+      </ul>
+
+      <h2 data-pl="3. Cel przetwarzania danych" data-en="3. How We Use Your Data">3. Cel przetwarzania danych</h2>
+      <ul>
+        <li data-pl="Świadczenie i utrzymanie usług (alerty, dostęp do dashboardu)." data-en="Providing and maintaining services (alerts, dashboard access).">Świadczenie i utrzymanie usług (alerty, dostęp do dashboardu).</li>
+        <li data-pl="Ulepszanie platformy na podstawie analizy zachowań użytkowników." data-en="Improving the platform based on user behaviour analysis.">Ulepszanie platformy na podstawie analizy zachowań użytkowników.</li>
+        <li data-pl="Komunikacja z użytkownikiem (alerty, newslettery, wsparcie)." data-en="Communicating with users (alerts, newsletters, support).">Komunikacja z użytkownikiem (alerty, newslettery, wsparcie).</li>
+        <li data-pl="Przetwarzanie płatności i zapobieganie nadużyciom." data-en="Processing payments and preventing fraud.">Przetwarzanie płatności i zapobieganie nadużyciom.</li>
+        <li data-pl="Wypełnianie obowiązków prawnych (np. podatkowych)." data-en="Fulfilling legal obligations (e.g. tax requirements).">Wypełnianie obowiązków prawnych (np. podatkowych).</li>
+      </ul>
+
+      <h2 data-pl="4. Podstawa prawna przetwarzania (RODO)" data-en="4. Legal Basis for Processing (GDPR)">4. Podstawa prawna przetwarzania (RODO)</h2>
+      <ul>
+        <li data-pl="<strong>Zgoda (Art. 6(1)(a)):</strong> Dla komunikacji marketingowej i plików cookie niebędących koniecznymi." data-en="<strong>Consent (Art. 6(1)(a)):</strong> For marketing communications and non-essential cookies."><strong>Zgoda (Art. 6(1)(a)):</strong> Dla komunikacji marketingowej i plików cookie niebędących koniecznymi.</li>
+        <li data-pl="<strong>Umowa (Art. 6(1)(b)):</strong> W celu realizacji umowy o świadczenie usług." data-en="<strong>Contract (Art. 6(1)(b)):</strong> To fulfil our service agreement with you."><strong>Umowa (Art. 6(1)(b)):</strong> W celu realizacji umowy o świadczenie usług.</li>
+        <li data-pl="<strong>Uzasadniony interes (Art. 6(1)(f)):</strong> Dla analityki, zapobiegania nadużyciom i ulepszania usług." data-en="<strong>Legitimate interests (Art. 6(1)(f)):</strong> For analytics, fraud prevention and service improvements."><strong>Uzasadniony interes (Art. 6(1)(f)):</strong> Dla analityki, zapobiegania nadużyciom i ulepszania usług.</li>
+      </ul>
+
+      <h2 data-pl="5. Udostępnianie danych" data-en="5. Data Sharing">5. Udostępnianie danych</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th data-pl="Podmiot" data-en="Party">Podmiot</th><th data-pl="Cel" data-en="Purpose">Cel</th><th data-pl="Lokalizacja" data-en="Location">Lokalizacja</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Stripe</strong></td><td data-pl="Przetwarzanie płatności subskrypcyjnych" data-en="Processing subscription payments">Przetwarzanie płatności subskrypcyjnych</td><td>EU/USA</td></tr>
+            <tr><td><strong>Resend</strong></td><td data-pl="Wysyłanie alertów i digestów email" data-en="Sending email alerts and digests">Wysyłanie alertów i digestów email</td><td>EU</td></tr>
+            <tr><td><strong>Supabase</strong></td><td data-pl="Baza danych i uwierzytelnianie" data-en="Database and authentication">Baza danych i uwierzytelnianie</td><td>EU (Frankfurt)</td></tr>
+            <tr><td><strong>Cloudflare</strong></td><td data-pl="Hosting i CDN" data-en="Hosting and CDN">Hosting i CDN</td><td>EU/Global</td></tr>
+            <tr><td><strong>Plausible Analytics</strong></td><td data-pl="Anonimowa analityka ruchu (bez cookies)" data-en="Anonymous traffic analytics (no cookies)">Anonimowa analityka ruchu (bez cookies)</td><td>EU</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p data-pl="<strong>Nie sprzedajemy ani nie wynajmujemy</strong> Twoich danych osobowych podmiotom trzecim." data-en="We <strong>do not sell or rent</strong> your personal data to third parties."><strong>Nie sprzedajemy ani nie wynajmujemy</strong> Twoich danych osobowych podmiotom trzecim.</p>
+
+      <h2 data-pl="6. Okres przechowywania danych" data-en="6. Data Retention">6. Okres przechowywania danych</h2>
+      <ul>
+        <li data-pl="<strong>Dane konta:</strong> Przez czas trwania konta + 1 rok." data-en="<strong>Account data:</strong> Duration of account + 1 year."><strong>Dane konta:</strong> Przez czas trwania konta + 1 rok.</li>
+        <li data-pl="<strong>Dane płatności:</strong> 7 lat (wymogi podatkowe)." data-en="<strong>Payment data:</strong> 7 years (tax compliance)."><strong>Dane płatności:</strong> 7 lat (wymogi podatkowe).</li>
+        <li data-pl="<strong>Logi użytkowania:</strong> 12 miesięcy (następnie anonimizowane)." data-en="<strong>Usage logs:</strong> 12 months (then anonymised)."><strong>Logi użytkowania:</strong> 12 miesięcy (następnie anonimizowane).</li>
+      </ul>
+
+      <h2 data-pl="7. Twoje prawa (RODO)" data-en="7. Your Rights (GDPR)">7. Twoje prawa (RODO)</h2>
+      <ul>
+        <li data-pl="<strong>Prawo dostępu (Art. 15):</strong> Możesz zażądać kopii swoich danych." data-en="<strong>Right of access (Art. 15):</strong> Request a copy of your data."><strong>Prawo dostępu (Art. 15):</strong> Możesz zażądać kopii swoich danych.</li>
+        <li data-pl="<strong>Prawo do sprostowania (Art. 16):</strong> Poprawienie nieprawidłowych danych." data-en="<strong>Right to rectification (Art. 16):</strong> Correct inaccurate data."><strong>Prawo do sprostowania (Art. 16):</strong> Poprawienie nieprawidłowych danych.</li>
+        <li data-pl="<strong>Prawo do usunięcia (Art. 17):</strong> Możesz zażądać usunięcia swoich danych." data-en="<strong>Right to erasure (Art. 17):</strong> Request deletion of your data."><strong>Prawo do usunięcia (Art. 17):</strong> Możesz zażądać usunięcia swoich danych.</li>
+        <li data-pl="<strong>Prawo do przenoszenia (Art. 20):</strong> Otrzymaj swoje dane w formacie nadającym się do odczytu maszynowego." data-en="<strong>Right to portability (Art. 20):</strong> Receive your data in machine-readable format."><strong>Prawo do przenoszenia (Art. 20):</strong> Otrzymaj swoje dane w formacie nadającym się do odczytu maszynowego.</li>
+        <li data-pl="<strong>Prawo do sprzeciwu (Art. 21):</strong> Sprzeciw wobec przetwarzania na podstawie uzasadnionego interesu." data-en="<strong>Right to object (Art. 21):</strong> Object to processing based on legitimate interests."><strong>Prawo do sprzeciwu (Art. 21):</strong> Sprzeciw wobec przetwarzania na podstawie uzasadnionego interesu.</li>
+      </ul>
+      <p data-pl="Aby skorzystać z tych praw, napisz na: privacy@intelEstate.pl z tematem 'Żądanie RODO'. Odpowiemy w ciągu 30 dni." data-en="To exercise these rights, email privacy@intelEstate.pl with subject 'GDPR Request'. We will respond within 30 days.">Aby skorzystać z tych praw, napisz na: <a href="/cdn-cgi/l/email-protection#3747455e4156544e775e5943525b72444356435219475b"><span class="__cf_email__" data-cfemail="abdbd9c2ddcac8d2ebc2c5dfcec7eed8dfcadfce85dbc7">[email&#160;protected]</span></a> z tematem 'Żądanie RODO'. Odpowiemy w ciągu 30 dni.</p>
+      <p data-pl="Masz również prawo złożyć skargę do Prezesa Urzędu Ochrony Danych Osobowych (PUODO), jeśli uważasz, że przetwarzanie Twoich danych narusza przepisy RODO." data-en="You also have the right to lodge a complaint with the President of the Personal Data Protection Office (PUODO) if you believe processing of your data violates GDPR. Contact: uodo.gov.pl · ul. Stawki 2, 00-193 Warsaw.">Masz również prawo złożyć skargę do <a href="https://uodo.gov.pl" target="_blank">Prezesa Urzędu Ochrony Danych Osobowych (PUODO)</a> — ul. Stawki 2, 00-193 Warszawa.</p>
+
+      <h2 data-pl="8. Bezpieczeństwo danych" data-en="8. Data Security">8. Bezpieczeństwo danych</h2>
+      <ul>
+        <li data-pl="Szyfrowanie TLS dla wszystkich danych w tranzycie." data-en="TLS encryption for all data in transit.">Szyfrowanie TLS dla wszystkich danych w tranzycie.</li>
+        <li data-pl="Kontrola dostępu i regularne audyty bezpieczeństwa." data-en="Access controls and regular security audits.">Kontrola dostępu i regularne audyty bezpieczeństwa.</li>
+        <li data-pl="Anonimizacja danych osobowych tam, gdzie to możliwe." data-en="Anonymisation of personal data where possible.">Anonimizacja danych osobowych tam, gdzie to możliwe.</li>
+      </ul>
+      <p data-pl="W przypadku naruszenia danych powiadomimy użytkowników i właściwe organy w ciągu 72 godzin (RODO Art. 33)." data-en="In the event of a data breach, we will notify users and authorities within 72 hours (GDPR Art. 33).">W przypadku naruszenia danych powiadomimy użytkowników i właściwe organy w ciągu 72 godzin (RODO Art. 33).</p>
+
+      <h2 data-pl="9. Kontakt" data-en="9. Contact">9. Kontakt</h2>
+      <div class="contact-card">
+        <p><strong>intelEstate</strong></p>
+        <p data-pl="Email (prywatność): " data-en="Email (privacy): ">Email (prywatność): <a href="/cdn-cgi/l/email-protection#512123382730322811383f25343d1422253025347f213d"><span class="__cf_email__" data-cfemail="7505071c0314160c351c1b0110193006011401105b0519">[email&#160;protected]</span></a></p>
+        <p data-pl="Strona: " data-en="Website: ">Strona: <a href="https://intelEstate.pl">intelEstate.pl</a> · <a href="https://intelEstate.eu">intelEstate.eu</a></p>
+      </div>
+    </div>
+
+    <!-- COOKIE POLICY -->
+    <div class="doc-section" id="doc-cookies">
+      <div class="doc-header">
+        <div class="doc-label" data-pl="Dokument prawny" data-en="Legal document">Dokument prawny</div>
+        <div class="doc-title" data-pl="Polityka cookies" data-en="Cookie Policy">Polityka cookies</div>
+        <div class="doc-meta" data-pl="Ostatnia aktualizacja: <span>5 marca 2026</span> · Zgodna z RODO/GDPR" data-en="Last updated: <span>5 March 2026</span> · GDPR compliant">Ostatnia aktualizacja: <span>5 marca 2026</span> · Zgodna z RODO/GDPR</div>
+      </div>
+
+      <h2 data-pl="1. Czym są pliki cookie?" data-en="1. What Are Cookies?">1. Czym są pliki cookie?</h2>
+      <p data-pl="Pliki cookie to małe pliki tekstowe przechowywane na Twoim urządzeniu podczas odwiedzin naszej strony. Pomagają nam rozpoznać Twoje preferencje i poprawić jakość usług." data-en="Cookies are small text files stored on your device when you visit our website. They help us recognise your preferences and improve our services.">Pliki cookie to małe pliki tekstowe przechowywane na Twoim urządzeniu podczas odwiedzin naszej strony. Pomagają nam rozpoznać Twoje preferencje i poprawić jakość usług.</p>
+
+      <h2 data-pl="2. Jakich plików cookie używamy?" data-en="2. Cookies We Use">2. Jakich plików cookie używamy?</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th data-pl="Kategoria" data-en="Category">Kategoria</th>
+            <th data-pl="Cel" data-en="Purpose">Cel</th>
+            <th data-pl="Czas trwania" data-en="Duration">Czas trwania</th>
+            <th data-pl="Zgoda wymagana?" data-en="Consent required?">Zgoda wymagana?</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><strong data-pl="Niezbędne" data-en="Strictly necessary">Niezbędne</strong></td>
+              <td data-pl="Podstawowa funkcjonalność (logowanie, bezpieczeństwo, preferencje językowe)." data-en="Core functionality (login, security, language preference).">Podstawowa funkcjonalność (logowanie, bezpieczeństwo, preferencje językowe).</td>
+              <td data-pl="Sesja" data-en="Session">Sesja</td>
+              <td data-pl="Nie" data-en="No">Nie</td>
+            </tr>
+            <tr>
+              <td><strong data-pl="Funkcjonalne" data-en="Functional">Funkcjonalne</strong></td>
+              <td data-pl="Zapamiętywanie preferencji (język, zapisane filtry)." data-en="Remember preferences (language, saved filters).">Zapamiętywanie preferencji (język, zapisane filtry).</td>
+              <td data-pl="Do 12 miesięcy" data-en="Up to 12 months">Do 12 miesięcy</td>
+              <td data-pl="Tak" data-en="Yes">Tak</td>
+            </tr>
+            <tr>
+              <td><strong data-pl="Analityczne" data-en="Analytics">Analityczne</strong></td>
+              <td data-pl="Anonimowe statystyki ruchu (Plausible Analytics — bez cookies)." data-en="Anonymous traffic statistics (Plausible Analytics — no cookies stored).">Anonimowe statystyki ruchu (Plausible Analytics — bez cookies).</td>
+              <td data-pl="Nie dotyczy" data-en="N/A">Nie dotyczy</td>
+              <td data-pl="Nie" data-en="No">Nie</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 data-pl="3. Jak zarządzać plikami cookie?" data-en="3. Managing Cookies">3. Jak zarządzać plikami cookie?</h2>
+      <ul>
+        <li data-pl="<strong>Ustawienia przeglądarki:</strong> Możesz blokować lub usuwać pliki cookie w Chrome, Firefox, Safari itp." data-en="<strong>Browser settings:</strong> Block or delete cookies in Chrome, Firefox, Safari etc."><strong>Ustawienia przeglądarki:</strong> Możesz blokować lub usuwać pliki cookie w Chrome, Firefox, Safari itp.</li>
+        <li data-pl="<strong>Baner na stronie:</strong> Użyj przycisku 'Zarządzaj preferencjami' aby wybrać kategorie." data-en="<strong>Cookie banner:</strong> Use the 'Manage preferences' button to choose categories."><strong>Baner na stronie:</strong> Użyj przycisku 'Zarządzaj preferencjami' aby wybrać kategorie.</li>
+      </ul>
+      <p data-pl="Wyłączenie plików cookie może wpłynąć na Twoje doświadczenie (np. zapisane preferencje nie będą pamiętane)." data-en="Disabling cookies may affect your experience (e.g. saved preferences will not be remembered).">Wyłączenie plików cookie może wpłynąć na Twoje doświadczenie.</p>
+
+      <h2 data-pl="4. Analityka stron trzecich" data-en="4. Third-Party Analytics">4. Analityka stron trzecich</h2>
+      <p data-pl="Używamy Plausible Analytics do anonimowej analizy ruchu. Plausible nie używa plików cookie i jest zgodny z RODO. Więcej: plausible.io/data-policy" data-en="We use Plausible Analytics for anonymised traffic analysis. Plausible does not use cookies and is GDPR compliant. More: plausible.io/data-policy">Używamy <a href="https://plausible.io" target="_blank">Plausible Analytics</a> do anonimowej analizy ruchu. Plausible nie używa plików cookie i jest zgodny z RODO.</p>
+
+      <h2 data-pl="5. Kontakt" data-en="5. Contact">5. Kontakt</h2>
+      <p data-pl="W razie pytań napisz na: privacy@intelEstate.pl" data-en="For questions, contact: privacy@intelEstate.pl">W razie pytań napisz na: <a href="/cdn-cgi/l/email-protection#9fefedf6e9fefce6dff6f1ebfaf3daecebfeebfab1eff3"><span class="__cf_email__" data-cfemail="5d2d2f342b3c3e241d3433293831182e293c2938732d31">[email&#160;protected]</span></a></p>
+    </div>
+
+    <!-- TERMS OF SERVICE -->
+    <div class="doc-section" id="doc-terms">
+      <div class="doc-header">
+        <div class="doc-label" data-pl="Dokument prawny" data-en="Legal document">Dokument prawny</div>
+        <div class="doc-title" data-pl="Regulamin" data-en="Terms of Service">Regulamin</div>
+        <div class="doc-meta" data-pl="Ostatnia aktualizacja: <span>5 marca 2026</span> · Prawo polskie" data-en="Last updated: <span>5 March 2026</span> · Polish law">Ostatnia aktualizacja: <span>5 marca 2026</span> · Prawo polskie</div>
+      </div>
+
+      <div class="info-box"><p data-pl="Korzystając z intelEstate, akceptujesz niniejszy Regulamin. Jeśli się nie zgadzasz, nie korzystaj z naszych usług." data-en="By using intelEstate, you accept these Terms of Service. If you disagree, please do not use our services.">Korzystając z intelEstate, akceptujesz niniejszy Regulamin. Jeśli się nie zgadzasz, nie korzystaj z naszych usług.</p></div>
+
+      <h2 data-pl="1. Opis usług" data-en="1. Description of Services">1. Opis usług</h2>
+      <p data-pl="intelEstate udostępnia:" data-en="intelEstate provides:">intelEstate udostępnia:</p>
+      <ul>
+        <li data-pl="Pobrane i przeanalizowane dane dotyczące licytacji nieruchomości w Polsce." data-en="Scraped and analysed data on Polish property auctions.">Pobrane i przeanalizowane dane dotyczące licytacji nieruchomości w Polsce.</li>
+        <li data-pl="Scoring transakcji, alerty i narzędzia analityczne." data-en="Deal scoring, alerts and analytics tools.">Scoring transakcji, alerty i narzędzia analityczne.</li>
+        <li data-pl="Dostęp do historycznych danych licytacji (dla płatnych planów)." data-en="Access to historical auction data (for paid tiers).">Dostęp do historycznych danych licytacji (dla płatnych planów).</li>
+      </ul>
+      <p data-pl="Nie gwarantujemy dokładności, kompletności ani aktualności danych. Szczegóły licytacji są dostarczane 'w stanie takim, jakim są' i mogą ulec zmianie bez powiadomienia." data-en="We do not guarantee the accuracy, completeness or timeliness of auction data. Details are provided 'as is' and may change without notice.">Nie gwarantujemy dokładności, kompletności ani aktualności danych.</p>
+
+      <h2 data-pl="2. Konta użytkowników" data-en="2. User Accounts">2. Konta użytkowników</h2>
+      <ul>
+        <li data-pl="Musisz podać prawdziwe i kompletne informacje." data-en="You must provide accurate and complete information.">Musisz podać prawdziwe i kompletne informacje.</li>
+        <li data-pl="Musisz zachować bezpieczeństwo swojego hasła." data-en="You must keep your password secure.">Musisz zachować bezpieczeństwo swojego hasła.</li>
+        <li data-pl="Nie możesz udostępniać swojego konta innym osobom." data-en="You may not share your account with others.">Nie możesz udostępniać swojego konta innym osobom.</li>
+      </ul>
+      <p data-pl="Zastrzegamy sobie prawo do zawieszenia lub rozwiązania kont naruszających niniejszy Regulamin." data-en="We reserve the right to suspend or terminate accounts that violate these Terms.">Zastrzegamy sobie prawo do zawieszenia lub rozwiązania kont naruszających niniejszy Regulamin.</p>
+
+      <h2 data-pl="3. Plany subskrypcji i płatności" data-en="3. Subscription Plans and Payments">3. Plany subskrypcji i płatności</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th data-pl="Plan" data-en="Plan">Plan</th><th data-pl="Cena" data-en="Price">Cena</th><th data-pl="Zawiera" data-en="Includes">Zawiera</th></tr></thead>
+          <tbody>
+            <tr><td><strong data-pl="Darmowy" data-en="Free">Darmowy</strong></td><td>€0</td><td data-pl="Tygodniowy digest, 3 oferty w dashboardzie, wyszukiwanie KM" data-en="Weekly digest, 3 deals in dashboard, KM search">Tygodniowy digest, 3 oferty, wyszukiwanie KM</td></tr>
+            <tr><td><strong data-pl="Pro Specjalista" data-en="Pro Specialist">Pro Specjalista</strong></td><td>€49/mies.</td><td data-pl="Nieograniczony dashboard, alerty, pełny scoring, dane komornika" data-en="Unlimited dashboard, alerts, full scoring, bailiff data">Nieograniczony dashboard, alerty, scoring</td></tr>
+            <tr><td><strong data-pl="Premium / Kancelaria" data-en="Premium / Firm">Premium / Kancelaria</strong></td><td>€149/mies.</td><td data-pl="API, dane historyczne, eksport, 5 kont" data-en="API, historical data, export, 5 accounts">API, dane historyczne, eksport, 5 kont</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p data-pl="Płatności są przetwarzane przez Stripe. Subskrypcje odnawiają się automatycznie. Zwroty są przyznawane według naszego uznania i tylko gdy wymagają tego przepisy prawa." data-en="Payments are processed via Stripe. Subscriptions auto-renew. Refunds are at our discretion and only provided if required by law.">Płatności są przetwarzane przez Stripe. Subskrypcje odnawiają się automatycznie.</p>
+
+      <h2 data-pl="4. Zabronione działania" data-en="4. Prohibited Conduct">4. Zabronione działania</h2>
+      <ul>
+        <li data-pl="Używanie naszych usług do celów nielegalnych." data-en="Using our services for illegal purposes.">Używanie naszych usług do celów nielegalnych.</li>
+        <li data-pl="Automatyczne pobieranie (scraping) danych z naszej strony bez pisemnej zgody intelEstate." data-en="Scraping or automating access to our Site without written permission from intelEstate.">Automatyczne pobieranie danych z naszej strony bez pisemnej zgody intelEstate.</li>
+        <li data-pl="Udostępnianie lub odsprzedaż naszych danych bez autoryzacji." data-en="Sharing or reselling our data without authorisation.">Udostępnianie lub odsprzedaż naszych danych bez autoryzacji.</li>
+        <li data-pl="Udostępnianie konta osobom trzecim lub korzystanie z jednego konta przez wiele osób." data-en="Sharing your account with third parties or using one account for multiple users.">Udostępnianie konta osobom trzecim lub korzystanie z jednego konta przez wiele osób.</li>
+        <li data-pl="Próby obejścia ograniczeń technicznych serwisu (np. blokad IP, limitów zapytań)." data-en="Attempting to circumvent technical restrictions (e.g. IP blocks, rate limits).">Próby obejścia ograniczeń technicznych serwisu.</li>
+        <li data-pl="Zakłócanie działania naszych usług (np. ataki DDoS)." data-en="Interfering with our services (e.g. DDoS attacks).">Zakłócanie działania naszych usług.</li>
+      </ul>
+      <p data-pl="Naruszenie powyższych zakazów może skutkować natychmiastowym zablokowaniem konta i roszczeniami prawnymi." data-en="Violation of the above may result in immediate account termination and legal action.">Naruszenie powyższych zakazów może skutkować natychmiastowym zablokowaniem konta i roszczeniami prawnymi.</p>
+
+      <h2 data-pl="5. Własność intelektualna" data-en="5. Intellectual Property">5. Własność intelektualna</h2>
+      <p data-pl="Wszystkie treści, dane i narzędzia na naszej stronie są naszą własnością lub są nam licencjonowane. Nie możesz ich powielać, dystrybuować ani tworzyć dzieł pochodnych bez naszej zgody." data-en="All content, data and tools on our Site are our property or licensed to us. You may not reproduce, distribute or create derivative works without our permission.">Wszystkie treści, dane i narzędzia są naszą własnością lub są nam licencjonowane.</p>
+
+      <h2 data-pl="6. Ograniczenie odpowiedzialności" data-en="6. Limitation of Liability">6. Ograniczenie odpowiedzialności</h2>
+      <p data-pl="Nasze usługi są świadczone 'w stanie takim, jakim są'. Nie gwarantujemy, że dane są wolne od błędów ani że osiągniesz określone wyniki finansowe. W maksymalnym zakresie dopuszczalnym przez prawo nie ponosimy odpowiedzialności za jakiekolwiek szkody wynikające z korzystania z naszych usług." data-en="Our services are provided 'as is'. We do not warrant that data is error-free or that you will achieve specific financial results. To the fullest extent permitted by law, we are not liable for damages arising from use of our services.">Nasze usługi są świadczone 'w stanie takim, jakim są'. Nie ponosimy odpowiedzialności za decyzje inwestycyjne podjęte na podstawie naszych danych.</p>
+
+      <h2 data-pl="7. Usługi drogą elektroniczną" data-en="7. Electronic Services">7. Usługi drogą elektroniczną</h2>
+      <p data-pl="Usługa intelEstate jest świadczona drogą elektroniczną w rozumieniu Ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną (Dz.U. 2002 Nr 144 poz. 1204). Użytkownik ma prawo do odstąpienia od umowy w ciągu 14 dni od jej zawarcia, chyba że usługa została rozpoczęta za jego wyraźną zgodą przed upływem tego terminu." data-en="intelEstate is provided electronically under the Polish Electronic Services Act of 18 July 2002. Users have the right to withdraw from the agreement within 14 days of conclusion, unless the service has commenced with their explicit consent before that period expires.">Usługa intelEstate jest świadczona drogą elektroniczną w rozumieniu Ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną. Użytkownik ma prawo do odstąpienia od umowy w ciągu 14 dni od jej zawarcia, chyba że usługa została rozpoczęta za jego wyraźną zgodą.</p>
+      <p data-pl="Aby wypowiedzieć subskrypcję, prosimy o kontakt z 30-dniowym wyprzedzeniem na adres: billing@intelEstate.pl" data-en="To cancel your subscription, please contact us with 30 days' notice at: billing@intelEstate.pl">Aby wypowiedzieć subskrypcję, prosimy o kontakt z 30-dniowym wyprzedzeniem na adres: <a href="mailto:billing@intelEstate.pl">billing@intelEstate.pl</a></p>
+
+      <h2 data-pl="8. Prawo właściwe" data-en="8. Governing Law">8. Prawo właściwe</h2>
+      <p data-pl="Niniejszy Regulamin podlega prawu polskiemu. Wszelkie spory będą rozstrzygane przez sądy w Warszawie." data-en="These Terms are governed by Polish law. Any disputes will be resolved in the courts of Warsaw.">Niniejszy Regulamin podlega prawu polskiemu. Wszelkie spory będą rozstrzygane przez sądy w Warszawie.</p>
+
+      <h2 data-pl="9. Zmiany Regulaminu" data-en="9. Changes to Terms">9. Zmiany Regulaminu</h2>
+      <p data-pl="Możemy okresowo aktualizować niniejszy Regulamin. Dalsze korzystanie z naszych usług oznacza akceptację zaktualizowanego Regulaminu." data-en="We may update these Terms periodically. Continued use of our services constitutes acceptance of the updated Terms.">Możemy okresowo aktualizować niniejszy Regulamin. O istotnych zmianach poinformujemy emailem.</p>
+
+      <h2 data-pl="9. Kontakt" data-en="9. Contact">9. Kontakt</h2>
+      <div class="contact-card">
+        <p><strong>intelEstate</strong></p>
+        <p data-pl="Email (sprawy prawne): " data-en="Email (legal): ">Email (sprawy prawne): <a href="/cdn-cgi/l/email-protection#f59990929499b59c9b819099b08681948190db8599"><span class="__cf_email__" data-cfemail="157970727479557c7b6170795066617461703b6579">[email&#160;protected]</span></a></p>
+        <p>Web: <a href="https://intelEstate.pl">intelEstate.pl</a> · <a href="https://intelEstate.eu">intelEstate.eu</a></p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="logo" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;">intel<span style="color:var(--gold);">Estate</span></div>
+  <div class="fcopy" data-pl="© 2026 intelEstate.pl · intelEstate.eu" data-en="© 2026 intelEstate.pl · intelEstate.eu">© 2026 intelEstate.pl · intelEstate.eu</div>
+  <div class="flinks">
+    <a href="#" onclick="showDoc('privacy')" data-pl="Polityka prywatności" data-en="Privacy Policy">Polityka prywatności</a>
+    <a href="#" onclick="showDoc('cookies')" data-pl="Polityka cookies" data-en="Cookie Policy">Polityka cookies</a>
+    <a href="#" onclick="showDoc('terms')" data-pl="Regulamin" data-en="Terms">Regulamin</a>
+    <a href="index.html" data-pl="Strona główna" data-en="Homepage">Strona główna</a>
+  </di

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — intelEstate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #080810;
+  --deep: #0d0d1a;
+  --card: #11111f;
+  --border: #1e1e35;
+  --gold: #c9a84c;
+  --gold-light: #e8c96a;
+  --gold-dim: rgba(201,168,76,0.12);
+  --white: #f0efe8;
+  --muted: #7a7a9a;
+  --green: #2ecc71;
+  --red: #e74c3c;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; display: flex; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px; min-height: 100vh;
+  background: var(--deep);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  padding: 24px 0;
+  position: fixed; left: 0; top: 0; bottom: 0;
+  z-index: 100;
+}
+.sidebar-logo {
+  padding: 0 24px 24px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 1.1rem;
+}
+.sidebar-logo span { color: var(--gold); }
+.sidebar-nav { padding: 16px 0; flex: 1; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 24px;
+  color: var(--muted); font-size: 0.88rem;
+  cursor: pointer; transition: all 0.2s;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+}
+.nav-item:hover { color: var(--white); background: rgba(255,255,255,0.03); }
+.nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); }
+.nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+.sidebar-bottom { padding: 16px 24px; border-top: 1px solid var(--border); }
+.tier-badge {
+  background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold); font-size: 0.72rem; font-weight: 500;
+  padding: 4px 10px; border-radius: 100px;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  display: inline-block; margin-bottom: 8px;
+}
+.upgrade-btn {
+  width: 100%; background: var(--gold); color: var(--black);
+  border: none; padding: 10px;
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase;
+  border-radius: 6px; cursor: pointer; transition: background 0.2s;
+}
+.upgrade-btn:hover { background: var(--gold-light); }
+
+/* MAIN */
+.main { margin-left: 240px; flex: 1; min-height: 100vh; }
+
+/* TOPBAR */
+.topbar {
+  background: var(--deep); border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; }
+.topbar-right { display: flex; gap: 12px; align-items: center; }
+.live-badge {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.25);
+  color: var(--green); font-size: 0.72rem; font-weight: 500;
+  padding: 4px 10px; border-radius: 100px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(1.4);} }
+.lang-switcher { display: flex; }
+.lang-btn {
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); padding: 5px 10px;
+  font-size: 0.72rem; font-weight: 500; cursor: pointer;
+  transition: all 0.2s; letter-spacing: 0.05em; font-family: 'DM Sans', sans-serif;
+}
+.lang-btn:first-child { border-radius: 4px 0 0 4px; }
+.lang-btn:last-child { border-radius: 0 4px 4px 0; }
+.lang-btn.active { background: var(--gold); border-color: var(--gold); color: var(--black); }
+
+/* CONTENT */
+.content { padding: 32px; }
+
+/* STATS ROW */
+.stats-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 16px; margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px 24px;
+}
+.stat-card-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.stat-card-value { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.8rem; color: var(--gold); }
+.stat-card-sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+/* FILTERS */
+.filters {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px 24px;
+  margin-bottom: 24px;
+  display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end;
+}
+.filter-group { display: flex; flex-direction: column; gap: 6px; }
+.filter-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.filter-select, .filter-input {
+  background: var(--deep); border: 1px solid var(--border);
+  color: var(--white); padding: 8px 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+  border-radius: 6px; outline: none; cursor: pointer;
+  transition: border-color 0.2s; min-width: 140px;
+}
+.filter-select:focus, .filter-input:focus { border-color: var(--gold); }
+.filter-input { min-width: 120px; }
+.btn-filter {
+  background: var(--gold); color: var(--black);
+  border: none; padding: 8px 20px;
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase;
+  border-radius: 6px; cursor: pointer; align-self: flex-end;
+  transition: background 0.2s;
+}
+.btn-filter:hover { background: var(--gold-light); }
+.btn-reset {
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); padding: 8px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+  border-radius: 6px; cursor: pointer; align-self: flex-end;
+  transition: all 0.2s;
+}
+.btn-reset:hover { border-color: var(--white); color: var(--white); }
+
+/* TABLE */
+.deals-table-wrap {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+}
+.table-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 24px; border-bottom: 1px solid var(--border);
+}
+.table-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; }
+.table-count { font-size: 0.8rem; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left; padding: 12px 16px;
+  font-size: 0.7rem; font-weight: 500;
+  color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--border);
+  background: var(--deep);
+  cursor: pointer; user-select: none;
+}
+th:hover { color: var(--white); }
+td { padding: 14px 16px; border-bottom: 1px solid rgba(30,30,53,0.5); font-size: 0.88rem; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+.auction-round-badge {
+  display: inline-block;
+  padding: 3px 8px; border-radius: 4px;
+  font-size: 0.72rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.badge-second { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+.badge-first { background: rgba(122,122,154,0.1); color: var(--muted); border: 1px solid var(--border); }
+.btn-view {
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); padding: 5px 12px;
+  font-size: 0.75rem; border-radius: 4px;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  text-decoration: none; display: inline-block;
+}
+.btn-view:hover { border-color: var(--gold); color: var(--gold); }
+
+/* LOADING / EMPTY */
+.loading-row {
+  text-align: center; padding: 60px 24px;
+  color: var(--muted); font-size: 0.9rem;
+}
+.loading-spinner {
+  width: 28px; height: 28px; border: 2px solid var(--border);
+  border-top-color: var(--gold); border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 14px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* PAGINATION */
+.pagination {
+  display: flex; justify-content: center; align-items: center;
+  gap: 8px; padding: 20px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.page-btn {
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); min-width: 36px; height: 36px;
+  border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+  padding: 0 10px; font-family: 'DM Sans', sans-serif;
+}
+.page-btn:hover, .page-btn.active { border-color: var(--gold); color: var(--gold); }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* URGENT BANNER */
+.urgent-banner {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.urgent-banner-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.urgent-banner-title {
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.urgent-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.urgent-card {
+  background: var(--deep); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 16px;
+  transition: border-color 0.2s; cursor: default;
+}
+.urgent-card:hover { border-color: rgba(201,168,76,0.4); }
+.urgent-card-city { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
+.urgent-card-sub { font-size: 0.78rem; color: var(--muted); margin-bottom: 10px; }
+.urgent-card-footer { display: flex; justify-content: space-between; align-items: center; }
+
+/* QUICK FILTERS */
+.quick-filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.qf-btn {
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); padding: 6px 14px;
+  font-size: 0.78rem; font-family: 'DM Sans', sans-serif;
+  border-radius: 100px; cursor: pointer; transition: all 0.2s;
+}
+.qf-btn:hover { border-color: var(--gold); color: var(--gold); }
+.qf-btn.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+/* DAYS BADGE */
+.days-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px; border-radius: 100px;
+  font-size: 0.72rem; font-weight: 500; white-space: nowrap;
+}
+.days-urgent { background: rgba(231,76,60,0.12); color: #e74c3c; border: 1px solid rgba(231,76,60,0.25); }
+.days-soon   { background: rgba(230,126,34,0.12); color: #e67e22; border: 1px solid rgba(230,126,34,0.25); }
+.days-upcoming { background: rgba(241,196,15,0.1); color: #f1c40f; border: 1px solid rgba(241,196,15,0.2); }
+.days-later  { background: rgba(122,122,154,0.1); color: var(--muted); border: 1px solid var(--border); }
+
+/* KM cell */
+.km-cell { font-size: 0.78rem; }
+.km-number { font-family: monospace; color: var(--white); font-size: 0.8rem; }
+.km-bailiff { color: var(--muted); font-size: 0.72rem; margin-top: 2px; }
+
+@media (max-width: 1024px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .content { padding: 16px; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .filters { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">intel<span>Estate</span></div>
+  <nav class="sidebar-nav">
+    <a class="nav-item active" href="dashboard.html">
+      <span class="nav-icon">⊞</span>
+      <span data-pl="Dashboard" data-en="Dashboard">Dashboard</span>
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">◎</span>
+      <span data-pl="Moje alerty" data-en="My alerts">Moje alerty</span>
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">↗</span>
+      <span data-pl="Analityka rynku" data-en="Market analytics">Analityka rynku</span>
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">⭐</span>
+      <span data-pl="Obserwowane" data-en="Watchlist">Obserwowane</span>
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">↓</span>
+      <span data-pl="Eksport danych" data-en="Export data">Eksport danych</span>
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">⚙</span>
+      <span data-pl="Ustawienia" data-en="Settings">Ustawienia</span>
+    </a>
+    <a class="nav-item" href="index.html">
+      <span class="nav-icon">←</span>
+      <span data-pl="Strona główna" data-en="Homepage">Strona główna</span>
+    </a>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="tier-badge">Beta</div>
+    <div style="font-size:0.78rem;color:var(--muted);margin-bottom:12px;" data-pl="Dane na żywo z licytacje.komornik.pl" data-en="Live data from licytacje.komornik.pl">Dane na żywo z licytacje.komornik.pl</div>
+    <button class="upgrade-btn" onclick="window.location='index.html#pricing'" data-pl="Uaktualnij do Pro →" data-en="Upgrade to Pro →">Uaktualnij do Pro →</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title" data-pl="Przeglądarka licytacji" data-en="Auction Browser">Przeglądarka licytacji</div>
+    <div class="topbar-right">
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        <span data-pl="Dane na żywo" data-en="Live data">Dane na żywo</span>
+      </div>
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('pl')">PL</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-card-label" data-pl="Aktywnych licytacji" data-en="Active auctions">Aktywnych licytacji</div>
+        <div class="stat-card-value" id="stat-total">—</div>
+        <div class="stat-card-sub" data-pl="w bazie danych" data-en="in database">w bazie danych</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label" data-pl="Województw" data-en="Voivodeships">Województw</div>
+        <div class="stat-card-value" id="stat-voivodeships">—</div>
+        <div class="stat-card-sub" data-pl="cała Polska" data-en="all of Poland">cała Polska</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label" data-pl="II licytacje" data-en="2nd auctions">II licytacje</div>
+        <div class="stat-card-value" id="stat-second">—</div>
+        <div class="stat-card-sub" data-pl="niższa cena wywołania" data-en="lower starting price">niższa cena wywołania</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label" data-pl="Najbliższa licytacja" data-en="Next auction">Najbliższa licytacja</div>
+        <div class="stat-card-value" id="stat-next" style="font-size:1.1rem;margin-top:4px;">—</div>
+        <div class="stat-card-sub" id="stat-next-city">—</div>
+      </div>
+    </div>
+
+    <!-- URGENT BANNER -->
+    <div class="urgent-banner" id="urgent-banner" style="display:none;">
+      <div class="urgent-banner-header">
+        <span style="font-size:1rem;">🔥</span>
+        <div class="urgent-banner-title" data-pl="Pilne licytacje — wymagają uwagi" data-en="Urgent auctions — require attention">Pilne licytacje — wymagają uwagi</div>
+      </div>
+      <div class="urgent-cards" id="urgent-cards"></div>
+    </div>
+
+    <!-- QUICK FILTERS -->
+    <div class="quick-filters">
+      <button class="qf-btn" id="qf-week" onclick="quickFilter('week')" data-pl="Ten tydzień" data-en="This week">Ten tydzień</button>
+      <button class="qf-btn" id="qf-14" onclick="quickFilter('14')" data-pl="Następne 14 dni" data-en="Next 14 days">Następne 14 dni</button>
+      <button class="qf-btn active" id="qf-all" onclick="quickFilter('all')" data-pl="Wszystkie" data-en="All">Wszystkie</button>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters">
+      <div class="filter-group">
+        <label class="filter-label" data-pl="Województwo" data-en="Voivodeship">Województwo</label>
+        <select class="filter-select" id="f-voivodeship">
+          <option value="" data-pl="Wszystkie" data-en="All">Wszystkie</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" data-pl="Miasto" data-en="City">Miasto</label>
+        <input type="text" class="filter-input" id="f-city" placeholder="np. Warszawa" style="min-width:140px;">
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" data-pl="Typ licytacji" data-en="Auction round">Typ licytacji</label>
+        <select class="filter-select" id="f-round">
+          <option value="" data-pl="Wszystkie" data-en="All">Wszystkie</option>
+          <option value="2" data-pl="II Licytacja" data-en="2nd Auction">II Licytacja</option>
+          <option value="1" data-pl="I Licytacja" data-en="1st Auction">I Licytacja</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" data-pl="Data od" data-en="Date from">Data od</label>
+        <input type="date" class="filter-input" id="f-date-from" style="min-width:140px;">
+      </div>
+      <button class="btn-filter" onclick="applyFilters()" data-pl="Filtruj" data-en="Filter">Filtruj</button>
+      <button class="btn-reset" onclick="resetFilters()" data-pl="Reset" data-en="Reset">Reset</button>
+    </div>
+
+    <!-- TABLE -->
+    <div class="deals-table-wrap">
+      <div class="table-header">
+        <div class="table-title" data-pl="Aktywne licytacje" data-en="Active auctions">Aktywne licytacje</div>
+        <div class="table-count" id="deal-count"></div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th data-pl="Nieruchomość" data-en="Property">Nieruchomość</th>
+              <th data-pl="Miasto" data-en="City">Miasto</th>
+              <th data-pl="Województwo" data-en="Voivodeship">Województwo</th>
+              <th data-pl="Sprawa KM" data-en="KM Case">Sprawa KM</th>
+              <th data-pl="Licytacja" data-en="Round">Licytacja</th>
+              <th onclick="toggleSort('date')" style="cursor:pointer;" data-pl="Data ↕" data-en="Date ↕">Data ↕</th>
+              <th data-pl="Pozostało" data-en="Time left">Pozostało</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="deals-tbody">
+            <tr>
+              <td colspan="8">
+                <div class="loading-row">
+                  <div class="loading-spinner"></div>
+                  <span data-pl="Ładowanie danych..." data-en="Loading data...">Ładowanie danych...</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+const SUPABASE_URL = 'https://jvtuknygwtonykrccqmd.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_5i4ptLiVZmKRo2qn7splZg_-H9QfnNb';
+const PAGE_SIZE = 50;
+
+let lang = localStorage.getItem('lang') || 'pl';
+let currentPage = 1;
+let allData = [];
+let filteredData = [];
+let sortDir = 'asc'; // asc = closest first
+let quickFilterMode = 'all';
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+function daysUntil(dateStr) {
+  if (!dateStr) return null;
+  const diff = new Date(dateStr) - new Date();
+  return Math.ceil(diff / 86400000);
+}
+
+function daysBadge(days) {
+  if (days === null) return `<span class="days-badge days-later">—</span>`;
+  if (days < 0)  return `<span class="days-badge days-later">${lang==='pl'?'Zakończona':'Ended'}</span>`;
+  if (days <= 3) return `<span class="days-badge days-urgent">🔴 ${days}d</span>`;
+  if (days <= 7) return `<span class="days-badge days-soon">🟠 ${days}d</span>`;
+  if (days <= 14) return `<span class="days-badge days-upcoming">🟡 ${days}d</span>`;
+  return `<span class="days-badge days-later">${days}d</span>`;
+}
+
+async function sbFetch(path) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      'Prefer': 'count=exact'
+    }
+  });
+  const data = await res.json();
+  return { data };
+}
+
+// ── LOAD ─────────────────────────────────────────────────────────────────────
+async function loadData() {
+  try {
+    const { data } = await sbFetch(
+      'auctions?select=id,source_url,source_id,auction_round,auction_date,auction_format,km_case_number,bailiff_name,bailiff_office,current_status,properties(canonical_address,city,voivodeship,postal_code)&order=auction_date.asc&limit=1000'
+    );
+    allData = data || [];
+    buildVoivodeshipFilter();
+    updateStats();
+    renderUrgentBanner();
+    applyFilters();
+  } catch (err) {
+    document.getElementById('deals-tbody').innerHTML = `
+      <tr><td colspan="8">
+        <div class="loading-row" style="color:var(--red);">⚠ ${lang==='pl'?'Błąd ładowania':'Error loading'}: ${err.message}</div>
+      </td></tr>`;
+  }
+}
+
+// ── URGENT BANNER ────────────────────────────────────────────────────────────
+function renderUrgentBanner() {
+  const now = new Date();
+  const urgent = allData
+    .filter(d => d.auction_date && new Date(d.auction_date) >= now)
+    .sort((a, b) => new Date(a.auction_date) - new Date(b.auction_date))
+    .slice(0, 3);
+
+  if (!urgent.length) return;
+
+  document.getElementById('urgent-banner').style.display = '';
+  document.getElementById('urgent-cards').innerHTML = urgent.map(d => {
+    const days = daysUntil(d.auction_date);
+    const city = d.properties?.city || '—';
+    const voiv = d.properties?.voivodeship || '';
+    const round = d.auction_round === 2
+      ? `<span class="auction-round-badge badge-second">${lang==='pl'?'II Lic.':'2nd'}</span>`
+      : `<span class="auction-round-badge badge-first">${lang==='pl'?'I Lic.':'1st'}</span>`;
+    const addr = d.properties?.canonical_address || '—';
+    const km = d.km_case_number ? `<div style="font-size:0.7rem;color:var(--muted);margin-top:4px;font-family:monospace;">${d.km_case_number}</div>` : '';
+    return `<div class="urgent-card">
+      <div class="urgent-card-city">${city}</div>
+      <div class="urgent-card-sub">${voiv ? voiv.charAt(0).toUpperCase()+voiv.slice(1) : ''}</div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${addr}">${addr}</div>
+      ${km}
+      <div class="urgent-card-footer">
+        ${round}
+        ${daysBadge(days)}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── FILTERS ──────────────────────────────────────────────────────────────────
+function buildVoivodeshipFilter() {
+  const voivs = [...new Set(allData.map(d => d.properties?.voivodeship).filter(Boolean).sort())];
+  const sel = document.getElementById('f-voivodeship');
+  voivs.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v;
+    opt.textContent = v.charAt(0).toUpperCase() + v.slice(1);
+    sel.appendChild(opt);
+  });
+}
+
+function quickFilter(mode) {
+  quickFilterMode = mode;
+  document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`qf-${mode}`).classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const voivodeship = document.getElementById('f-voivodeship').value.toLowerCase();
+  const city = document.getElementById('f-city').value.toLowerCase().trim();
+  const round = document.getElementById('f-round').value;
+  const dateFrom = document.getElementById('f-date-from').value;
+  const now = new Date();
+
+  filteredData = allData.filter(d => {
+    if (voivodeship && (d.properties?.voivodeship||'').toLowerCase() !== voivodeship) return false;
+    if (city && !(d.properties?.city||'').toLowerCase().includes(city)) return false;
+    if (round && d.auction_round !== parseInt(round)) return false;
+    if (dateFrom && d.auction_date && d.auction_date < dateFrom) return false;
+    if (quickFilterMode === 'week') {
+      const cutoff = new Date(now); cutoff.setDate(cutoff.getDate() + 7);
+      if (!d.auction_date || new Date(d.auction_date) > cutoff) return false;
+    }
+    if (quickFilterMode === '14') {
+      const cutoff = new Date(now); cutoff.setDate(cutoff.getDate() + 14);
+      if (!d.auction_date || new Date(d.auction_date) > cutoff) return false;
+    }
+    return true;
+  });
+
+  // Sort
+  filteredData.sort((a, b) => {
+    const da = a.auction_date ? new Date(a.auction_date) : new Date('9999');
+    const db = b.auction_date ? new Date(b.auction_date) : new Date('9999');
+    return sortDir === 'asc' ? da - db : db - da;
+  });
+
+  currentPage = 1;
+  renderTable();
+  renderPagination();
+}
+
+function resetFilters() {
+  document.getElementById('f-voivodeship').value = '';
+  document.getElementById('f-city').value = '';
+  document.getElementById('f-round').value = '';
+  document.getElementById('f-date-from').value = '';
+  quickFilter('all');
+}
+
+function toggleSort(field) {
+  sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+  applyFilters();
+}
+
+// ── STATS ─────────────────────────────────────────────────────────────────────
+function updateStats() {
+  document.getElementById('stat-total').textContent = allData.length.toLocaleString('pl-PL');
+
+  const voivodeships = new Set(allData.map(d => d.properties?.voivodeship).filter(Boolean));
+  document.getElementById('stat-voivodeships').textContent = voivodeships.size;
+
+  const second = allData.filter(d => d.auction_round === 2).length;
+  document.getElementById('stat-second').textContent = second.toLocaleString('pl-PL');
+
+  const now = new Date();
+  const upcoming = allData
+    .filter(d => d.auction_date && new Date(d.auction_date) >= now)
+    .sort((a, b) => new Date(a.auction_date) - new Date(b.auction_date))[0];
+
+  if (upcoming) {
+    const days = daysUntil(upcoming.auction_date);
+    document.getElementById('stat-next').textContent =
+      new Date(upcoming.auction_date).toLocaleDateString('pl-PL', {day:'2-digit',month:'2-digit',year:'numeric'});
+    document.getElementById('stat-next-city').textContent =
+      `${upcoming.properties?.city || '—'} · ${days !== null ? days+'d' : ''}`;
+  }
+}
+
+// ── TABLE ─────────────────────────────────────────────────────────────────────
+function renderTable() {
+  const tbody = document.getElementById('deals-tbody');
+  const count = filteredData.length;
+  document.getElementById('deal-count').textContent =
+    `${count.toLocaleString('pl-PL')} ${lang==='pl'?'wyników':'results'}`;
+
+  if (count === 0) {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="loading-row">${lang==='pl'?'Brak wyników':'No results'}</div></td></tr>`;
+    return;
+  }
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const page = filteredData.slice(start, start + PAGE_SIZE);
+
+  tbody.innerHTML = page.map(d => {
+    const prop = d.properties || {};
+    const address = prop.canonical_address || '—';
+    const city = prop.city || '—';
+    const voiv = prop.voivodeship ? prop.voivodeship.charAt(0).toUpperCase()+prop.voivodeship.slice(1) : '—';
+    const round = d.auction_round === 2
+      ? `<span class="auction-round-badge badge-second">${lang==='pl'?'II Lic.':'2nd'}</span>`
+      : `<span class="auction-round-badge badge-first">${lang==='pl'?'I Lic.':'1st'}</span>`;
+    const date = d.auction_date
+      ? new Date(d.auction_date).toLocaleDateString('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric'})
+      : '—';
+    const days = daysUntil(d.auction_date);
+    const km = d.km_case_number
+      ? `<div class="km-number">${d.km_case_number}</div>${d.bailiff_name ? `<div class="km-bailiff">${d.bailiff_name}</div>` : ''}`
+      : `<span style="color:var(--muted);font-size:0.75rem;">—</span>`;
+    const link = d.source_url
+      ? `<a class="btn-view" href="${d.source_url}" target="_blank">${lang==='pl'?'Zobacz':'View'} ↗</a>`
+      : `<span style="color:var(--muted);font-size:0.75rem;">—</span>`;
+
+    return `<tr>
+      <td>
+        <div style="font-size:0.84rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${address}">${address}</div>
+      </td>
+      <td style="font-weight:400;">${city}</td>
+      <td style="color:var(--muted);font-size:0.82rem;">${voiv}</td>
+      <td class="km-cell">${km}</td>
+      <td>${round}</td>
+      <td style="font-size:0.82rem;color:var(--muted);white-space:nowrap;">${date}</td>
+      <td>${daysBadge(days)}</td>
+      <td>${link}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── PAGINATION ────────────────────────────────────────────────────────────────
+function renderPagination() {
+  const total = filteredData.length;
+  const pages = Math.ceil(total / PAGE_SIZE);
+  const pag = document.getElementById('pagination');
+  if (pages <= 1) { pag.innerHTML = ''; return; }
+
+  let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  const range = 2;
+  for (let i = 1; i <= pages; i++) {
+    if (i===1||i===pages||(i>=currentPage-range&&i<=currentPage+range)) {
+      html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    } else if (i===currentPage-range-1||i===currentPage+range+1) {
+      html += `<span style="color:var(--muted);padding:0 4px;">…</span>`;
+    }
+  }
+  html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>›</button>`;
+  html += `<span style="font-size:0.78rem;color:var(--muted);margin-left:8px;">${lang==='pl'?'Strona':'Page'} ${currentPage}/${pages}</span>`;
+  pag.innerHTML = html;
+}
+
+function goPage(p) {
+  const pages = Math.ceil(filteredData.length / PAGE_SIZE);
+  if (p < 1 || p > pages) return;
+  currentPage = p;
+  renderTable();
+  renderPagination();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── LANGUAGE ──────────────────────────────────────────────────────────────────
+function setLang(l) {
+  lang = l;
+  localStorage.setItem('lang', l);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  document.querySelectorAll('[data-pl]').forEach(el => {
+    const t = el.getAttribute('data-'+l);
+    if (t) el.innerHTML = t;
+  });
+  document.querySelector('html').lang = l;
+  renderTable();
+  renderPagination();
+  renderUrgentBanner();
+}
+
+setLang(lang);
+loadData();
+</script>
+</body>
+</html>

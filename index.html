@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>intelEstate — Profesjonalna inteligencja licytacji komorniczych</title>
+<meta name="description" content="Profesjonalne narzędzie dla specjalistów ds. licytacji i prawników. Każda licytacja komornicza w Polsce, przeanalizowana zanim zadzwoni klient.">
+<meta property="og:title" content="intelEstate — Professional Auction Intelligence">
+<meta property="og:description" content="Every court auction in Poland. Scored, analysed, searchable. Built for auction specialists and lawyers.">
+<meta property="og:url" content="https://intelEstate.pl">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#07070f;--deep:#0c0c1a;--card:#101020;--border:#1c1c32;--gold:#c8a84b;--gold-light:#e6c768;--gold-dim:rgba(200,168,75,0.12);--white:#eeedf6;--muted:#6e6e92;--green:#27ae60;--red:#c0392b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden;}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:18px 52px;background:rgba(7,7,15,0.9);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-0.03em;color:var(--white);}
+.logo span{color:var(--gold);}
+.nav-links{display:flex;gap:36px;align-items:center;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.82rem;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--white);}
+.lang-sw{display:flex;}
+.lb{background:none;border:1px solid var(--border);color:var(--muted);padding:6px 11px;font-size:0.72rem;font-weight:500;cursor:pointer;transition:all 0.2s;letter-spacing:0.05em;font-family:'DM Sans',sans-serif;}
+.lb:first-child{border-radius:4px 0 0 4px;}
+.lb:last-child{border-radius:0 4px 4px 0;}
+.lb.active{background:var(--gold);border-color:var(--gold);color:var(--black);}
+.hero{min-height:100vh;display:flex;align-items:center;padding:130px 52px 90px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 55% 55% at 75% 45%,rgba(200,168,75,0.07) 0%,transparent 70%),radial-gradient(ellipse 35% 50% at 15% 85%,rgba(200,168,75,0.03) 0%,transparent 60%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(200,168,75,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(200,168,75,0.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 60% 40%,black 20%,transparent 75%);}
+.hero-content{position:relative;max-width:700px;}
+.hero-badge{display:inline-flex;align-items:center;gap:9px;background:var(--gold-dim);border:1px solid rgba(200,168,75,0.28);padding:7px 16px;border-radius:100px;font-size:0.72rem;font-weight:500;color:var(--gold);letter-spacing:0.09em;text-transform:uppercase;margin-bottom:36px;}
+.bdot{width:6px;height:6px;border-radius:50%;background:#27ae60;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.4);}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2.6rem,5.5vw,4.8rem);font-weight:800;line-height:1.06;letter-spacing:-0.03em;margin-bottom:26px;}
+h1 em{color:var(--gold);font-style:normal;}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:540px;margin-bottom:20px;line-height:1.75;}
+.hero-sub strong{color:var(--white);}
+.hero-proof{font-size:0.82rem;color:var(--muted);margin-bottom:44px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:6px;display:inline-block;}
+.hero-proof span{color:var(--gold);}
+.hero-form{display:flex;gap:10px;max-width:500px;}
+.hero-form input{flex:1;background:var(--card);border:1px solid var(--border);color:var(--white);padding:14px 18px;font-family:'DM Sans',sans-serif;font-size:0.92rem;border-radius:6px;outline:none;transition:border-color 0.2s;}
+.hero-form input:focus{border-color:var(--gold);}
+.hero-form input::placeholder{color:var(--muted);}
+.btn-gold{background:var(--gold);color:var(--black);border:none;padding:14px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:6px;cursor:pointer;white-space:nowrap;transition:background 0.2s,transform 0.1s;}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px);}
+.success-msg{display:none;color:var(--green);font-size:0.88rem;margin-top:12px;padding:11px 16px;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.2);border-radius:6px;}
+.hero-stats{display:flex;gap:52px;margin-top:60px;padding-top:44px;border-top:1px solid var(--border);}
+.sn{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--gold);}
+.sl{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.09em;margin-top:3px;}
+.forwho{background:var(--deep);padding:80px 52px;border-top:1px solid var(--border);}
+.forwho-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;margin-top:48px;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.fw-card{background:var(--card);padding:36px 32px;border-right:1px solid var(--border);transition:background 0.2s;}
+.fw-card:last-child{border-right:none;}
+.fw-card:hover{background:var(--black);}
+.fw-icon{font-size:2rem;margin-bottom:16px;}
+.fw-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:10px;}
+.fw-desc{font-size:0.84rem;color:var(--muted);line-height:1.65;}
+.ticker-wrap{background:var(--black);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:13px 0;overflow:hidden;}
+.ticker-track{display:flex;animation:ticker 45s linear infinite;width:max-content;}
+.ticker-item{display:flex;align-items:center;gap:10px;padding:0 44px;font-size:0.78rem;white-space:nowrap;color:var(--muted);border-right:1px solid var(--border);}
+.tscore{background:var(--gold);color:var(--black);font-family:'Syne',sans-serif;font-weight:700;font-size:0.68rem;padding:2px 7px;border-radius:3px;}
+.tdisc{color:var(--green);font-weight:500;}
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+section{padding:96px 52px;}
+.slabel{font-size:0.72rem;font-weight:500;color:var(--gold);text-transform:uppercase;letter-spacing:0.16em;margin-bottom:14px;}
+h2{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,3.8vw,2.9rem);font-weight:800;letter-spacing:-0.025em;line-height:1.1;margin-bottom:18px;}
+h2 em{color:var(--gold);font-style:normal;}
+.deals-section{background:var(--deep);}
+.deals-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;flex-wrap:wrap;gap:20px;}
+.deals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;}
+.deal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color 0.2s,transform 0.2s;position:relative;}
+.deal-card:hover{border-color:rgba(200,168,75,0.35);transform:translateY(-2px);}
+.deal-img{height:150px;background:linear-gradient(135deg,#14142a 0%,#1a1a30 100%);display:flex;align-items:center;justify-content:center;font-size:2.8rem;position:relative;}
+.deal-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,var(--card) 100%);}
+.dscore{position:absolute;top:12px;right:12px;background:var(--gold);color:var(--black);font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;padding:5px 11px;border-radius:5px;z-index:1;}
+.dtype{position:absolute;top:12px;left:12px;background:rgba(7,7,15,0.85);border:1px solid var(--border);color:var(--muted);font-size:0.68rem;font-weight:500;padding:4px 9px;border-radius:4px;text-transform:uppercase;letter-spacing:0.05em;z-index:1;}
+.dtype.second{border-color:var(--gold);color:var(--gold);}
+.deal-body{padding:18px 20px;}
+.deal-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.96rem;margin-bottom:3px;}
+.deal-loc{color:var(--muted);font-size:0.8rem;margin-bottom:10px;}
+.deal-km{font-size:0.72rem;color:var(--muted);margin-bottom:14px;font-family:monospace;background:var(--deep);padding:4px 8px;border-radius:4px;display:inline-block;}
+.deal-prices{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;}
+.plabel{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;}
+.pval{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--gold);}
+.pval-mkt{font-size:0.9rem;color:var(--muted);text-decoration:line-through;}
+.deal-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding-top:14px;border-top:1px solid var(--border);}
+.metric{text-align:center;}
+.mval{font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;}
+.mval.green{color:var(--green);}
+.mval.gold{color:var(--gold);}
+.mval.urgent{color:var(--red);}
+.mval.warn{color:#e67e22;}
+.mlabel{font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;}
+.locked-overlay{position:absolute;inset:0;background:rgba(7,7,15,0.75);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:2;backdrop-filter:blur(5px);}
+.lock-text{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;color:var(--gold);text-align:center;}
+.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px;margin-top:60px;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.how-step{padding:38px 30px;background:var(--card);border-right:1px solid var(--border);transition:background 0.2s;}
+.how-step:last-child{border-right:none;}
+.how-step:hover{background:var(--deep);}
+.step-n{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;color:var(--border);line-height:1;margin-bottom:14px;}
+.step-t{font-family:'Syne',sans-serif;font-weight:700;font-size:0.96rem;margin-bottom:8px;}
+.step-d{font-size:0.82rem;color:var(--muted);line-height:1.62;}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;margin-top:60px;}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:38px 30px;position:relative;}
+.pc.featured{border-color:var(--gold);background:linear-gradient(135deg,var(--card) 0%,rgba(200,168,75,0.04) 100%);}
+.pc.featured::before{content:attr(data-label);position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--black);font-family:'Syne',sans-serif;font-weight:700;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 13px;border-radius:100px;}
+.pname{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:6px;}
+.pprice{font-family:'Syne',sans-serif;font-weight:800;font-size:2.6rem;color:var(--gold);line-height:1;margin-bottom:4px;}
+.pprice span{font-size:0.96rem;color:var(--muted);font-weight:400;}
+.pdesc{font-size:0.82rem;color:var(--muted);margin-bottom:26px;}
+.pfeats{list-style:none;margin-bottom:28px;}
+.pfeats li{font-size:0.84rem;padding:7px 0;border-bottom:1px solid var(--border);display:flex;gap:9px;align-items:center;color:var(--muted);}
+.pfeats li:last-child{border-bottom:none;}
+.pfeats li.on{color:var(--white);}
+.fc{color:var(--gold);}
+.fx{color:var(--border);}
+.btn-outline{width:100%;background:none;border:1px solid var(--border);color:var(--white);padding:13px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.05em;text-transform:uppercase;border-radius:6px;cursor:pointer;transition:all 0.2s;}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.btn-gold-full{width:100%;background:var(--gold);color:var(--black);border:none;padding:13px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.05em;text-transform:uppercase;border-radius:6px;cursor:pointer;transition:background 0.2s;}
+.btn-gold-full:hover{background:var(--gold-light);}
+.cta-section{background:var(--deep);text-align:center;border-top:1px solid var(--border);padding:96px 52px;}
+.cta-sub{color:var(--muted);margin-bottom:36px;font-size:1rem;}
+.cta-form{display:flex;gap:10px;max-width:430px;margin:0 auto;}
+.cta-form input{flex:1;background:var(--card);border:1px solid var(--border);color:var(--white);padding:13px 16px;font-family:'DM Sans',sans-serif;font-size:0.92rem;border-radius:6px;outline:none;transition:border-color 0.2s;}
+.cta-form input:focus{border-color:var(--gold);}
+.cta-form input::placeholder{color:var(--muted);}
+footer{background:var(--black);border-top:1px solid var(--border);padding:44px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.fcopy{font-size:0.78rem;color:var(--muted);}
+.flinks{display:flex;gap:22px;}
+.flinks a{font-size:0.78rem;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.flinks a:hover{color:var(--white);}
+@media(max-width:768px){.nav{padding:14px 20px;}.nav-links{display:none;}.hero{padding:100px 20px 60px;}.hero-stats{gap:20px;flex-wrap:wrap;}section{padding:60px 20px;}.forwho{padding:60px 20px;}.hero-form,.cta-form{flex-direction:column;}footer{padding:30px 20px;flex-direction:column;text-align:center;}.how-grid{grid-template-columns:1fr;}.how-step{border-right:none;border-bottom:1px solid var(--border);}.fw-card{border-right:none;border-bottom:1px solid var(--border);}}
+</style>
+</head>
+<body>
+
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0c0c1a;border-top:1px solid #1c1c32;padding:16px 52px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
+  <p style="margin:0;font-size:0.82rem;color:#6e6e92;max-width:700px;" id="cookie-msg" data-pl="Ta strona używa plików cookie do zapamiętania preferencji językowych. Nie używamy cookies śledzących ani reklamowych. Analityka realizowana przez <a href='https://plausible.io' style='color:#c8a84b;' target='_blank'>Plausible</a> — bez cookies." data-en="This site uses cookies to remember language preferences. We do not use tracking or advertising cookies. Analytics via <a href='https://plausible.io' style='color:#c8a84b;' target='_blank'>Plausible</a> — no cookies.">Ta strona używa plików cookie do zapamiętania preferencji językowych. Nie używamy cookies śledzących ani reklamowych. Analityka realizowana przez <a href="https://plausible.io" style="color:#c8a84b;" target="_blank">Plausible</a> — bez cookies.</p>
+  <div style="display:flex;gap:10px;flex-shrink:0;">
+    <a href="legal.html" style="color:#6e6e92;font-size:0.78rem;text-decoration:none;padding:8px 14px;border:1px solid #1c1c32;border-radius:5px;" id="cookie-more" data-pl="Więcej info" data-en="Learn more">Więcej info</a>
+    <button onclick="acceptCookies()" style="background:#c8a84b;color:#07070f;border:none;padding:8px 20px;border-radius:5px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.05em;cursor:pointer;">OK</button>
+  </div>
+</div>
+<nav class="nav">
+  <div class="logo">intel<span>Estate</span></div>
+  <div class="nav-links">
+    <a href="#deals" data-pl="Oferty" data-en="Deals">Oferty</a>
+    <a href="#how" data-pl="Jak to działa" data-en="How it works">Jak to działa</a>
+    <a href="#pricing" data-pl="Cennik" data-en="Pricing">Cennik</a>
+    <a href="dashboard.html" data-pl="Dashboard" data-en="Dashboard">Dashboard</a>
+  </div>
+  <div class="lang-sw">
+    <button class="lb active" onclick="setLang('pl')">PL</button>
+    <button class="lb" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="bdot"></span><span data-pl="Platforma dla profesjonalistów rynku nieruchomości" data-en="Built for real estate professionals">Platforma dla profesjonalistów rynku nieruchomości</span></div>
+    <h1 data-pl="Profesjonalna <em>inteligencja</em> licytacji komorniczych" data-en="Professional <em>intelligence</em> for court property auctions">Profesjonalna <em>inteligencja</em> licytacji komorniczych</h1>
+    <p class="hero-sub" data-pl="Każda licytacja komornicza w Polsce — przeanalizowana, wyceniona i gotowa <strong>zanim zadzwoni klient</strong>. Numer KM, scoring transakcji, porównanie z rynkiem." data-en="Every court-ordered auction in Poland — analysed, scored and ready <strong>before your client calls</strong>. Case numbers, deal scoring, market comparison.">Każda licytacja komornicza w Polsce — przeanalizowana, wyceniona i gotowa <strong>zanim zadzwoni klient</strong>.</p>
+    <div class="hero-proof" data-pl="✓ Dla specjalistów ds. licytacji, prawników i inwestorów &nbsp;·&nbsp; <span>Dane z licytacje.komornik.pl</span>" data-en="✓ For auction specialists, lawyers and investors &nbsp;·&nbsp; <span>Data from licytacje.komornik.pl</span>">✓ Dla specjalistów ds. licytacji, prawników i inwestorów &nbsp;·&nbsp; <span>Dane z licytacje.komornik.pl</span></div>
+    <div class="hero-form">
+      <input type="email" id="hero-email" placeholder="twoj@kancelaria.pl" data-ph-pl="twoj@kancelaria.pl" data-ph-en="your@lawfirm.com">
+      <button class="btn-gold" onclick="subscribe('hero')" data-pl="Dostęp za darmo" data-en="Free access">Dostęp za darmo</button>
+    </div>
+    <div class="success-msg" id="hero-success"><span data-pl="✓ Zapisano! Wkrótce dostęp." data-en="✓ Done! Access coming shortly.">✓ Zapisano!</span></div>
+    <div class="hero-stats">
+      <div><div class="sn">400+</div><div class="sl" data-pl="Aktywnych licytacji" data-en="Active auctions">Aktywnych licytacji</div></div>
+      <div><div class="sn">16</div><div class="sl" data-pl="Województw" data-en="Voivodeships">Województw</div></div>
+      <div><div class="sn">100%</div><div class="sl" data-pl="Danych z licytacje.komornik.pl" data-en="Data from official registry">Danych z licytacje.komornik.pl</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="forwho">
+  <div class="slabel" data-pl="Dla kogo" data-en="Who it's for">Dla kogo</div>
+  <h2 data-pl="Zbudowane dla <em>profesjonalistów</em>" data-en="Built for <em>professionals</em>">Zbudowane dla <em>profesjonalistów</em></h2>
+  <div class="forwho-grid">
+    <div class="fw-card"><div class="fw-icon">⚖️</div><div class="fw-title" data-pl="Prawnicy i kancelarie" data-en="Lawyers & law firms">Prawnicy i kancelarie</div><div class="fw-desc" data-pl="Numery KM, dane komornika, link do księgi wieczystej. Wszystko zanim klient zapyta." data-en="KM numbers, bailiff details, land registry link. Everything before your client asks.">Numery KM, dane komornika, link do księgi wieczystej. Wszystko zanim klient zapyta.</div></div>
+    <div class="fw-card"><div class="fw-icon">🏠</div><div class="fw-title" data-pl="Specjaliści ds. licytacji" data-en="Auction specialists">Specjaliści ds. licytacji</div><div class="fw-desc" data-pl="Monitoruj wszystkie licytacje w Polsce. Alerty gdy pojawi się okazja pasująca do Twoich kryteriów." data-en="Monitor all auctions in Poland. Instant alerts when a matching deal appears.">Monitoruj wszystkie licytacje w Polsce. Alerty gdy pojawi się okazja pasująca do Twoich kryteriów.</div></div>
+    <div class="fw-card"><div class="fw-icon">📊</div><div class="fw-title" data-pl="Inwestorzy instytucjonalni" data-en="Institutional investors">Inwestorzy instytucjonalni</div><div class="fw-desc" data-pl="API, eksport CSV/JSON, analityka wg dzielnicy. Integracja z Twoimi systemami." data-en="API, CSV/JSON export, district analytics. Integrate with your existing systems.">API, eksport CSV/JSON, analityka wg dzielnicy. Integracja z Twoimi systemami.</div></div>
+    <div class="fw-card"><div class="fw-icon">🌍</div><div class="fw-title" data-pl="Zagraniczni inwestorzy" data-en="Foreign investors">Zagraniczni inwestorzy</div><div class="fw-desc" data-pl="Polski rynek licytacji w języku angielskim. Bez bariery językowej." data-en="Polish auction market in English. No language barrier.">Polski rynek licytacji w języku angielskim. Bez bariery językowej.</div></div>
+  </div>
+</div>
+
+<div class="ticker-wrap"><div class="ticker-track" id="ticker"></div></div>
+
+<section class="deals-section" id="deals">
+  <div class="deals-header">
+    <div><div class="slabel" data-pl="Najlepsze okazje" data-en="Top deals">Najlepsze okazje</div><h2 data-pl="Transakcje tygodnia" data-en="Deals of the <em>week</em>">Transakcje tygodnia</h2></div>
+    <a href="dashboard.html" style="color:var(--gold);font-size:0.84rem;text-decoration:none;" data-pl="Pełny dashboard →" data-en="Full dashboard →">Pełny dashboard →</a>
+  </div>
+  <div class="deals-grid" id="deals-grid"></div>
+</section>
+
+<section id="how">
+  <div class="slabel" data-pl="Jak to działa" data-en="How it works">Jak to działa</div>
+  <h2 data-pl="Od danych do <em>decyzji</em>" data-en="From data to <em>decision</em>">Od danych do <em>decyzji</em></h2>
+  <div class="how-grid">
+    <div class="how-step"><div class="step-n">01</div><div class="step-t" data-pl="Skanujemy portal" data-en="We scan the portal">Skanujemy portal</div><div class="step-d" data-pl="Codziennie pobieramy wszystkie licytacje z licytacje.komornik.pl. Każda nieruchomość, cała Polska." data-en="Every day we collect all auctions from licytacje.komornik.pl. Every property, all of Poland.">Codziennie pobieramy wszystkie licytacje z licytacje.komornik.pl.</div></div>
+    <div class="how-step"><div class="step-n">02</div><div class="step-t" data-pl="Wyceniamy rynek" data-en="We price the market">Wyceniamy rynek</div><div class="step-d" data-pl="Porównujemy cenę wywołania z cenami rynkowymi w tej samej dzielnicy." data-en="We compare the starting bid against market prices in the same district.">Porównujemy cenę wywołania z cenami rynkowymi w tej samej dzielnicy.</div></div>
+    <div class="how-step"><div class="step-n">03</div><div class="step-t" data-pl="Scorujemy transakcję" data-en="We score the deal">Scorujemy transakcję</div><div class="step-d" data-pl="Algorytm ocenia każdą licytację 1-10: dyskonto, II licytacja, lokalizacja, rentowność." data-en="Algorithm scores each auction 1-10: discount, 2nd auction, location, yield.">Algorytm ocenia każdą licytację 1-10.</div></div>
+    <div class="how-step"><div class="step-n">04</div><div class="step-t" data-pl="Alertujemy natychmiast" data-en="We alert instantly">Alertujemy natychmiast</div><div class="step-d" data-pl="Ustawiasz filtry — gdy pojawi się pasująca licytacja, dostajesz email w ciągu minut." data-en="Set filters — when a match appears, you get an email within minutes.">Ustawiasz filtry — email w ciągu minut.</div></div>
+    <div class="how-step"><div class="step-n">05</div><div class="step-t" data-pl="Dane prawne" data-en="Legal data">Dane prawne</div><div class="step-d" data-pl="Numer KM, kancelaria komornicza, link do księgi wieczystej. Wszystko czego potrzebuje prawnik." data-en="KM number, bailiff office, land registry link. Everything a lawyer needs.">Numer KM, kancelaria, link do KW.</div></div>
+  </div>
+</section>
+
+<section id="pricing" style="background:var(--deep);">
+  <div style="text-align:center;">
+    <div class="slabel" data-pl="Cennik" data-en="Pricing">Cennik</div>
+    <h2 data-pl="Jeden dobry przetarg <em>zwraca koszt</em> subskrypcji" data-en="One good auction <em>pays back</em> the subscription">Jeden dobry przetarg <em>zwraca koszt</em> subskrypcji</h2>
+    <p style="color:var(--muted);margin-top:10px;font-size:0.92rem;" data-pl="Dla profesjonalistów, którzy liczą czas i wyniki." data-en="For professionals who measure time and results.">Dla profesjonalistów, którzy liczą czas i wyniki.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pc">
+      <div class="pname" data-pl="Darmowy" data-en="Free">Darmowy</div>
+      <div class="pprice">€0<span data-pl="/mies." data-en="/mo">/mies.</span></div>
+      <div class="pdesc" data-pl="Poznaj platformę bez zobowiązań." data-en="Explore with no commitment.">Poznaj platformę bez zobowiązań.</div>
+      <ul class="pfeats">
+        <li class="on"><span class="fc">✓</span><span data-pl="Tygodniowy digest — Top 10 okazji" data-en="Weekly digest — Top 10 deals">Tygodniowy digest — Top 10 okazji</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="3 oferty w dashboardzie" data-en="3 deals in dashboard">3 oferty w dashboardzie</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="Wyszukiwanie po numerze KM" data-en="Search by KM case number">Wyszukiwanie po numerze KM</span></li>
+        <li><span class="fx">✗</span><span data-pl="Alerty w czasie rzeczywistym" data-en="Real-time alerts">Alerty w czasie rzeczywistym</span></li>
+        <li><span class="fx">✗</span><span data-pl="Pełny scoring transakcji" data-en="Full deal scoring">Pełny scoring transakcji</span></li>
+      </ul>
+      <button class="btn-outline" data-pl="Zacznij za darmo" data-en="Start free">Zacznij za darmo</button>
+    </div>
+    <div class="pc featured" data-label="NAJPOPULARNIEJSZY">
+      <div class="pname" data-pl="Pro Specjalista" data-en="Pro Specialist">Pro Specjalista</div>
+      <div class="pprice">€49<span data-pl="/mies." data-en="/mo">/mies.</span></div>
+      <div class="pdesc" data-pl="Dla aktywnych specjalistów i prawników." data-en="For active specialists and lawyers.">Dla aktywnych specjalistów i prawników.</div>
+      <ul class="pfeats">
+        <li class="on"><span class="fc">✓</span><span data-pl="Wszystko z planu Free" data-en="Everything in Free">Wszystko z planu Free</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="Nieograniczony dashboard" data-en="Unlimited dashboard">Nieograniczony dashboard</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="Alerty email w czasie rzeczywistym" data-en="Real-time email alerts">Alerty email w czasie rzeczywistym</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="Pełny scoring + dyskonto %" data-en="Full scoring + discount %">Pełny scoring + dyskonto %</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="Numer KM + dane komornika" data-en="KM number + bailiff data">Numer KM + dane komornika</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="Link do księgi wieczystej" data-en="Land registry link">Link do księgi wieczystej</span></li>
+      </ul>
+      <button class="btn-gold-full" data-pl="Wybierz Pro" data-en="Choose Pro">Wybierz Pro</button>
+    </div>
+    <div class="pc">
+      <div class="pname" data-pl="Premium / Kancelaria" data-en="Premium / Firm">Premium / Kancelaria</div>
+      <div class="pprice">€149<span data-pl="/mies." data-en="/mo">/mies.</span></div>
+      <div class="pdesc" data-pl="Dla kancelarii, funduszy i deweloperów." data-en="For law firms, funds and developers.">Dla kancelarii, funduszy i deweloperów.</div>
+      <ul class="pfeats">
+        <li class="on"><span class="fc">✓</span><span data-pl="Wszystko z planu Pro" data-en="Everything in Pro">Wszystko z planu Pro</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="Dostęp do API" data-en="API access">Dostęp do API</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="Dane historyczne licytacji" data-en="Historical auction data">Dane historyczne licytacji</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="Eksport CSV / JSON" data-en="CSV / JSON export">Eksport CSV / JSON</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="5 kont użytkowników" data-en="5 user accounts">5 kont użytkowników</span></li>
+        <li class="on"><span class="fc">✓</span><span data-pl="Priorytetowe wsparcie" data-en="Priority support">Priorytetowe wsparcie</span></li>
+      </ul>
+      <button class="btn-outline" data-pl="Wybierz Premium" data-en="Choose Premium">Wybierz Premium</button>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="slabel" data-pl="Zacznij dziś" data-en="Start today">Zacznij dziś</div>
+  <h2 data-pl="Bądź przygotowany <em>zanim zadzwoni klient</em>" data-en="Be ready <em>before your client calls</em>">Bądź przygotowany <em>zanim zadzwoni klient</em></h2>
+  <p class="cta-sub" data-pl="Dołącz do specjalistów, którzy już używają intelEstate." data-en="Join the specialists already using intelEstate.">Dołącz do specjalistów, którzy już używają intelEstate.</p>
+  <div class="cta-form">
+    <input type="email" id="cta-email" placeholder="twoj@kancelaria.pl">
+    <button class="btn-gold" onclick="subscribe('cta')" data-pl="Dołącz" data-en="Join">Dołącz</button>
+  </div>
+  <div class="success-msg" id="cta-success"><span data-pl="✓ Zapisano!" data-en="✓ Subscribed!">✓ Zapisano!</span></div>
+</section>
+
+<footer>
+  <div class="logo">intel<span>Estate</span></div>
+  <div class="fcopy" data-pl="© 2026 intelEstate.pl · intelEstate.eu · Dane z licytacje.komornik.pl" data-en="© 2026 intelEstate.pl · intelEstate.eu · Data from licytacje.komornik.pl">© 2026 intelEstate.pl · intelEstate.eu</div>
+  <div class="flinks">
+    <a href="#" data-pl="Polityka prywatności" data-en="Privacy Policy">Polityka prywatności</a>
+    <a href="#" data-pl="Regulamin" data-en="Terms">Regulamin</a>
+    <a href="/cdn-cgi/l/email-protection#1f777a7373705f76716b7a735a6c6b7e6b7a316f73"><span class="__cf_email__" data-cfemail="1f777a7373705f76716b7a735a6c6b7e6b7a316f73">[email&#160;protected]</span></a>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+let lang=localStorage.getItem('lang')||'pl';
+const DEALS=[
+  {score:9.2,title_pl:'Mieszkanie 3-pok.',title_en:'3-room Apartment',size:68,city:'Warszawa',district:'Mokotów',start:320000,market:520000,yield:7.8,second:true,online:false,date:'10.04.2026',days:5,km:'KM 673/25',emoji:'🏢'},
+  {score:8.7,title_pl:'Dom szeregowy',title_en:'Terraced House',size:120,city:'Kraków',district:'Podgórze',start:480000,market:720000,yield:6.2,second:false,online:false,date:'14.04.2026',days:9,km:'KM 412/25',emoji:'🏠'},
+  {score:8.1,title_pl:'Lokal użytkowy',title_en:'Commercial Unit',size:85,city:'Wrocław',district:'Śródmieście',start:290000,market:510000,yield:9.1,second:true,online:true,date:'16.04.2026',days:21,km:'KM 891/25',emoji:'🏪'},
+];
+function fmt(n){return new Intl.NumberFormat('pl-PL').format(n)+' PLN';}
+function disc(d){return Math.round((1-d.start/d.market)*100);}
+function daysClass(n){return n<=7?'urgent':n<=14?'warn':'gold';}
+function renderDeals(){
+  document.getElementById('deals-grid').innerHTML=DEALS.map((d,i)=>`
+    <div class="deal-card">
+      ${i>0?`<div class="locked-overlay"><div class="lock-text">${lang==='pl'?'Dostępne w planie Pro':'Available in Pro plan'}</div><button class="btn-gold" style="padding:8px 18px;font-size:0.75rem;" onclick="location='#pricing'">${lang==='pl'?'Odblokuj':'Unlock'}</button></div>`:''}
+      <div class="deal-img">${d.emoji}
+        <div class="dscore">${d.score}</div>
+        <div class="dtype ${d.second?'second':''}">${d.second?(lang==='pl'?'II Lic.':'2nd'):(lang==='pl'?'I Lic.':'1st')}${d.online?' 💻':''}</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-title">${lang==='pl'?d.title_pl:d.title_en}, ${d.size}m²</div>
+        <div class="deal-loc">📍 ${d.city}, ${d.district}</div>
+        <div class="deal-km">${d.km}</div>
+        <div class="deal-prices">
+          <div><div class="plabel">${lang==='pl'?'Cena wywołania':'Starting bid'}</div><div class="pval">${fmt(d.start)}</div></div>
+          <div style="text-align:right"><div class="plabel">${lang==='pl'?'Wartość rynkowa':'Market value'}</div><div class="pval-mkt">${fmt(d.market)}</div></div>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval green">-${disc(d)}%</div><div class="mlabel">${lang==='pl'?'Dyskonto':'Discount'}</div></div>
+          <div class="metric"><div class="mval gold">${d.yield}%</div><div class="mlabel">${lang==='pl'?'Rentowność':'Yield'}</div></div>
+          <div class="metric"><div class="mval ${daysClass(d.days)}">${d.days}d</div><div class="mlabel">${lang==='pl'?'Do licytacji':'Until auction'}</div></div>
+          <div class="metric"><div class="mval" style="font-size:0.75rem;color:var(--muted);">${d.date}</div><div class="mlabel">${lang==='pl'?'Data':'Date'}</div></div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+const TDATA=[
+  {city:'Warszawa Mokotów',size:'68m²',start:'320k',disc:'-38%',score:'9.2',km:'KM 673/25'},
+  {city:'Kraków Podgórze',size:'120m²',start:'480k',disc:'-33%',score:'8.7',km:'KM 412/25'},
+  {city:'Wrocław Śródmieście',size:'85m²',start:'290k',disc:'-43%',score:'8.1',km:'KM 891/25'},
+  {city:'Gdańsk Wrzeszcz',size:'55m²',start:'210k',disc:'-29%',score:'7.8',km:'KM 234/25'},
+  {city:'Poznań Grunwald',size:'72m²',start:'260k',disc:'-31%',score:'7.5',km:'KM 567/25'},
+  {city:'Łódź Śródmieście',size:'90m²',start:'180k',disc:'-40%',score:'8.4',km:'KM 789/25'},
+];
+function renderTicker(){
+  document.getElementById('ticker').innerHTML=[...TDATA,...TDATA].map(d=>`
+    <div class="ticker-item">
+      <span class="tscore">${d.score}</span>
+      <span>${d.city} · ${d.size} · ${d.km}</span>
+      <span>${lang==='pl'?'od':'from'} ${d.start} PLN</span>
+      <span class="tdisc">${d.disc}</span>
+    </div>`).join('');
+}
+const SUPABASE_URL='https://jvtuknygwtonykrccqmd.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_5i4ptLiVZmKRo2qn7splZg_-H9QfnNb';
+async function subscribe(src){
+  const inp=document.getElementById(src+'-email');
+  const email=inp.value.trim();
+  if(!email||!email.includes('@')){inp.style.borderColor='var(--red)';setTimeout(()=>inp.style.borderColor='',1500);return;}
+  const btn=inp.nextElementSibling;
+  btn.disabled=true;
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/subscribers`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,'Prefer':'return=minimal'},
+      body:JSON.stringify({email,source:src,lang,created_at:new Date().toISOString()})
+    });
+    if(res.ok||res.status===409){
+      inp.value='';
+      document.getElementById(src+'-success').style.display='block';
+      setTimeout(()=>document.getElementById(src+'-success').style.display='none',4000);
+    } else {
+      inp.style.borderColor='var(--red)';
+    }
+  } catch(e){
+    inp.style.borderColor='var(--red)';
+  } finally {
+    btn.disabled=false;
+  }
+}
+function setLang(l){
+  lang=l;localStorage.setItem('lang',l);
+  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+  document.querySelectorAll('[data-pl]').forEach(el=>{const t=el.getAttribute('data-'+l);if(t)el.innerHTML=t;});
+  document.querySelectorAll('[data-ph-pl]').forEach(el=>{el.placeholder=el.getAttribute('data-ph-'+l);});
+  document.querySelector('html').lang=l;
+  renderDeals();renderTicker();
+}
+function acceptCookies(){
+  localStorage.setItem('cookies_accepted','1');
+  document.getElementById('cookie-banner').style.display='none';
+}
+if(!localStorage.getItem('cookies_accepted')){
+  document.getElementById('cookie-banner').style.display='flex';
+}
+setLang(lang);
+</script>
+</body>
+</html>
