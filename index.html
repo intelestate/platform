@@ -135,14 +135,6 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:44px 5
 </style>
 </head>
 <body>
-
-<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0c0c1a;border-top:1px solid #1c1c32;padding:16px 52px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
-  <p style="margin:0;font-size:0.82rem;color:#6e6e92;max-width:700px;" id="cookie-msg" data-pl="Ta strona używa plików cookie do zapamiętania preferencji językowych. Nie używamy cookies śledzących ani reklamowych. Analityka realizowana przez <a href='https://plausible.io' style='color:#c8a84b;' target='_blank'>Plausible</a> — bez cookies." data-en="This site uses cookies to remember language preferences. We do not use tracking or advertising cookies. Analytics via <a href='https://plausible.io' style='color:#c8a84b;' target='_blank'>Plausible</a> — no cookies.">Ta strona używa plików cookie do zapamiętania preferencji językowych. Nie używamy cookies śledzących ani reklamowych. Analityka realizowana przez <a href="https://plausible.io" style="color:#c8a84b;" target="_blank">Plausible</a> — bez cookies.</p>
-  <div style="display:flex;gap:10px;flex-shrink:0;">
-    <a href="legal.html" style="color:#6e6e92;font-size:0.78rem;text-decoration:none;padding:8px 14px;border:1px solid #1c1c32;border-radius:5px;" id="cookie-more" data-pl="Więcej info" data-en="Learn more">Więcej info</a>
-    <button onclick="acceptCookies()" style="background:#c8a84b;color:#07070f;border:none;padding:8px 20px;border-radius:5px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.05em;cursor:pointer;">OK</button>
-  </div>
-</div>
 <nav class="nav">
   <div class="logo">intel<span>Estate</span></div>
   <div class="nav-links">
@@ -171,9 +163,9 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:44px 5
     </div>
     <div class="success-msg" id="hero-success"><span data-pl="✓ Zapisano! Wkrótce dostęp." data-en="✓ Done! Access coming shortly.">✓ Zapisano!</span></div>
     <div class="hero-stats">
-      <div><div class="sn">400+</div><div class="sl" data-pl="Aktywnych licytacji" data-en="Active auctions">Aktywnych licytacji</div></div>
-      <div><div class="sn">16</div><div class="sl" data-pl="Województw" data-en="Voivodeships">Województw</div></div>
-      <div><div class="sn">100%</div><div class="sl" data-pl="Danych z licytacje.komornik.pl" data-en="Data from official registry">Danych z licytacje.komornik.pl</div></div>
+      <div><div class="sn" id="stat-total">—</div><div class="sl" data-pl="Aktywnych licytacji" data-en="Active auctions">Aktywnych licytacji</div></div>
+      <div><div class="sn" id="stat-hot">—</div><div class="sl" data-pl="HOT DEALS dziś" data-en="HOT DEALS today">HOT DEALS dziś</div></div>
+      <div><div class="sn" id="stat-avg">—</div><div class="sl" data-pl="Śr. dyskonto" data-en="Avg discount">Śr. dyskonto</div></div>
     </div>
   </div>
 </section>
@@ -285,58 +277,93 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:44px 5
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 let lang=localStorage.getItem('lang')||'pl';
-const DEALS=[
-  {score:9.2,title_pl:'Mieszkanie 3-pok.',title_en:'3-room Apartment',size:68,city:'Warszawa',district:'Mokotów',start:320000,market:520000,yield:7.8,second:true,online:false,date:'10.04.2026',days:5,km:'KM 673/25',emoji:'🏢'},
-  {score:8.7,title_pl:'Dom szeregowy',title_en:'Terraced House',size:120,city:'Kraków',district:'Podgórze',start:480000,market:720000,yield:6.2,second:false,online:false,date:'14.04.2026',days:9,km:'KM 412/25',emoji:'🏠'},
-  {score:8.1,title_pl:'Lokal użytkowy',title_en:'Commercial Unit',size:85,city:'Wrocław',district:'Śródmieście',start:290000,market:510000,yield:9.1,second:true,online:true,date:'16.04.2026',days:21,km:'KM 891/25',emoji:'🏪'},
-];
-function fmt(n){return new Intl.NumberFormat('pl-PL').format(n)+' PLN';}
-function disc(d){return Math.round((1-d.start/d.market)*100);}
-function daysClass(n){return n<=7?'urgent':n<=14?'warn':'gold';}
-function renderDeals(){
-  document.getElementById('deals-grid').innerHTML=DEALS.map((d,i)=>`
-    <div class="deal-card">
-      ${i>0?`<div class="locked-overlay"><div class="lock-text">${lang==='pl'?'Dostępne w planie Pro':'Available in Pro plan'}</div><button class="btn-gold" style="padding:8px 18px;font-size:0.75rem;" onclick="location='#pricing'">${lang==='pl'?'Odblokuj':'Unlock'}</button></div>`:''}
-      <div class="deal-img">${d.emoji}
-        <div class="dscore">${d.score}</div>
-        <div class="dtype ${d.second?'second':''}">${d.second?(lang==='pl'?'II Lic.':'2nd'):(lang==='pl'?'I Lic.':'1st')}${d.online?' 💻':''}</div>
-      </div>
-      <div class="deal-body">
-        <div class="deal-title">${lang==='pl'?d.title_pl:d.title_en}, ${d.size}m²</div>
-        <div class="deal-loc">📍 ${d.city}, ${d.district}</div>
-        <div class="deal-km">${d.km}</div>
-        <div class="deal-prices">
-          <div><div class="plabel">${lang==='pl'?'Cena wywołania':'Starting bid'}</div><div class="pval">${fmt(d.start)}</div></div>
-          <div style="text-align:right"><div class="plabel">${lang==='pl'?'Wartość rynkowa':'Market value'}</div><div class="pval-mkt">${fmt(d.market)}</div></div>
-        </div>
-        <div class="deal-metrics">
-          <div class="metric"><div class="mval green">-${disc(d)}%</div><div class="mlabel">${lang==='pl'?'Dyskonto':'Discount'}</div></div>
-          <div class="metric"><div class="mval gold">${d.yield}%</div><div class="mlabel">${lang==='pl'?'Rentowność':'Yield'}</div></div>
-          <div class="metric"><div class="mval ${daysClass(d.days)}">${d.days}d</div><div class="mlabel">${lang==='pl'?'Do licytacji':'Until auction'}</div></div>
-          <div class="metric"><div class="mval" style="font-size:0.75rem;color:var(--muted);">${d.date}</div><div class="mlabel">${lang==='pl'?'Data':'Date'}</div></div>
-        </div>
-      </div>
-    </div>`).join('');
-}
-const TDATA=[
-  {city:'Warszawa Mokotów',size:'68m²',start:'320k',disc:'-38%',score:'9.2',km:'KM 673/25'},
-  {city:'Kraków Podgórze',size:'120m²',start:'480k',disc:'-33%',score:'8.7',km:'KM 412/25'},
-  {city:'Wrocław Śródmieście',size:'85m²',start:'290k',disc:'-43%',score:'8.1',km:'KM 891/25'},
-  {city:'Gdańsk Wrzeszcz',size:'55m²',start:'210k',disc:'-29%',score:'7.8',km:'KM 234/25'},
-  {city:'Poznań Grunwald',size:'72m²',start:'260k',disc:'-31%',score:'7.5',km:'KM 567/25'},
-  {city:'Łódź Śródmieście',size:'90m²',start:'180k',disc:'-40%',score:'8.4',km:'KM 789/25'},
-];
-function renderTicker(){
-  document.getElementById('ticker').innerHTML=[...TDATA,...TDATA].map(d=>`
-    <div class="ticker-item">
-      <span class="tscore">${d.score}</span>
-      <span>${d.city} · ${d.size} · ${d.km}</span>
-      <span>${lang==='pl'?'od':'from'} ${d.start} PLN</span>
-      <span class="tdisc">${d.disc}</span>
-    </div>`).join('');
-}
 const SUPABASE_URL='https://jvtuknygwtonykrccqmd.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_5i4ptLiVZmKRo2qn7splZg_-H9QfnNb';
+
+function fmt(n){return new Intl.NumberFormat('pl-PL').format(Math.round(n))+' PLN';}
+function fmtK(n){return n>=1000?Math.round(n/1000)+'k':Math.round(n);}
+function daysUntil(d){if(!d)return null;return Math.ceil((new Date(d)-new Date())/86400000);}
+function daysClass(n){if(n===null)return 'gold';return n<=7?'urgent':n<=14?'warn':'gold';}
+function typeEmoji(t){const m={APARTMENT:'🏢',HOUSE:'🏠',LAND:'🌿',COMMERCIAL:'🏪',SHARE:'📄',ROAD_SHARE:'🛤️',OTHER:'🏗️'};return m[t]||'🏗️';}
+function typeName(t){const m={APARTMENT:lang==='pl'?'Mieszkanie':'Apartment',HOUSE:lang==='pl'?'Dom':'House',LAND:lang==='pl'?'Grunt':'Land',COMMERCIAL:lang==='pl'?'Komercyjne':'Commercial',SHARE:lang==='pl'?'Udział':'Share',ROAD_SHARE:lang==='pl'?'Droga':'Road',OTHER:lang==='pl'?'Inne':'Other'};return m[t]||t||'—';}
+
+let _liveDeals=[];
+
+async function loadLiveData(){
+  try{
+    const res=await fetch(
+      `${SUPABASE_URL}/rest/v1/auctions?select=id,source_url,source_id,km_case_number,bailiff_name,auction_date,auction_round,auction_format,starting_price,estimated_value,discount_percent,deal_score,deal_label,days_to_auction,is_second_round,property_type&order=deal_score.desc.nullslast&limit=200`,
+      {headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY}}
+    );
+    const data=await res.json();
+    if(!Array.isArray(data))return;
+    _liveDeals=data;
+
+    // Hero stats
+    const total=data.length;
+    const hot=data.filter(d=>d.deal_label&&d.deal_label.includes('HOT')).length;
+    const withDisc=data.filter(d=>d.discount_percent);
+    const avg=withDisc.length?Math.round(withDisc.reduce((s,d)=>s+d.discount_percent,0)/withDisc.length):0;
+    document.getElementById('stat-total').textContent=total+'+';
+    document.getElementById('stat-hot').textContent=hot;
+    document.getElementById('stat-avg').textContent=avg+'%';
+
+    renderDeals();
+    renderTicker();
+  }catch(e){
+    console.warn('Supabase load failed',e);
+    renderDeals();
+    renderTicker();
+  }
+}
+
+function renderDeals(){
+  const top=_liveDeals.filter(d=>d.deal_label&&(d.deal_label.includes('HOT')||d.deal_label.includes('GOOD'))).slice(0,3);
+  if(!top.length){document.getElementById('deals-grid').innerHTML='';return;}
+  document.getElementById('deals-grid').innerHTML=top.map((d,i)=>{
+    const days=d.days_to_auction??daysUntil(d.auction_date);
+    const disc=d.discount_percent?Math.round(d.discount_percent):0;
+    const score=d.deal_score?Math.round(d.deal_score*10)/10:0;
+    const second=d.auction_round===2;
+    const date=d.auction_date?new Date(d.auction_date).toLocaleDateString('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';
+    const km=d.km_case_number||'—';
+    const sid=d.source_id||(d.source_url?d.source_url.split('/').pop():d.id.slice(0,8));
+    return `<div class="deal-card">
+      ${i>0?`<div class="locked-overlay"><div class="lock-text">${lang==='pl'?'Dostępne w planie Pro':'Available in Pro plan'}</div><button class="btn-gold" style="padding:8px 18px;font-size:0.75rem;" onclick="location='#pricing'">${lang==='pl'?'Odblokuj':'Unlock'}</button></div>`:''}
+      <div class="deal-img">${typeEmoji(d.property_type)}
+        <div class="dscore">${score}</div>
+        <div class="dtype ${second?'second':''}">${second?(lang==='pl'?'II Lic.':'2nd'):(lang==='pl'?'I Lic.':'1st')}${d.auction_format&&d.auction_format.toLowerCase().includes('online')?' 💻':''}</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-title">${typeName(d.property_type)}</div>
+        <div class="deal-loc">📋 ${km}</div>
+        <div class="deal-km" style="font-family:monospace;">${sid}</div>
+        <div class="deal-prices">
+          <div><div class="plabel">${lang==='pl'?'Cena wywołania':'Starting bid'}</div><div class="pval">${d.starting_price?fmt(d.starting_price):'—'}</div></div>
+          <div style="text-align:right"><div class="plabel">${lang==='pl'?'Wartość szacunkowa':'Est. value'}</div><div class="pval-mkt">${d.estimated_value?fmt(d.estimated_value):'—'}</div></div>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval green">${disc?'-'+disc+'%':'—'}</div><div class="mlabel">${lang==='pl'?'Dyskonto':'Discount'}</div></div>
+          <div class="metric"><div class="mval gold">${score}</div><div class="mlabel">Score</div></div>
+          <div class="metric"><div class="mval ${daysClass(days)}">${days!==null?days+'d':'—'}</div><div class="mlabel">${lang==='pl'?'Dni':'Days'}</div></div>
+          <div class="metric"><div class="mval" style="font-size:0.72rem;color:var(--muted);">${date}</div><div class="mlabel">${lang==='pl'?'Data':'Date'}</div></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderTicker(){
+  const items=_liveDeals.filter(d=>d.starting_price&&d.discount_percent).slice(0,12);
+  if(!items.length)return;
+  document.getElementById('ticker').innerHTML=[...items,...items].map(d=>`
+    <div class="ticker-item">
+      <span class="tscore">${Math.round(d.deal_score||0)}</span>
+      <span>${d.km_case_number||d.source_id||'—'} · ${typeName(d.property_type)}</span>
+      <span>${lang==='pl'?'od':'from'} ${fmtK(d.starting_price)} PLN</span>
+      <span class="tdisc">-${Math.round(d.discount_percent)}%</span>
+    </div>`).join('');
+}
 async function subscribe(src){
   const inp=document.getElementById(src+'-email');
   const email=inp.value.trim();
@@ -366,18 +393,13 @@ function setLang(l){
   lang=l;localStorage.setItem('lang',l);
   document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
   document.querySelectorAll('[data-pl]').forEach(el=>{const t=el.getAttribute('data-'+l);if(t)el.innerHTML=t;});
-  document.querySelectorAll('[data-ph-pl]').forEach(el=>{el.placeholder=el.getAttribute('data-ph-'+l);});
+  document.querySelectorAll('[data-ph-pl]').forEach(el=>{el.placeholder=el.getAttribute('data-ph-'+l)||el.placeholder;});
   document.querySelector('html').lang=l;
-  renderDeals();renderTicker();
-}
-function acceptCookies(){
-  localStorage.setItem('cookies_accepted','1');
-  document.getElementById('cookie-banner').style.display='none';
-}
-if(!localStorage.getItem('cookies_accepted')){
-  document.getElementById('cookie-banner').style.display='flex';
+  renderDeals();
+  renderTicker();
 }
 setLang(lang);
+loadLiveData();
 </script>
 </body>
 </html>
