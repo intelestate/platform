@@ -1,405 +1,2166 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>intelEstate — Profesjonalna inteligencja licytacji komorniczych</title>
-<meta name="description" content="Profesjonalne narzędzie dla specjalistów ds. licytacji i prawników. Każda licytacja komornicza w Polsce, przeanalizowana zanim zadzwoni klient.">
-<meta property="og:title" content="intelEstate — Professional Auction Intelligence">
-<meta property="og:description" content="Every court auction in Poland. Scored, analysed, searchable. Built for auction specialists and lawyers.">
-<meta property="og:url" content="https://intelEstate.pl">
+<title>intelEstate — Court Auction Intelligence Platform</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--black:#07070f;--deep:#0c0c1a;--card:#101020;--border:#1c1c32;--gold:#c8a84b;--gold-light:#e6c768;--gold-dim:rgba(200,168,75,0.12);--white:#eeedf6;--muted:#6e6e92;--green:#27ae60;--red:#c0392b;}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden;}
-.nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:18px 52px;background:rgba(7,7,15,0.9);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-0.03em;color:var(--white);}
-.logo span{color:var(--gold);}
-.nav-links{display:flex;gap:36px;align-items:center;}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:0.82rem;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.2s;}
-.nav-links a:hover{color:var(--white);}
-.lang-sw{display:flex;}
-.lb{background:none;border:1px solid var(--border);color:var(--muted);padding:6px 11px;font-size:0.72rem;font-weight:500;cursor:pointer;transition:all 0.2s;letter-spacing:0.05em;font-family:'DM Sans',sans-serif;}
-.lb:first-child{border-radius:4px 0 0 4px;}
-.lb:last-child{border-radius:0 4px 4px 0;}
-.lb.active{background:var(--gold);border-color:var(--gold);color:var(--black);}
-.hero{min-height:100vh;display:flex;align-items:center;padding:130px 52px 90px;position:relative;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 55% 55% at 75% 45%,rgba(200,168,75,0.07) 0%,transparent 70%),radial-gradient(ellipse 35% 50% at 15% 85%,rgba(200,168,75,0.03) 0%,transparent 60%);}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(200,168,75,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(200,168,75,0.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 60% 40%,black 20%,transparent 75%);}
-.hero-content{position:relative;max-width:700px;}
-.hero-badge{display:inline-flex;align-items:center;gap:9px;background:var(--gold-dim);border:1px solid rgba(200,168,75,0.28);padding:7px 16px;border-radius:100px;font-size:0.72rem;font-weight:500;color:var(--gold);letter-spacing:0.09em;text-transform:uppercase;margin-bottom:36px;}
-.bdot{width:6px;height:6px;border-radius:50%;background:#27ae60;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.4);}}
-h1{font-family:'Syne',sans-serif;font-size:clamp(2.6rem,5.5vw,4.8rem);font-weight:800;line-height:1.06;letter-spacing:-0.03em;margin-bottom:26px;}
-h1 em{color:var(--gold);font-style:normal;}
-.hero-sub{font-size:1.05rem;color:var(--muted);max-width:540px;margin-bottom:20px;line-height:1.75;}
-.hero-sub strong{color:var(--white);}
-.hero-proof{font-size:0.82rem;color:var(--muted);margin-bottom:44px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:6px;display:inline-block;}
-.hero-proof span{color:var(--gold);}
-.hero-form{display:flex;gap:10px;max-width:500px;}
-.hero-form input{flex:1;background:var(--card);border:1px solid var(--border);color:var(--white);padding:14px 18px;font-family:'DM Sans',sans-serif;font-size:0.92rem;border-radius:6px;outline:none;transition:border-color 0.2s;}
-.hero-form input:focus{border-color:var(--gold);}
-.hero-form input::placeholder{color:var(--muted);}
-.btn-gold{background:var(--gold);color:var(--black);border:none;padding:14px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:6px;cursor:pointer;white-space:nowrap;transition:background 0.2s,transform 0.1s;}
-.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px);}
-.success-msg{display:none;color:var(--green);font-size:0.88rem;margin-top:12px;padding:11px 16px;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.2);border-radius:6px;}
-.hero-stats{display:flex;gap:52px;margin-top:60px;padding-top:44px;border-top:1px solid var(--border);}
-.sn{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--gold);}
-.sl{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.09em;margin-top:3px;}
-.forwho{background:var(--deep);padding:80px 52px;border-top:1px solid var(--border);}
-.forwho-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;margin-top:48px;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
-.fw-card{background:var(--card);padding:36px 32px;border-right:1px solid var(--border);transition:background 0.2s;}
-.fw-card:last-child{border-right:none;}
-.fw-card:hover{background:var(--black);}
-.fw-icon{font-size:2rem;margin-bottom:16px;}
-.fw-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:10px;}
-.fw-desc{font-size:0.84rem;color:var(--muted);line-height:1.65;}
-.ticker-wrap{background:var(--black);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:13px 0;overflow:hidden;}
-.ticker-track{display:flex;animation:ticker 45s linear infinite;width:max-content;}
-.ticker-item{display:flex;align-items:center;gap:10px;padding:0 44px;font-size:0.78rem;white-space:nowrap;color:var(--muted);border-right:1px solid var(--border);}
-.tscore{background:var(--gold);color:var(--black);font-family:'Syne',sans-serif;font-weight:700;font-size:0.68rem;padding:2px 7px;border-radius:3px;}
-.tdisc{color:var(--green);font-weight:500;}
-@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-section{padding:96px 52px;}
-.slabel{font-size:0.72rem;font-weight:500;color:var(--gold);text-transform:uppercase;letter-spacing:0.16em;margin-bottom:14px;}
-h2{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,3.8vw,2.9rem);font-weight:800;letter-spacing:-0.025em;line-height:1.1;margin-bottom:18px;}
-h2 em{color:var(--gold);font-style:normal;}
-.deals-section{background:var(--deep);}
-.deals-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;flex-wrap:wrap;gap:20px;}
-.deals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;}
-.deal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color 0.2s,transform 0.2s;position:relative;}
-.deal-card:hover{border-color:rgba(200,168,75,0.35);transform:translateY(-2px);}
-.deal-img{height:150px;background:linear-gradient(135deg,#14142a 0%,#1a1a30 100%);display:flex;align-items:center;justify-content:center;font-size:2.8rem;position:relative;}
-.deal-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,var(--card) 100%);}
-.dscore{position:absolute;top:12px;right:12px;background:var(--gold);color:var(--black);font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;padding:5px 11px;border-radius:5px;z-index:1;}
-.dtype{position:absolute;top:12px;left:12px;background:rgba(7,7,15,0.85);border:1px solid var(--border);color:var(--muted);font-size:0.68rem;font-weight:500;padding:4px 9px;border-radius:4px;text-transform:uppercase;letter-spacing:0.05em;z-index:1;}
-.dtype.second{border-color:var(--gold);color:var(--gold);}
-.deal-body{padding:18px 20px;}
-.deal-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.96rem;margin-bottom:3px;}
-.deal-loc{color:var(--muted);font-size:0.8rem;margin-bottom:10px;}
-.deal-km{font-size:0.72rem;color:var(--muted);margin-bottom:14px;font-family:monospace;background:var(--deep);padding:4px 8px;border-radius:4px;display:inline-block;}
-.deal-prices{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;}
-.plabel{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;}
-.pval{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--gold);}
-.pval-mkt{font-size:0.9rem;color:var(--muted);text-decoration:line-through;}
-.deal-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding-top:14px;border-top:1px solid var(--border);}
-.metric{text-align:center;}
-.mval{font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;}
-.mval.green{color:var(--green);}
-.mval.gold{color:var(--gold);}
-.mval.urgent{color:var(--red);}
-.mval.warn{color:#e67e22;}
-.mlabel{font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;}
-.locked-overlay{position:absolute;inset:0;background:rgba(7,7,15,0.75);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:2;backdrop-filter:blur(5px);}
-.lock-text{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;color:var(--gold);text-align:center;}
-.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px;margin-top:60px;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
-.how-step{padding:38px 30px;background:var(--card);border-right:1px solid var(--border);transition:background 0.2s;}
-.how-step:last-child{border-right:none;}
-.how-step:hover{background:var(--deep);}
-.step-n{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;color:var(--border);line-height:1;margin-bottom:14px;}
-.step-t{font-family:'Syne',sans-serif;font-weight:700;font-size:0.96rem;margin-bottom:8px;}
-.step-d{font-size:0.82rem;color:var(--muted);line-height:1.62;}
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;margin-top:60px;}
-.pc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:38px 30px;position:relative;}
-.pc.featured{border-color:var(--gold);background:linear-gradient(135deg,var(--card) 0%,rgba(200,168,75,0.04) 100%);}
-.pc.featured::before{content:attr(data-label);position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--black);font-family:'Syne',sans-serif;font-weight:700;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 13px;border-radius:100px;}
-.pname{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:6px;}
-.pprice{font-family:'Syne',sans-serif;font-weight:800;font-size:2.6rem;color:var(--gold);line-height:1;margin-bottom:4px;}
-.pprice span{font-size:0.96rem;color:var(--muted);font-weight:400;}
-.pdesc{font-size:0.82rem;color:var(--muted);margin-bottom:26px;}
-.pfeats{list-style:none;margin-bottom:28px;}
-.pfeats li{font-size:0.84rem;padding:7px 0;border-bottom:1px solid var(--border);display:flex;gap:9px;align-items:center;color:var(--muted);}
-.pfeats li:last-child{border-bottom:none;}
-.pfeats li.on{color:var(--white);}
-.fc{color:var(--gold);}
-.fx{color:var(--border);}
-.btn-outline{width:100%;background:none;border:1px solid var(--border);color:var(--white);padding:13px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.05em;text-transform:uppercase;border-radius:6px;cursor:pointer;transition:all 0.2s;}
-.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
-.btn-gold-full{width:100%;background:var(--gold);color:var(--black);border:none;padding:13px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.05em;text-transform:uppercase;border-radius:6px;cursor:pointer;transition:background 0.2s;}
-.btn-gold-full:hover{background:var(--gold-light);}
-.cta-section{background:var(--deep);text-align:center;border-top:1px solid var(--border);padding:96px 52px;}
-.cta-sub{color:var(--muted);margin-bottom:36px;font-size:1rem;}
-.cta-form{display:flex;gap:10px;max-width:430px;margin:0 auto;}
-.cta-form input{flex:1;background:var(--card);border:1px solid var(--border);color:var(--white);padding:13px 16px;font-family:'DM Sans',sans-serif;font-size:0.92rem;border-radius:6px;outline:none;transition:border-color 0.2s;}
-.cta-form input:focus{border-color:var(--gold);}
-.cta-form input::placeholder{color:var(--muted);}
-footer{background:var(--black);border-top:1px solid var(--border);padding:44px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
-.fcopy{font-size:0.78rem;color:var(--muted);}
-.flinks{display:flex;gap:22px;}
-.flinks a{font-size:0.78rem;color:var(--muted);text-decoration:none;transition:color 0.2s;}
-.flinks a:hover{color:var(--white);}
-@media(max-width:768px){.nav{padding:14px 20px;}.nav-links{display:none;}.hero{padding:100px 20px 60px;}.hero-stats{gap:20px;flex-wrap:wrap;}section{padding:60px 20px;}.forwho{padding:60px 20px;}.hero-form,.cta-form{flex-direction:column;}footer{padding:30px 20px;flex-direction:column;text-align:center;}.how-grid{grid-template-columns:1fr;}.how-step{border-right:none;border-bottom:1px solid var(--border);}.fw-card{border-right:none;border-bottom:1px solid var(--border);}}
+/* ── RESET & VARIABLES ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy-deep: #060A14;
+  --navy: #0A0E1A;
+  --navy-mid: #0E1422;
+  --navy-light: #121828;
+  --navy-border: #1A2236;
+  --navy-hover: #161E30;
+  --gold: #E8A020;
+  --gold-light: #F0B840;
+  --gold-dim: rgba(232,160,32,0.12);
+  --gold-glow: rgba(232,160,32,0.06);
+  --text-primary: #FFFFFF;
+  --text-secondary: #FFFFFF;
+  --text-muted: #CCCCCC;
+  --green: #00C896;
+  --red: #EF4444;
+  --orange: #F59E0B;
+  --border: #1A2236;
+  --border-light: #243048;
+  --font-heading: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--navy-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── TYPOGRAPHY ───────────────────────────────────────────────────────────── */
+h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; }
+h1 { font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 900; letter-spacing: -1.5px; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; letter-spacing: -0.8px; }
+h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 700; }
+
+.gold { color: var(--gold); }
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.9;
+}
+
+/* ── BUTTONS ──────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border: none;
+}
+.btn-primary {
+  background: var(--gold);
+  color: var(--navy-deep);
+}
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(232,160,32,0.3);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+.btn-secondary:hover {
+  background: var(--gold-dim);
+  transform: translateY(-1px);
+}
+.btn-ghost {
+  background: transparent;
+  color: #FFFFFF;
+  border: 1px solid var(--border-light);
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── LAYOUT ───────────────────────────────────────────────────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 100px 0; }
+.section-sm { padding: 60px 0; }
+
+/* ── NAVBAR ───────────────────────────────────────────────────────────────── */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(7,7,15,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+.navbar.scrolled { background: rgba(7,7,15,0.98); }
+.navbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 64px; max-width: 1200px; margin: 0 auto;
+}
+.navbar-logo {
+  font-family: var(--font-heading);
+  font-weight: 900; font-size: 1.3rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+.navbar-logo span { color: var(--gold); }
+.navbar-links {
+  display: flex; align-items: center; gap: 32px;
+  list-style: none;
+}
+.navbar-links a {
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.navbar-links a:hover { color: var(--text-primary); }
+.navbar-actions { display: flex; align-items: center; gap: 12px; }
+.lang-toggle {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  color: #CCCCCC;
+  border: 1px solid var(--border-light);
+  background: transparent;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lang-toggle:hover { color: var(--gold); border-color: var(--gold); }
+
+/* ── HERO ─────────────────────────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding-top: 64px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 50%, rgba(232,160,32,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 85% 20%, rgba(232,160,32,0.04) 0%, transparent 50%),
+    var(--navy-deep);
+}
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(232,160,32,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,160,32,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 60% 50%, black 0%, transparent 70%);
+}
+.hero-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+  position: relative; z-index: 1;
+  padding: 80px 0;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(232,160,32,0.25);
+  border-radius: 100px;
+  padding: 6px 14px;
+  margin-bottom: 24px;
+}
+.pulse-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.hero-title { margin-bottom: 20px; }
+.hero-sub {
+  color: #FFFFFF;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  max-width: 520px;
+  margin-bottom: 36px;
+}
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+.hero-stats {
+  display: flex; gap: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.hero-stat-value {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+.hero-stat-label {
+  font-size: 0.78rem;
+  color: #CCCCCC;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* Hero Visual */
+.hero-visual {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-terminal {
+  background: var(--navy);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(232,160,32,0.1);
+}
+.terminal-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px;
+  background: var(--navy-light);
+  border-bottom: 1px solid var(--border);
+}
+.terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+.terminal-dot.red { background: #FF5F56; }
+.terminal-dot.yellow { background: #FFBD2E; }
+.terminal-dot.green { background: #27C93F; }
+.terminal-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #CCCCCC;
+  margin-left: 8px;
+  letter-spacing: 1px;
+}
+.terminal-body { padding: 20px; }
+.terminal-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #CCCCCC;
+  margin-bottom: 12px;
+}
+.deal-card {
+  background: var(--navy-light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+.deal-card:hover { border-color: var(--gold); }
+.deal-card.hot { border-left: 3px solid var(--gold); }
+.deal-card.good { border-left: 3px solid var(--green); }
+.deal-info { flex: 1; }
+.deal-location {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.deal-type {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #CCCCCC;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.deal-metrics { display: flex; align-items: center; gap: 12px; }
+.score-badge {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  border: 1.5px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: var(--gold);
+}
+.discount-badge {
+  background: rgba(0,200,150,0.12);
+  color: var(--green);
+  border: 1px solid rgba(0,200,150,0.3);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+.terminal-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+.live-indicator {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--green);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.terminal-cta {
+  font-size: 0.75rem;
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+.terminal-cta:hover { opacity: 0.7; }
+
+/* ── TICKER ───────────────────────────────────────────────────────────────── */
+.ticker-section {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--navy);
+  padding: 0;
+  overflow: hidden;
+}
+.ticker-header {
+  display: flex; align-items: center; gap: 0;
+}
+.ticker-label-box {
+  flex-shrink: 0;
+  background: var(--gold);
+  color: var(--navy-deep);
+  padding: 14px 20px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ticker-track {
+  display: flex;
+  animation: ticker 35s linear infinite;
+  gap: 0;
+}
+.ticker-track:hover { animation-play-state: paused; }
+.ticker-item {
+  display: flex; align-items: center; gap: 16px;
+  padding: 0 28px;
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+  height: 48px;
+}
+.ticker-score {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--gold-dim);
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+.ticker-city { font-size: 0.82rem; font-weight: 600; }
+.ticker-type { font-size: 0.72rem; color: #CCCCCC; }
+.ticker-discount { font-size: 0.75rem; color: var(--green); font-weight: 700; }
+.ticker-urgency {
+  width: 7px; height: 7px; border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+.urgency-hot { background: var(--gold); }
+.urgency-good { background: var(--green); }
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── STATS BAR ────────────────────────────────────────────────────────────── */
+.stats-bar {
+  background: var(--navy);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 0;
+}
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.stat-item {
+  text-align: center;
+  padding: 20px;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+.stat-item:last-child { border-right: none; }
+.stat-number {
+  font-family: var(--font-heading);
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.stat-unit { font-size: 1.2rem; }
+.stat-desc {
+  font-size: 0.8rem;
+  color: #CCCCCC;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 6px;
+}
+
+/* ── PROBLEM/SOLUTION ─────────────────────────────────────────────────────── */
+.problem-solution {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ps-column {
+  padding: 40px;
+  background: var(--navy);
+}
+.ps-column.solution { background: var(--navy-light); position: relative; }
+.ps-column.solution::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.ps-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 24px;
+}
+.ps-icon {
+  width: 32px; height: 32px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+}
+.ps-icon.bad { background: rgba(239,68,68,0.12); }
+.ps-icon.good { background: rgba(200,168,75,0.12); }
+.ps-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.ps-list { list-style: none; }
+.ps-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: #FFFFFF;
+}
+.ps-list li:last-child { border-bottom: none; }
+.ps-list li .icon { font-size: 0.8rem; margin-top: 2px; flex-shrink: 0; }
+
+/* ── HOW IT WORKS ─────────────────────────────────────────────────────────── */
+.how-it-works { background: var(--navy); }
+.timeline {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  position: relative;
+  margin-top: 60px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 28px; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.timeline-step {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  padding: 0 16px;
+  position: relative;
+}
+.step-number {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--navy-deep);
+  border: 1px solid var(--border-light);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--gold);
+  margin-bottom: 20px;
+  position: relative; z-index: 1;
+  transition: all 0.3s;
+}
+.timeline-step:hover .step-number {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(232,160,32,0.2);
+}
+.step-time {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.step-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+.step-desc {
+  font-size: 0.8rem;
+  color: #CCCCCC;
+  line-height: 1.5;
+}
+.step-badge {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #CCCCCC;
+  background: var(--navy-light);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 3px 10px;
+}
+.auto-badge {
+  display: inline-block;
+  margin-top: 40px;
+  background: rgba(0,200,150,0.1);
+  border: 1px solid rgba(0,200,150,0.3);
+  color: var(--green);
+  border-radius: 100px;
+  padding: 8px 20px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ── HOT DEALS ────────────────────────────────────────────────────────────── */
+.section-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 40px;
+}
+.deals-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.deal-feature-card {
+  background: var(--navy);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.deal-feature-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(232,160,32,0.1);
+}
+.deal-feature-card .card-top {
+  padding: 20px;
+  background: var(--navy-light);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.hot-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--navy-deep);
+  background: var(--gold);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.good-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--navy-deep);
+  background: var(--green);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.big-score {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+.score-sub { font-size: 0.65rem; color: #CCCCCC; text-transform: uppercase; letter-spacing: 1px; }
+.card-body { padding: 20px; }
+.card-location {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.card-type { font-size: 0.78rem; color: #CCCCCC; margin-bottom: 16px; }
+.card-metrics { display: flex; gap: 16px; margin-bottom: 16px; }
+.metric { flex: 1; }
+.metric-val {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.metric-val.green { color: var(--green); }
+.metric-label { font-size: 0.68rem; color: #CCCCCC; text-transform: uppercase; letter-spacing: 0.5px; }
+.card-countdown {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #CCCCCC;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.card-action {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+}
+.view-btn {
+  font-size: 0.78rem;
+  color: var(--gold);
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.deal-feature-card:hover .view-btn { opacity: 1; }
+.blurred-overlay {
+  position: relative;
+}
+.blurred-overlay::after {
+  content: '🔒 SPECIALIST+';
+  position: absolute; inset: 0;
+  background: rgba(7,7,15,0.8);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* ── HEATMAP ──────────────────────────────────────────────────────────────── */
+.heatmap-section { background: var(--navy); }
+.heatmap-inner {
+  display: grid; grid-template-columns: 1fr 380px;
+  gap: 40px; align-items: start;
+}
+.poland-map {
+  background: var(--navy-light);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px;
+  position: relative;
+  min-height: 400px;
+  display: flex; align-items: center; justify-content: center;
+}
+.map-placeholder {
+  width: 100%;
+  text-align: center;
+}
+.map-svg { width: 100%; max-width: 340px; height: auto; }
+.city-dot {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.city-dot circle { transition: r 0.2s; }
+.city-dot:hover circle:first-child { r: 12; }
+.map-legend {
+  position: absolute; bottom: 20px; right: 20px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.legend-item {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+  color: #CCCCCC;
+  text-transform: uppercase;
+}
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+.heatmap-list { display: flex; flex-direction: column; gap: 10px; }
+.heatmap-city-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  background: var(--navy-light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+.heatmap-city-row:hover { border-color: var(--gold); }
+.city-rank {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #CCCCCC;
+  width: 20px;
+}
+.city-name { font-weight: 600; font-size: 0.88rem; flex: 1; }
+.city-bar-wrap { flex: 2; height: 4px; background: var(--border); border-radius: 2px; }
+.city-bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.8s ease; }
+.city-count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--gold);
+  font-weight: 600;
+  width: 30px; text-align: right;
+}
+
+/* ── PRICING ──────────────────────────────────────────────────────────────── */
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.pricing-card {
+  background: var(--navy);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 24px;
+  position: relative;
+  transition: all 0.3s;
+}
+.pricing-card:hover { border-color: var(--border-light); transform: translateY(-2px); }
+.pricing-card.featured {
+  border-color: var(--gold);
+  background: var(--navy-light);
+  transform: scale(1.03);
+  box-shadow: 0 0 40px rgba(232,160,32,0.1);
+}
+.pricing-card.featured:hover { transform: scale(1.03) translateY(-2px); }
+.popular-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--gold);
+  color: var(--navy-deep);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.tier-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #CCCCCC;
+  margin-bottom: 8px;
+}
+.tier-price {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 2.2rem;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.tier-price .currency { font-size: 1.2rem; font-weight: 600; color: var(--gold); }
+.tier-price .period { font-size: 0.9rem; color: #CCCCCC; font-weight: 400; }
+.tier-desc { font-size: 0.82rem; color: #CCCCCC; margin-bottom: 24px; min-height: 36px; }
+.tier-features { list-style: none; margin-bottom: 24px; }
+.tier-features li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: #FFFFFF;
+}
+.tier-features li:last-child { border-bottom: none; }
+.feat-check { color: var(--green); font-size: 0.8rem; flex-shrink: 0; margin-top: 2px; }
+.feat-cross { color: #CCCCCC; font-size: 0.8rem; flex-shrink: 0; margin-top: 2px; }
+
+/* ── INSTITUTIONAL ────────────────────────────────────────────────────────── */
+.institutional { background: var(--navy); }
+.institutional-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+}
+.inst-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.inst-features { display: flex; flex-direction: column; gap: 16px; margin: 32px 0; }
+.inst-feature {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 16px;
+  background: var(--navy-light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+.inst-feature:hover { border-color: rgba(232,160,32,0.3); }
+.inst-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: var(--gold-dim);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+}
+.inst-feature-title { font-weight: 600; font-size: 0.88rem; margin-bottom: 3px; }
+.inst-feature-desc { font-size: 0.78rem; color: #CCCCCC; line-height: 1.4; }
+.inst-visual {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+}
+.inst-visual img { width: 100%; display: block; }
+
+/* API Terminal mock if no image */
+.api-terminal {
+  background: var(--navy-deep);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.api-terminal-header {
+  padding: 10px 16px;
+  background: var(--navy-light);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #CCCCCC;
+  letter-spacing: 1px;
+}
+.api-code {
+  padding: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+.api-key { color: #7DD3FC; }
+.api-val { color: #86EFAC; }
+.api-str { color: #FCA5A5; }
+.api-comment { color: #CCCCCC; }
+
+/* ── TRUST ────────────────────────────────────────────────────────────────── */
+.trust-section { background: var(--navy-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.trust-logos {
+  display: flex; align-items: center; justify-content: center;
+  gap: 40px; flex-wrap: wrap;
+  padding: 40px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 40px;
+}
+.trust-logo-item {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #CCCCCC;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.trust-logo-item:hover { opacity: 0.8; border-color: var(--border-light); }
+.testimonials {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 20px; margin-bottom: 40px;
+}
+.testimonial-card {
+  background: var(--navy);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+}
+.testimonial-quote {
+  font-size: 0.88rem;
+  color: #FFFFFF;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  position: relative;
+  padding-left: 16px;
+}
+.testimonial-quote::before {
+  content: '';
+  position: absolute; left: 0; top: 4px; bottom: 4px;
+  width: 2px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.author-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: var(--gold);
+}
+.author-name { font-weight: 600; font-size: 0.82rem; }
+.author-role { font-size: 0.72rem; color: #CCCCCC; }
+
+/* ── FAQ ──────────────────────────────────────────────────────────────────── */
+.faq-list { max-width: 760px; margin: 0 auto; }
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.faq-question {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0;
+  background: transparent; border: none; cursor: pointer;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: color 0.2s;
+}
+.faq-question:hover { color: var(--gold); }
+.faq-chevron {
+  width: 20px; height: 20px;
+  color: #CCCCCC;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--gold); }
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  font-size: 0.88rem;
+  color: #FFFFFF;
+  line-height: 1.7;
+}
+.faq-item.open .faq-answer { max-height: 200px; padding-bottom: 20px; }
+
+/* ── FINAL CTA ────────────────────────────────────────────────────────────── */
+.final-cta {
+  text-align: center;
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.final-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(232,160,32,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.final-cta h2 { max-width: 600px; margin: 0 auto 16px; }
+.final-cta p { color: #CCCCCC; margin-bottom: 36px; }
+.cta-note {
+  display: flex; align-items: center; justify-content: center; gap: 20px;
+  margin-top: 16px;
+  font-size: 0.78rem;
+  color: #CCCCCC;
+}
+.cta-note span { display: flex; align-items: center; gap: 6px; }
+
+/* ── FOOTER ───────────────────────────────────────────────────────────────── */
+footer {
+  background: var(--navy);
+  border-top: 1px solid var(--border);
+  padding: 60px 0 32px;
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px; margin-bottom: 48px;
+}
+.footer-brand { max-width: 280px; }
+.footer-logo {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+}
+.footer-tagline {
+  font-size: 0.82rem;
+  color: #CCCCCC;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.footer-col-title {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #CCCCCC;
+  margin-bottom: 16px;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 10px; }
+.footer-links a {
+  font-size: 0.85rem;
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gold); }
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.78rem;
+  color: #CCCCCC;
+}
+
+/* ── SECTION UTILITIES ────────────────────────────────────────────────────── */
+.section-eyebrow { margin-bottom: 12px; }
+.section-title { margin-bottom: 16px; }
+.section-sub {
+  font-size: 1rem;
+  color: #CCCCCC;
+  max-width: 560px;
+  line-height: 1.7;
+}
+.text-center { text-align: center; }
+.text-center .section-sub { margin: 0 auto; }
+
+/* ── SCROLL ANIMATIONS ────────────────────────────────────────────────────── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-up:nth-child(2) { transition-delay: 0.1s; }
+.fade-up:nth-child(3) { transition-delay: 0.2s; }
+.fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+/* ── SCROLL TO TOP ────────────────────────────────────────────────────────── */
+.scroll-top {
+  position: fixed; bottom: 32px; right: 32px; z-index: 999;
+  width: 44px; height: 44px;
+  background: var(--gold);
+  border: none; border-radius: 8px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--navy-deep);
+  font-size: 1.1rem;
+  opacity: 0; pointer-events: none;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(232,160,32,0.3);
+}
+.scroll-top.visible { opacity: 1; pointer-events: all; }
+.scroll-top:hover { transform: translateY(-2px); }
+
+/* ── MOBILE MENU ──────────────────────────────────────────────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.mobile-menu {
+  display: none;
+  position: fixed; inset: 64px 0 0 0;
+  background: var(--navy-deep);
+  z-index: 999;
+  padding: 32px 24px;
+  flex-direction: column; gap: 24px;
+  border-top: 1px solid var(--border);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 1.1rem; font-weight: 600;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { display: none; }
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-card.featured { transform: scale(1); }
+  .institutional-inner { grid-template-columns: 1fr; }
+  .heatmap-inner { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .timeline::before { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .navbar-links, .navbar-actions { display: none; }
+  .hamburger { display: flex; }
+  .hero-stats { flex-wrap: wrap; gap: 20px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .problem-solution { grid-template-columns: 1fr; }
+  .deals-grid { grid-template-columns: 1fr; }
+  .testimonials { grid-template-columns: 1fr; }
+  .section { padding: 60px 0; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .trust-logos { gap: 20px; }
+}
+@media (max-width: 480px) {
+  h1 { font-size: 2rem; }
+  .timeline { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
 </style>
 </head>
 <body>
-<nav class="nav">
-  <div class="logo">intel<span>Estate</span></div>
-  <div class="nav-links">
-    <a href="#deals" data-pl="Oferty" data-en="Deals">Oferty</a>
-    <a href="#how" data-pl="Jak to działa" data-en="How it works">Jak to działa</a>
-    <a href="#pricing" data-pl="Cennik" data-en="Pricing">Cennik</a>
-    <a href="dashboard.html" data-pl="Dashboard" data-en="Dashboard">Dashboard</a>
-  </div>
-  <div class="lang-sw">
-    <button class="lb active" onclick="setLang('pl')">PL</button>
-    <button class="lb" onclick="setLang('en')">EN</button>
+
+<!-- ── NAVBAR ──────────────────────────────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="#" class="navbar-logo">intel<span>Estate</span></a>
+    <ul class="navbar-links">
+      <li><a href="#deals">Hot Deals</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#institutional">Enterprise</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="lang-toggle">PL / EN</button>
+      <a href="#pricing" class="btn btn-secondary" style="padding:8px 18px;font-size:0.82rem;">Log In</a>
+      <a href="#pricing" class="btn btn-primary" style="padding:8px 18px;font-size:0.82rem;">Get Free Access</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#deals">Hot Deals</a>
+  <a href="#how">How It Works</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#institutional">Enterprise</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="#pricing" class="btn btn-primary" style="margin-top:8px;">Get Free Access</a>
+</div>
 
-<section class="hero">
+<!-- ── HERO ────────────────────────────────────────────────────────────────── -->
+<section class="hero" id="home">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
-  <div class="hero-content">
-    <div class="hero-badge"><span class="bdot"></span><span data-pl="Platforma dla profesjonalistów rynku nieruchomości" data-en="Built for real estate professionals">Platforma dla profesjonalistów rynku nieruchomości</span></div>
-    <h1 data-pl="Profesjonalna <em>inteligencja</em> licytacji komorniczych" data-en="Professional <em>intelligence</em> for court property auctions">Profesjonalna <em>inteligencja</em> licytacji komorniczych</h1>
-    <p class="hero-sub" data-pl="Każda licytacja komornicza w Polsce — przeanalizowana, wyceniona i gotowa <strong>zanim zadzwoni klient</strong>. Numer KM, scoring transakcji, porównanie z rynkiem." data-en="Every court-ordered auction in Poland — analysed, scored and ready <strong>before your client calls</strong>. Case numbers, deal scoring, market comparison.">Każda licytacja komornicza w Polsce — przeanalizowana, wyceniona i gotowa <strong>zanim zadzwoni klient</strong>.</p>
-    <div class="hero-proof" data-pl="✓ Dla specjalistów ds. licytacji, prawników i inwestorów &nbsp;·&nbsp; <span>Dane z licytacje.komornik.pl</span>" data-en="✓ For auction specialists, lawyers and investors &nbsp;·&nbsp; <span>Data from licytacje.komornik.pl</span>">✓ Dla specjalistów ds. licytacji, prawników i inwestorów &nbsp;·&nbsp; <span>Dane z licytacje.komornik.pl</span></div>
-    <div class="hero-form">
-      <input type="email" id="hero-email" placeholder="twoj@kancelaria.pl" data-ph-pl="twoj@kancelaria.pl" data-ph-en="your@lawfirm.com">
-      <button class="btn-gold" onclick="subscribe('hero')" data-pl="Dostęp za darmo" data-en="Free access">Dostęp za darmo</button>
-    </div>
-    <div class="success-msg" id="hero-success"><span data-pl="✓ Zapisano! Wkrótce dostęp." data-en="✓ Done! Access coming shortly.">✓ Zapisano!</span></div>
-    <div class="hero-stats">
-      <div><div class="sn" id="stat-total">—</div><div class="sl" data-pl="Aktywnych licytacji" data-en="Active auctions">Aktywnych licytacji</div></div>
-      <div><div class="sn" id="stat-hot">—</div><div class="sl" data-pl="HOT DEALS dziś" data-en="HOT DEALS today">HOT DEALS dziś</div></div>
-      <div><div class="sn" id="stat-avg">—</div><div class="sl" data-pl="Śr. dyskonto" data-en="Avg discount">Śr. dyskonto</div></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <div class="pulse-dot"></div>
+          <span class="label">Live — 473 auctions tracked</span>
+        </div>
+        <h1 class="hero-title">
+          Professional Intelligence<br>for <span class="gold">Court Auctions</span>
+        </h1>
+        <p class="hero-sub">
+          Every court auction in Poland — analyzed, scored, and delivered before your competition. Properties at 30–60% below market value, ranked by investment potential.
+        </p>
+        <div class="hero-ctas">
+          <a href="#pricing" class="btn btn-primary" style="font-size:1rem;padding:14px 28px;">
+            Get Free Access →
+          </a>
+          <a href="dashboard.html" class="btn btn-ghost" style="font-size:1rem;padding:14px 28px;">
+            View Dashboard
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-value" data-count="473">0</div>
+            <div class="hero-stat-label">Active Auctions</div>
+          </div>
+          <div>
+            <div class="hero-stat-value" data-count="33" data-suffix="%">0%</div>
+            <div class="hero-stat-label">Avg Discount</div>
+          </div>
+          <div>
+            <div class="hero-stat-value" data-count="18">0</div>
+            <div class="hero-stat-label">HOT Deals Today</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-terminal hud-corners">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span class="terminal-title">INTELESTATE — LIVE AUCTION FEED</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-label">Today's Top Deals / 12 Mar 2026</div>
+
+            <div class="deal-card hot">
+              <div class="deal-info">
+                <div class="deal-location">Kraków, Małopolska</div>
+                <div class="deal-type">APARTMENT · 2ND ROUND</div>
+              </div>
+              <div class="deal-metrics">
+                <div>
+                  <div class="discount-badge">-41%</div>
+                </div>
+                <div>
+                  <div class="score-badge">92</div>
+                  <div style="font-size:0.55rem;color:var(--text-muted);text-align:center;margin-top:2px">SCORE</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="deal-card hot">
+              <div class="deal-info">
+                <div class="deal-location">Warszawa, Mazowieckie</div>
+                <div class="deal-type">COMMERCIAL · 1ST ROUND</div>
+              </div>
+              <div class="deal-metrics">
+                <div><div class="discount-badge">-38%</div></div>
+                <div>
+                  <div class="score-badge">88</div>
+                  <div style="font-size:0.55rem;color:var(--text-muted);text-align:center;margin-top:2px">SCORE</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="deal-card good">
+              <div class="deal-info">
+                <div class="deal-location">Wrocław, Dolnośląskie</div>
+                <div class="deal-type">HOUSE · 2ND ROUND</div>
+              </div>
+              <div class="deal-metrics">
+                <div><div class="discount-badge">-35%</div></div>
+                <div>
+                  <div class="score-badge" style="border-color:var(--green);color:var(--green);background:rgba(0,200,150,0.1)">79</div>
+                  <div style="font-size:0.55rem;color:var(--text-muted);text-align:center;margin-top:2px">SCORE</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="terminal-footer">
+              <div class="live-indicator">
+                <div class="pulse-dot"></div>
+                Updated 6:00 AM UTC
+              </div>
+              <a href="dashboard.html" class="terminal-cta">View all 473 auctions →</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="forwho">
-  <div class="slabel" data-pl="Dla kogo" data-en="Who it's for">Dla kogo</div>
-  <h2 data-pl="Zbudowane dla <em>profesjonalistów</em>" data-en="Built for <em>professionals</em>">Zbudowane dla <em>profesjonalistów</em></h2>
-  <div class="forwho-grid">
-    <div class="fw-card"><div class="fw-icon">⚖️</div><div class="fw-title" data-pl="Prawnicy i kancelarie" data-en="Lawyers & law firms">Prawnicy i kancelarie</div><div class="fw-desc" data-pl="Numery KM, dane komornika, link do księgi wieczystej. Wszystko zanim klient zapyta." data-en="KM numbers, bailiff details, land registry link. Everything before your client asks.">Numery KM, dane komornika, link do księgi wieczystej. Wszystko zanim klient zapyta.</div></div>
-    <div class="fw-card"><div class="fw-icon">🏠</div><div class="fw-title" data-pl="Specjaliści ds. licytacji" data-en="Auction specialists">Specjaliści ds. licytacji</div><div class="fw-desc" data-pl="Monitoruj wszystkie licytacje w Polsce. Alerty gdy pojawi się okazja pasująca do Twoich kryteriów." data-en="Monitor all auctions in Poland. Instant alerts when a matching deal appears.">Monitoruj wszystkie licytacje w Polsce. Alerty gdy pojawi się okazja pasująca do Twoich kryteriów.</div></div>
-    <div class="fw-card"><div class="fw-icon">📊</div><div class="fw-title" data-pl="Inwestorzy instytucjonalni" data-en="Institutional investors">Inwestorzy instytucjonalni</div><div class="fw-desc" data-pl="API, eksport CSV/JSON, analityka wg dzielnicy. Integracja z Twoimi systemami." data-en="API, CSV/JSON export, district analytics. Integrate with your existing systems.">API, eksport CSV/JSON, analityka wg dzielnicy. Integracja z Twoimi systemami.</div></div>
-    <div class="fw-card"><div class="fw-icon">🌍</div><div class="fw-title" data-pl="Zagraniczni inwestorzy" data-en="Foreign investors">Zagraniczni inwestorzy</div><div class="fw-desc" data-pl="Polski rynek licytacji w języku angielskim. Bez bariery językowej." data-en="Polish auction market in English. No language barrier.">Polski rynek licytacji w języku angielskim. Bez bariery językowej.</div></div>
+<!-- ── TICKER ───────────────────────────────────────────────────────────────── -->
+<div class="ticker-section">
+  <div class="ticker-header">
+    <div class="ticker-label-box">🔥 Live Deals</div>
+    <div style="overflow:hidden;flex:1;">
+      <div class="ticker-track" id="tickerTrack">
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">92</span><span class="ticker-city">Kraków</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-41%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">88</span><span class="ticker-city">Warszawa</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-38%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">79</span><span class="ticker-city">Wrocław</span><span class="ticker-type">House</span><span class="ticker-discount">-35%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">91</span><span class="ticker-city">Gdańsk</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-44%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">76</span><span class="ticker-city">Łódź</span><span class="ticker-type">Land</span><span class="ticker-discount">-29%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">87</span><span class="ticker-city">Poznań</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-37%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">74</span><span class="ticker-city">Katowice</span><span class="ticker-type">House</span><span class="ticker-discount">-31%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">85</span><span class="ticker-city">Szczecin</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-40%</span></div>
+        <!-- Duplicate for seamless loop -->
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">92</span><span class="ticker-city">Kraków</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-41%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">88</span><span class="ticker-city">Warszawa</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-38%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">79</span><span class="ticker-city">Wrocław</span><span class="ticker-type">House</span><span class="ticker-discount">-35%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">91</span><span class="ticker-city">Gdańsk</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-44%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">76</span><span class="ticker-city">Łódź</span><span class="ticker-type">Land</span><span class="ticker-discount">-29%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">87</span><span class="ticker-city">Poznań</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-37%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">74</span><span class="ticker-city">Katowice</span><span class="ticker-type">House</span><span class="ticker-discount">-31%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">85</span><span class="ticker-city">Szczecin</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-40%</span></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="ticker-wrap"><div class="ticker-track" id="ticker"></div></div>
-
-<section class="deals-section" id="deals">
-  <div class="deals-header">
-    <div><div class="slabel" data-pl="Najlepsze okazje" data-en="Top deals">Najlepsze okazje</div><h2 data-pl="Transakcje tygodnia" data-en="Deals of the <em>week</em>">Transakcje tygodnia</h2></div>
-    <a href="dashboard.html" style="color:var(--gold);font-size:0.84rem;text-decoration:none;" data-pl="Pełny dashboard →" data-en="Full dashboard →">Pełny dashboard →</a>
-  </div>
-  <div class="deals-grid" id="deals-grid"></div>
-</section>
-
-<section id="how">
-  <div class="slabel" data-pl="Jak to działa" data-en="How it works">Jak to działa</div>
-  <h2 data-pl="Od danych do <em>decyzji</em>" data-en="From data to <em>decision</em>">Od danych do <em>decyzji</em></h2>
-  <div class="how-grid">
-    <div class="how-step"><div class="step-n">01</div><div class="step-t" data-pl="Skanujemy portal" data-en="We scan the portal">Skanujemy portal</div><div class="step-d" data-pl="Codziennie pobieramy wszystkie licytacje z licytacje.komornik.pl. Każda nieruchomość, cała Polska." data-en="Every day we collect all auctions from licytacje.komornik.pl. Every property, all of Poland.">Codziennie pobieramy wszystkie licytacje z licytacje.komornik.pl.</div></div>
-    <div class="how-step"><div class="step-n">02</div><div class="step-t" data-pl="Wyceniamy rynek" data-en="We price the market">Wyceniamy rynek</div><div class="step-d" data-pl="Porównujemy cenę wywołania z cenami rynkowymi w tej samej dzielnicy." data-en="We compare the starting bid against market prices in the same district.">Porównujemy cenę wywołania z cenami rynkowymi w tej samej dzielnicy.</div></div>
-    <div class="how-step"><div class="step-n">03</div><div class="step-t" data-pl="Scorujemy transakcję" data-en="We score the deal">Scorujemy transakcję</div><div class="step-d" data-pl="Algorytm ocenia każdą licytację 1-10: dyskonto, II licytacja, lokalizacja, rentowność." data-en="Algorithm scores each auction 1-10: discount, 2nd auction, location, yield.">Algorytm ocenia każdą licytację 1-10.</div></div>
-    <div class="how-step"><div class="step-n">04</div><div class="step-t" data-pl="Alertujemy natychmiast" data-en="We alert instantly">Alertujemy natychmiast</div><div class="step-d" data-pl="Ustawiasz filtry — gdy pojawi się pasująca licytacja, dostajesz email w ciągu minut." data-en="Set filters — when a match appears, you get an email within minutes.">Ustawiasz filtry — email w ciągu minut.</div></div>
-    <div class="how-step"><div class="step-n">05</div><div class="step-t" data-pl="Dane prawne" data-en="Legal data">Dane prawne</div><div class="step-d" data-pl="Numer KM, kancelaria komornicza, link do księgi wieczystej. Wszystko czego potrzebuje prawnik." data-en="KM number, bailiff office, land registry link. Everything a lawyer needs.">Numer KM, kancelaria, link do KW.</div></div>
-  </div>
-</section>
-
-<section id="pricing" style="background:var(--deep);">
-  <div style="text-align:center;">
-    <div class="slabel" data-pl="Cennik" data-en="Pricing">Cennik</div>
-    <h2 data-pl="Jeden dobry przetarg <em>zwraca koszt</em> subskrypcji" data-en="One good auction <em>pays back</em> the subscription">Jeden dobry przetarg <em>zwraca koszt</em> subskrypcji</h2>
-    <p style="color:var(--muted);margin-top:10px;font-size:0.92rem;" data-pl="Dla profesjonalistów, którzy liczą czas i wyniki." data-en="For professionals who measure time and results.">Dla profesjonalistów, którzy liczą czas i wyniki.</p>
-  </div>
-  <div class="pricing-grid">
-    <div class="pc">
-      <div class="pname" data-pl="Darmowy" data-en="Free">Darmowy</div>
-      <div class="pprice">€0<span data-pl="/mies." data-en="/mo">/mies.</span></div>
-      <div class="pdesc" data-pl="Poznaj platformę bez zobowiązań." data-en="Explore with no commitment.">Poznaj platformę bez zobowiązań.</div>
-      <ul class="pfeats">
-        <li class="on"><span class="fc">✓</span><span data-pl="Tygodniowy digest — Top 10 okazji" data-en="Weekly digest — Top 10 deals">Tygodniowy digest — Top 10 okazji</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="3 oferty w dashboardzie" data-en="3 deals in dashboard">3 oferty w dashboardzie</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="Wyszukiwanie po numerze KM" data-en="Search by KM case number">Wyszukiwanie po numerze KM</span></li>
-        <li><span class="fx">✗</span><span data-pl="Alerty w czasie rzeczywistym" data-en="Real-time alerts">Alerty w czasie rzeczywistym</span></li>
-        <li><span class="fx">✗</span><span data-pl="Pełny scoring transakcji" data-en="Full deal scoring">Pełny scoring transakcji</span></li>
-      </ul>
-      <button class="btn-outline" data-pl="Zacznij za darmo" data-en="Start free">Zacznij za darmo</button>
+<!-- ── STATS BAR ─────────────────────────────────────────────────────────────── -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-up">
+        <div class="stat-number"><span data-count="473">473</span></div>
+        <div class="stat-desc">Auctions Indexed</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-number"><span data-count="33">33</span><span class="stat-unit">%</span></div>
+        <div class="stat-desc">Average Discount</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-number">€<span data-count="2">2</span>.5B</div>
+        <div class="stat-desc">Property Value Tracked</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-number"><span data-count="1200">1,200</span><span class="stat-unit">+</span></div>
+        <div class="stat-desc">Active Investors</div>
+      </div>
     </div>
-    <div class="pc featured" data-label="NAJPOPULARNIEJSZY">
-      <div class="pname" data-pl="Pro Specjalista" data-en="Pro Specialist">Pro Specjalista</div>
-      <div class="pprice">€49<span data-pl="/mies." data-en="/mo">/mies.</span></div>
-      <div class="pdesc" data-pl="Dla aktywnych specjalistów i prawników." data-en="For active specialists and lawyers.">Dla aktywnych specjalistów i prawników.</div>
-      <ul class="pfeats">
-        <li class="on"><span class="fc">✓</span><span data-pl="Wszystko z planu Free" data-en="Everything in Free">Wszystko z planu Free</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="Nieograniczony dashboard" data-en="Unlimited dashboard">Nieograniczony dashboard</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="Alerty email w czasie rzeczywistym" data-en="Real-time email alerts">Alerty email w czasie rzeczywistym</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="Pełny scoring + dyskonto %" data-en="Full scoring + discount %">Pełny scoring + dyskonto %</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="Numer KM + dane komornika" data-en="KM number + bailiff data">Numer KM + dane komornika</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="Link do księgi wieczystej" data-en="Land registry link">Link do księgi wieczystej</span></li>
-      </ul>
-      <button class="btn-gold-full" data-pl="Wybierz Pro" data-en="Choose Pro">Wybierz Pro</button>
+  </div>
+</div>
+
+<!-- ── PROBLEM / SOLUTION ────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:48px;">
+      <div class="label section-eyebrow">The Problem</div>
+      <h2 class="section-title">Court auctions are<br><span class="gold">invisible to most investors</span></h2>
     </div>
-    <div class="pc">
-      <div class="pname" data-pl="Premium / Kancelaria" data-en="Premium / Firm">Premium / Kancelaria</div>
-      <div class="pprice">€149<span data-pl="/mies." data-en="/mo">/mies.</span></div>
-      <div class="pdesc" data-pl="Dla kancelarii, funduszy i deweloperów." data-en="For law firms, funds and developers.">Dla kancelarii, funduszy i deweloperów.</div>
-      <ul class="pfeats">
-        <li class="on"><span class="fc">✓</span><span data-pl="Wszystko z planu Pro" data-en="Everything in Pro">Wszystko z planu Pro</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="Dostęp do API" data-en="API access">Dostęp do API</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="Dane historyczne licytacji" data-en="Historical auction data">Dane historyczne licytacji</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="Eksport CSV / JSON" data-en="CSV / JSON export">Eksport CSV / JSON</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="5 kont użytkowników" data-en="5 user accounts">5 kont użytkowników</span></li>
-        <li class="on"><span class="fc">✓</span><span data-pl="Priorytetowe wsparcie" data-en="Priority support">Priorytetowe wsparcie</span></li>
-      </ul>
-      <button class="btn-outline" data-pl="Wybierz Premium" data-en="Choose Premium">Wybierz Premium</button>
+    <div class="problem-solution">
+      <div class="ps-column">
+        <div class="ps-header">
+          <div class="ps-icon bad">❌</div>
+          <span class="ps-title" style="color:var(--text-muted);">Without intelEstate</span>
+        </div>
+        <ul class="ps-list">
+          <li><span class="icon">⏰</span> Manually checking dozens of court websites every day</li>
+          <li><span class="icon">📋</span> Missing second-round auctions with bigger discounts</li>
+          <li><span class="icon">📊</span> No easy way to compare deals across regions</li>
+          <li><span class="icon">🔢</span> Spreadsheets, inconsistent data, outdated prices</li>
+          <li><span class="icon">🐌</span> By the time you find a deal, it's already gone</li>
+        </ul>
+      </div>
+      <div class="ps-column solution">
+        <div class="ps-header">
+          <div class="ps-icon good">✦</div>
+          <span class="ps-title" style="color:var(--gold);">With intelEstate</span>
+        </div>
+        <ul class="ps-list">
+          <li><span class="icon" style="color:var(--green);">✓</span> Every Polish court auction in one dashboard, updated nightly</li>
+          <li><span class="icon" style="color:var(--green);">✓</span> Automatic deal scoring — HOT deals ranked and flagged</li>
+          <li><span class="icon" style="color:var(--green);">✓</span> Email digest delivered at 6AM before the market wakes up</li>
+          <li><span class="icon" style="color:var(--green);">✓</span> Filter by city, property type, discount %, and urgency</li>
+          <li><span class="icon" style="color:var(--green);">✓</span> Act first — before any other investor sees the deal</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="cta-section">
-  <div class="slabel" data-pl="Zacznij dziś" data-en="Start today">Zacznij dziś</div>
-  <h2 data-pl="Bądź przygotowany <em>zanim zadzwoni klient</em>" data-en="Be ready <em>before your client calls</em>">Bądź przygotowany <em>zanim zadzwoni klient</em></h2>
-  <p class="cta-sub" data-pl="Dołącz do specjalistów, którzy już używają intelEstate." data-en="Join the specialists already using intelEstate.">Dołącz do specjalistów, którzy już używają intelEstate.</p>
-  <div class="cta-form">
-    <input type="email" id="cta-email" placeholder="twoj@kancelaria.pl">
-    <button class="btn-gold" onclick="subscribe('cta')" data-pl="Dołącz" data-en="Join">Dołącz</button>
+<!-- ── HOW IT WORKS ───────────────────────────────────────────────────────────── -->
+<section class="section how-it-works" id="how">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:8px;">
+      <div class="label section-eyebrow">The Process</div>
+      <h2 class="section-title">Fully automated.<br><span class="gold">Every single night.</span></h2>
+      <p class="section-sub">While you sleep, intelEstate scans, scores, and prepares your morning intelligence briefing.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-step fade-up">
+        <div class="step-number">01</div>
+        <div class="step-time">01:00 AM</div>
+        <div class="step-title">Scan Portals</div>
+        <div class="step-desc">Make.com + BrowserAct scan every Polish court auction website for new listings</div>
+        <div class="step-badge">Make.com · BrowserAct</div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="step-number">02</div>
+        <div class="step-time">02:00 AM</div>
+        <div class="step-title">Score Deals</div>
+        <div class="step-desc">Each auction scored 0–100 by discount depth, auction round, and urgency</div>
+        <div class="step-badge">Render · Supabase</div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="step-number">03</div>
+        <div class="step-time">04:00 AM</div>
+        <div class="step-title">Assess Market</div>
+        <div class="step-desc">Prices compared to estimated values. HOT and GOOD deals flagged automatically</div>
+        <div class="step-badge">Algorithm</div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="step-number">04</div>
+        <div class="step-time">06:00 AM</div>
+        <div class="step-title">Alert Investors</div>
+        <div class="step-desc">Personalised email digest sent — tailored to your subscription tier</div>
+        <div class="step-badge">Resend · Email</div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="step-number">05</div>
+        <div class="step-time">All Day</div>
+        <div class="step-title">Live Dashboard</div>
+        <div class="step-desc">Full filtered dashboard available. Download, filter, track deals you're watching</div>
+        <div class="step-badge">intelestate.eu</div>
+      </div>
+    </div>
+    <div class="text-center" style="margin-top:40px;">
+      <div class="auto-badge">✓ Your role: nothing — fully automatic</div>
+    </div>
   </div>
-  <div class="success-msg" id="cta-success"><span data-pl="✓ Zapisano!" data-en="✓ Subscribed!">✓ Zapisano!</span></div>
 </section>
 
+<!-- ── HOT DEALS ──────────────────────────────────────────────────────────────── -->
+<section class="section" id="deals">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="label section-eyebrow">Today's Intelligence</div>
+        <h2 class="section-title">Best Opportunities<br><span class="gold">Right Now</span></h2>
+      </div>
+      <a href="dashboard.html" class="btn btn-secondary">View Full Dashboard →</a>
+    </div>
+    <div class="deals-grid">
+      <!-- Deal 1 — fully visible -->
+      <div class="deal-feature-card fade-up">
+        <div class="card-top">
+          <span class="hot-label">🔥 HOT DEAL</span>
+          <div style="text-align:right">
+            <div class="big-score">92</div>
+            <div class="score-sub">Score</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-location">Kraków, Małopolska</div>
+          <div class="card-type">Apartment · 2nd Round · KM 1234/24</div>
+          <div class="card-metrics">
+            <div class="metric">
+              <div class="metric-val">364,667 PLN</div>
+              <div class="metric-label">Starting Price</div>
+            </div>
+            <div class="metric">
+              <div class="metric-val green">-41%</div>
+              <div class="metric-label">Discount</div>
+            </div>
+          </div>
+          <div class="card-countdown">⏱ Auction in 5 days</div>
+        </div>
+        <div class="card-action">
+          <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);">FREE PREVIEW</span>
+          <span class="view-btn">View Details →</span>
+        </div>
+      </div>
+
+      <!-- Deal 2 — blurred -->
+      <div class="deal-feature-card fade-up">
+        <div class="card-top">
+          <span class="hot-label">🔥 HOT DEAL</span>
+          <div style="text-align:right">
+            <div class="big-score">88</div>
+            <div class="score-sub">Score</div>
+          </div>
+        </div>
+        <div class="blurred-overlay">
+          <div class="card-body">
+            <div class="card-location">Warszawa, Mazowieckie</div>
+            <div class="card-type">Commercial · 1st Round</div>
+            <div class="card-metrics">
+              <div class="metric">
+                <div class="metric-val">1,240,000 PLN</div>
+                <div class="metric-label">Starting Price</div>
+              </div>
+              <div class="metric">
+                <div class="metric-val green">-38%</div>
+                <div class="metric-label">Discount</div>
+              </div>
+            </div>
+            <div class="card-countdown">⏱ Auction in 3 days</div>
+          </div>
+        </div>
+        <div class="card-action">
+          <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--gold);">SPECIALIST+</span>
+          <a href="#pricing" class="btn btn-primary" style="padding:6px 14px;font-size:0.75rem;">Unlock →</a>
+        </div>
+      </div>
+
+      <!-- Deal 3 — blurred -->
+      <div class="deal-feature-card fade-up">
+        <div class="card-top">
+          <span class="good-label">✓ GOOD DEAL</span>
+          <div style="text-align:right">
+            <div class="big-score" style="color:var(--green)">79</div>
+            <div class="score-sub">Score</div>
+          </div>
+        </div>
+        <div class="blurred-overlay">
+          <div class="card-body">
+            <div class="card-location">Wrocław, Dolnośląskie</div>
+            <div class="card-type">House · 2nd Round</div>
+            <div class="card-metrics">
+              <div class="metric">
+                <div class="metric-val">580,000 PLN</div>
+                <div class="metric-label">Starting Price</div>
+              </div>
+              <div class="metric">
+                <div class="metric-val green">-35%</div>
+                <div class="metric-label">Discount</div>
+              </div>
+            </div>
+            <div class="card-countdown">⏱ Auction in 8 days</div>
+          </div>
+        </div>
+        <div class="card-action">
+          <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--gold);">SPECIALIST+</span>
+          <a href="#pricing" class="btn btn-primary" style="padding:6px 14px;font-size:0.75rem;">Unlock →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HEATMAP ────────────────────────────────────────────────────────────────── -->
+<section class="section heatmap-section" id="heatmap">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="label section-eyebrow">Auction Intelligence</div>
+        <h2 class="section-title">Where the Best Deals<br><span class="gold">Are This Week</span></h2>
+      </div>
+    </div>
+    <div class="heatmap-inner">
+      <div class="poland-map">
+        <svg class="map-svg" viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Simplified Poland outline -->
+          <path d="M80 80 L120 60 L180 50 L240 55 L290 65 L330 80 L350 110 L360 150 L355 190 L340 220 L320 260 L300 290 L270 310 L240 320 L210 315 L180 310 L160 300 L140 280 L120 260 L100 240 L80 210 L65 180 L60 150 L65 120 Z" stroke="rgba(232,160,32,0.3)" stroke-width="1.5" fill="rgba(232,160,32,0.04)"/>
+          <!-- City dots -->
+          <g class="city-dot" data-city="Warszawa">
+            <circle cx="235" cy="150" r="18" fill="rgba(232,160,32,0.1)" class="pulse-ring"/>
+            <circle cx="235" cy="150" r="8" fill="var(--gold)" opacity="0.9"/>
+            <text x="248" y="148" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Warszawa</text>
+            <text x="248" y="160" fill="#10B981" font-size="9" font-family="DM Mono">8 deals</text>
+          </g>
+          <g class="city-dot" data-city="Kraków">
+            <circle cx="210" cy="255" r="16" fill="rgba(232,160,32,0.1)"/>
+            <circle cx="210" cy="255" r="7" fill="var(--gold)" opacity="0.9"/>
+            <text x="222" y="252" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Kraków</text>
+            <text x="222" y="263" fill="#10B981" font-size="9" font-family="DM Mono">11 deals</text>
+          </g>
+          <g class="city-dot" data-city="Łódź">
+            <circle cx="185" cy="170" r="12" fill="rgba(232,160,32,0.1)"/>
+            <circle cx="185" cy="170" r="6" fill="rgba(200,168,75,0.7)"/>
+            <text x="196" y="167" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Łódź</text>
+            <text x="196" y="178" fill="#10B981" font-size="9" font-family="DM Mono">7 deals</text>
+          </g>
+          <g class="city-dot" data-city="Wrocław">
+            <circle cx="130" cy="220" r="13" fill="rgba(232,160,32,0.1)"/>
+            <circle cx="130" cy="220" r="6" fill="rgba(200,168,75,0.7)"/>
+            <text x="143" y="217" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Wrocław</text>
+            <text x="143" y="228" fill="#10B981" font-size="9" font-family="DM Mono">9 deals</text>
+          </g>
+          <g class="city-dot" data-city="Gdańsk">
+            <circle cx="210" cy="80" r="11" fill="rgba(232,160,32,0.1)"/>
+            <circle cx="210" cy="80" r="5" fill="rgba(200,168,75,0.6)"/>
+            <text x="222" y="78" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Gdańsk</text>
+            <text x="222" y="89" fill="#10B981" font-size="9" font-family="DM Mono">5 deals</text>
+          </g>
+          <g class="city-dot" data-city="Poznań">
+            <circle cx="125" cy="145" r="11" fill="rgba(232,160,32,0.1)"/>
+            <circle cx="125" cy="145" r="5" fill="rgba(200,168,75,0.6)"/>
+            <text x="136" y="142" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Poznań</text>
+            <text x="136" y="153" fill="#10B981" font-size="9" font-family="DM Mono">6 deals</text>
+          </g>
+          <!-- Grid overlay -->
+          <line x1="0" y1="190" x2="400" y2="190" stroke="rgba(232,160,32,0.06)" stroke-width="1"/>
+          <line x1="200" y1="0" x2="200" y2="380" stroke="rgba(232,160,32,0.06)" stroke-width="1"/>
+        </svg>
+        <div class="map-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>10+ deals</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(200,168,75,0.6)"></div>5–9 deals</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(232,160,32,0.3)"></div>&lt; 5 deals</div>
+        </div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom:20px;">Top Cities by Deal Volume</div>
+        <div class="heatmap-list">
+          <div class="heatmap-city-row"><span class="city-rank">01</span><span class="city-name">Kraków</span><div class="city-bar-wrap"><div class="city-bar" style="width:100%"></div></div><span class="city-count">11</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">02</span><span class="city-name">Warszawa</span><div class="city-bar-wrap"><div class="city-bar" style="width:80%"></div></div><span class="city-count">8</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">03</span><span class="city-name">Wrocław</span><div class="city-bar-wrap"><div class="city-bar" style="width:75%"></div></div><span class="city-count">9</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">04</span><span class="city-name">Łódź</span><div class="city-bar-wrap"><div class="city-bar" style="width:65%"></div></div><span class="city-count">7</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">05</span><span class="city-name">Poznań</span><div class="city-bar-wrap"><div class="city-bar" style="width:55%"></div></div><span class="city-count">6</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">06</span><span class="city-name">Gdańsk</span><div class="city-bar-wrap"><div class="city-bar" style="width:45%"></div></div><span class="city-count">5</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">07</span><span class="city-name">Katowice</span><div class="city-bar-wrap"><div class="city-bar" style="width:35%"></div></div><span class="city-count">4</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">08</span><span class="city-name">Szczecin</span><div class="city-bar-wrap"><div class="city-bar" style="width:30%"></div></div><span class="city-count">3</span></div>
+        </div>
+        <div style="margin-top:24px;padding:16px;background:var(--navy-light);border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:4px;font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase;">Deal of the Week</div>
+          <div style="font-weight:700;margin-bottom:4px;">Apartment — Kraków</div>
+          <div style="font-size:0.82rem;color:var(--text-muted);">Starting: 364,667 PLN · Discount: <span style="color:var(--green);font-weight:700;">-41%</span> · Score: <span style="color:var(--gold);font-weight:700;">92</span></div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:6px;font-family:var(--font-mono);">Auction in 5 days</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ────────────────────────────────────────────────────────────────── -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:56px;">
+      <div class="label section-eyebrow">Pricing</div>
+      <h2 class="section-title">Find your edge.<br><span class="gold">Start for free.</span></h2>
+      <p class="section-sub">No credit card required. Upgrade or cancel anytime.</p>
+    </div>
+    <div class="pricing-grid">
+      <!-- FREE -->
+      <div class="pricing-card fade-up">
+        <div class="tier-label">Free</div>
+        <div class="tier-price"><span class="currency">€</span>0<span class="period">/mo</span></div>
+        <div class="tier-desc">Get a taste of court auction intelligence. No card needed.</div>
+        <ul class="tier-features">
+          <li><span class="feat-check">✓</span> Top 3 deals daily preview</li>
+          <li><span class="feat-check">✓</span> Deal 1 fully visible</li>
+          <li><span class="feat-check">✓</span> Weekly email digest</li>
+          <li><span class="feat-cross">✗</span> Full dashboard access</li>
+          <li><span class="feat-cross">✗</span> Deal score details</li>
+          <li><span class="feat-cross">✗</span> Filters & search</li>
+        </ul>
+        <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center;">Start Free</a>
+      </div>
+
+      <!-- SPECIALIST — featured -->
+      <div class="pricing-card featured hud-corners fade-up">
+        <div class="popular-badge">Most Popular</div>
+        <div class="tier-label">Specialist</div>
+        <div class="tier-price"><span class="currency">€</span>49<span class="period">/mo</span></div>
+        <div class="tier-desc">Full access for serious individual investors.</div>
+        <ul class="tier-features">
+          <li><span class="feat-check">✓</span> All HOT + GOOD deals</li>
+          <li><span class="feat-check">✓</span> Full deal score breakdown</li>
+          <li><span class="feat-check">✓</span> Discount % + estimated value</li>
+          <li><span class="feat-check">✓</span> Auction countdown timer</li>
+          <li><span class="feat-check">✓</span> City & property type filters</li>
+          <li><span class="feat-check">✓</span> Daily email digest</li>
+        </ul>
+        <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">Choose Specialist</a>
+      </div>
+
+      <!-- PRO -->
+      <div class="pricing-card fade-up">
+        <div class="tier-label">Pro</div>
+        <div class="tier-price"><span class="currency">€</span>149<span class="period">/mo</span></div>
+        <div class="tier-desc">For funds and serious portfolio builders.</div>
+        <ul class="tier-features">
+          <li><span class="feat-check">✓</span> Everything in Specialist</li>
+          <li><span class="feat-check">✓</span> Deposit amounts visible</li>
+          <li><span class="feat-check">✓</span> Early alert (≤3 days)</li>
+          <li><span class="feat-check">✓</span> CSV export</li>
+          <li><span class="feat-check">✓</span> 5 user seats</li>
+          <li><span class="feat-check">✓</span> Priority support</li>
+        </ul>
+        <a href="#" class="btn btn-secondary" style="width:100%;justify-content:center;">Choose Pro</a>
+      </div>
+
+      <!-- INSTITUTIONAL -->
+      <div class="pricing-card fade-up">
+        <div class="tier-label">Institutional</div>
+        <div class="tier-price"><span class="currency">€</span>999<span class="period">/mo</span></div>
+        <div class="tier-desc">API access and custom intelligence for professional firms.</div>
+        <ul class="tier-features">
+          <li><span class="feat-check">✓</span> Full REST API access</li>
+          <li><span class="feat-check">✓</span> Custom alert thresholds</li>
+          <li><span class="feat-check">✓</span> Historical data archive</li>
+          <li><span class="feat-check">✓</span> Bulk JSON/CSV export</li>
+          <li><span class="feat-check">✓</span> White-label reports</li>
+          <li><span class="feat-check">✓</span> Dedicated account manager</li>
+        </ul>
+        <a href="#institutional" class="btn btn-ghost" style="width:100%;justify-content:center;">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSTITUTIONAL ──────────────────────────────────────────────────────────── -->
+<section class="section institutional" id="institutional">
+  <div class="container">
+    <div class="institutional-inner">
+      <div>
+        <div class="inst-eyebrow">Enterprise & Institutional</div>
+        <h2 class="section-title">Auction intelligence<br>for <span class="gold">professional firms</span></h2>
+        <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.7;margin:16px 0 0;">
+          Real estate funds, debt recovery firms, and law firms use intelEstate's institutional tier to monitor the entire Polish court auction market at scale.
+        </p>
+        <div class="inst-features">
+          <div class="inst-feature">
+            <div class="inst-icon">⚡</div>
+            <div>
+              <div class="inst-feature-title">REST API Access</div>
+              <div class="inst-feature-desc">Real-time JSON feed of all auctions, scores, and property data. Integrate directly into your systems.</div>
+            </div>
+          </div>
+          <div class="inst-feature">
+            <div class="inst-icon">🔔</div>
+            <div>
+              <div class="inst-feature-title">Custom Alert Rules</div>
+              <div class="inst-feature-desc">Set thresholds by city, property type, discount %, and deal score. Get notified instantly.</div>
+            </div>
+          </div>
+          <div class="inst-feature">
+            <div class="inst-icon">📊</div>
+            <div>
+              <div class="inst-feature-title">Bulk Data Exports</div>
+              <div class="inst-feature-desc">CSV and JSON exports of full auction database. Historical data archive included.</div>
+            </div>
+          </div>
+          <div class="inst-feature">
+            <div class="inst-icon">🏷️</div>
+            <div>
+              <div class="inst-feature-title">White-Label Reports</div>
+              <div class="inst-feature-desc">Branded PDF reports for client presentations. Custom templates available.</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="mailto:enterprise@intelestate.eu" class="btn btn-primary">Request Demo →</a>
+          <a href="#pricing" class="btn btn-ghost">See Pricing</a>
+        </div>
+      </div>
+      <div class="inst-visual">
+        <div class="api-terminal hud-corners">
+          <div class="api-terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span style="margin-left:8px;">INTELESTATE API · v1.0</span>
+          </div>
+          <div class="api-code">
+            <div><span class="api-comment">// GET /v1/auctions?score_min=85</span></div>
+            <div><span class="api-comment">// Authorization: Bearer YOUR_KEY</span></div>
+            <br>
+            <div>{</div>
+            <div>&nbsp;&nbsp;<span class="api-key">"auctions"</span>: [</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;{</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"id"</span>: <span class="api-str">"KM-1234-24"</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"city"</span>: <span class="api-str">"Kraków"</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"deal_score"</span>: <span class="api-val">92</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"discount_pct"</span>: <span class="api-val">41</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"starting_price"</span>: <span class="api-val">364667</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"estimated_value"</span>: <span class="api-val">618000</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"auction_date"</span>: <span class="api-str">"2026-03-17"</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"property_type"</span>: <span class="api-str">"APARTMENT"</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+            <div>&nbsp;&nbsp;],</div>
+            <div>&nbsp;&nbsp;<span class="api-key">"total"</span>: <span class="api-val">473</span>,</div>
+            <div>&nbsp;&nbsp;<span class="api-key">"hot_deals"</span>: <span class="api-val">18</span></div>
+            <div>}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUST ──────────────────────────────────────────────────────────────────── -->
+<section class="section-sm trust-section">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:8px;">
+      <div class="label">Trusted by property investors and legal professionals across Poland</div>
+    </div>
+    <div class="trust-logos">
+      <div class="trust-logo-item">Kancelaria Nowak</div>
+      <div class="trust-logo-item">PropInvest PL</div>
+      <div class="trust-logo-item">Debt Recovery EU</div>
+      <div class="trust-logo-item">RE Capital Fund</div>
+      <div class="trust-logo-item">LexProperty Sp.</div>
+    </div>
+    <div class="testimonials">
+      <div class="testimonial-card fade-up">
+        <div class="testimonial-quote">
+          "intelEstate surfaced a second-round apartment in Kraków we would have completely missed. We acquired it at 41% below estimated value. The ROI on the subscription is absurd."
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">MK</div>
+          <div>
+            <div class="author-name">Marek Kowalski</div>
+            <div class="author-role">Property Investor, Kraków</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="testimonial-quote">
+          "We track 50+ auctions per month for our fund. The API access and bulk export features save us 20+ hours a week in manual research. Institutional tier is worth every euro."
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">AW</div>
+          <div>
+            <div class="author-name">Anna Wiśniewska</div>
+            <div class="author-role">Fund Manager, Warszawa</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="testimonial-quote">
+          "As a debt recovery firm, court auction intelligence is essential. intelEstate gives us the data advantage we needed. The custom alert system is exactly what we asked for."
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">PZ</div>
+          <div>
+            <div class="author-name">Piotr Zając</div>
+            <div class="author-role">Director, Debt Recovery EU</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ────────────────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:48px;">
+      <div class="label section-eyebrow">FAQ</div>
+      <h2 class="section-title">Common <span class="gold">Questions</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">
+          Where does the auction data come from?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">intelEstate scrapes official Polish court and bailiff (komornik) portals every night. Data is sourced directly from public judicial databases — not third-party aggregators.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          How early do auctions appear in the system?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">New auctions typically appear within 24 hours of being published on court portals. PRO subscribers get early alerts for auctions within 3 days of their date.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          How does the deal scoring algorithm work?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">Each auction is scored 0–100 based on three factors: discount vs estimated value (60% weight), auction round — second rounds are cheaper (20% weight), and urgency — days remaining (20% weight). HOT deals score 85+, GOOD deals score 70–84.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Which regions of Poland are covered?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">Currently we cover all 16 Polish voivodeships, with strongest coverage in Małopolska, Mazowieckie, Dolnośląskie, and Śląskie. EU expansion to Czech Republic and Hungary is planned for 2026.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Can I cancel my subscription anytime?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">Yes — cancel anytime with no penalty. Your subscription remains active until the end of the billing period. No hidden fees, no lock-in contracts.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          What payment methods are accepted?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">All major credit cards, SEPA bank transfer, and PayPal. Institutional customers can request invoice billing with 30-day payment terms.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ───────────────────────────────────────────────────────────────── -->
+<section class="final-cta">
+  <div class="container">
+    <div class="label" style="margin-bottom:16px;">Start Today</div>
+    <h2>Find your next deal<br><span class="gold">before anyone else does</span></h2>
+    <p>Join 1,200+ investors and professionals already using intelEstate.</p>
+    <a href="#pricing" class="btn btn-primary" style="font-size:1.05rem;padding:16px 36px;">
+      Get Free Access Now →
+    </a>
+    <div class="cta-note">
+      <span>✓ No credit card required</span>
+      <span>✓ Free tier forever</span>
+      <span>✓ Cancel anytime</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────────────────── -->
 <footer>
-  <div class="logo">intel<span>Estate</span></div>
-  <div class="fcopy" data-pl="© 2026 intelEstate.pl · intelEstate.eu · Dane z licytacje.komornik.pl" data-en="© 2026 intelEstate.pl · intelEstate.eu · Data from licytacje.komornik.pl">© 2026 intelEstate.pl · intelEstate.eu</div>
-  <div class="flinks">
-    <a href="#" data-pl="Polityka prywatności" data-en="Privacy Policy">Polityka prywatności</a>
-    <a href="#" data-pl="Regulamin" data-en="Terms">Regulamin</a>
-    <a href="/cdn-cgi/l/email-protection#1f777a7373705f76716b7a735a6c6b7e6b7a316f73"><span class="__cf_email__" data-cfemail="1f777a7373705f76716b7a735a6c6b7e6b7a316f73">[email&#160;protected]</span></a>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">intel<span class="gold">Estate</span></div>
+        <p class="footer-tagline">The Bloomberg Terminal for European court property auctions. Scan, score, and act — before the market does.</p>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);letter-spacing:1px;">
+          INTELESTATE.EU · INTELESTATE.PL
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Product</div>
+        <ul class="footer-links">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#deals">Hot Deals</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#how">How It Works</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#institutional">Enterprise</a></li>
+          <li><a href="mailto:hello@intelestate.eu">Contact</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Legal</div>
+        <ul class="footer-links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">GDPR</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 intelEstate. All rights reserved.</span>
+      <span style="display:flex;gap:20px;">
+        <a href="#" style="color:var(--text-muted);text-decoration:none;">Privacy</a>
+        <a href="#" style="color:var(--text-muted);text-decoration:none;">Terms</a>
+        <a href="mailto:hello@intelestate.eu" style="color:var(--text-muted);text-decoration:none;">Contact</a>
+      </span>
+    </div>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-let lang=localStorage.getItem('lang')||'pl';
-const SUPABASE_URL='https://jvtuknygwtonykrccqmd.supabase.co';
-const SUPABASE_ANON_KEY='sb_publishable_5i4ptLiVZmKRo2qn7splZg_-H9QfnNb';
+<!-- Scroll to top -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-function fmt(n){return new Intl.NumberFormat('pl-PL').format(Math.round(n))+' PLN';}
-function fmtK(n){return n>=1000?Math.round(n/1000)+'k':Math.round(n);}
-function daysUntil(d){if(!d)return null;return Math.ceil((new Date(d)-new Date())/86400000);}
-function daysClass(n){if(n===null)return 'gold';return n<=7?'urgent':n<=14?'warn':'gold';}
-function typeEmoji(t){const m={APARTMENT:'🏢',HOUSE:'🏠',LAND:'🌿',COMMERCIAL:'🏪',SHARE:'📄',ROAD_SHARE:'🛤️',OTHER:'🏗️'};return m[t]||'🏗️';}
-function typeName(t){const m={APARTMENT:lang==='pl'?'Mieszkanie':'Apartment',HOUSE:lang==='pl'?'Dom':'House',LAND:lang==='pl'?'Grunt':'Land',COMMERCIAL:lang==='pl'?'Komercyjne':'Commercial',SHARE:lang==='pl'?'Udział':'Share',ROAD_SHARE:lang==='pl'?'Droga':'Road',OTHER:lang==='pl'?'Inne':'Other'};return m[t]||t||'—';}
+<script>
+// ── NAVBAR SCROLL ────────────────────────────────────────────────────────────
+const navbar = document.getElementById('navbar');
+const scrollTopBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+  scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+});
 
-let _liveDeals=[];
+// ── HAMBURGER MENU ───────────────────────────────────────────────────────────
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('open');
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+});
 
-async function loadLiveData(){
-  try{
-    const res=await fetch(
-      `${SUPABASE_URL}/rest/v1/auctions?select=id,source_url,source_id,km_case_number,bailiff_name,auction_date,auction_round,auction_format,starting_price,estimated_value,discount_percent,deal_score,deal_label,days_to_auction,is_second_round,property_type&order=deal_score.desc.nullslast&limit=200`,
-      {headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY}}
-    );
-    const data=await res.json();
-    if(!Array.isArray(data))return;
-    _liveDeals=data;
-
-    // Hero stats
-    const total=data.length;
-    const hot=data.filter(d=>d.deal_label&&d.deal_label.includes('HOT')).length;
-    const withDisc=data.filter(d=>d.discount_percent);
-    const avg=withDisc.length?Math.round(withDisc.reduce((s,d)=>s+d.discount_percent,0)/withDisc.length):0;
-    document.getElementById('stat-total').textContent=total+'+';
-    document.getElementById('stat-hot').textContent=hot;
-    document.getElementById('stat-avg').textContent=avg+'%';
-
-    renderDeals();
-    renderTicker();
-  }catch(e){
-    console.warn('Supabase load failed',e);
-    renderDeals();
-    renderTicker();
-  }
+// ── COUNTER ANIMATIONS ───────────────────────────────────────────────────────
+function animateCounter(el, target, suffix = '') {
+  let start = 0;
+  const duration = 1800;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = Math.floor(start).toLocaleString() + suffix;
+    if (start >= target) clearInterval(timer);
+  }, 16);
 }
 
-function renderDeals(){
-  const top=_liveDeals.filter(d=>d.deal_label&&(d.deal_label.includes('HOT')||d.deal_label.includes('GOOD'))).slice(0,3);
-  if(!top.length){document.getElementById('deals-grid').innerHTML='';return;}
-  document.getElementById('deals-grid').innerHTML=top.map((d,i)=>{
-    const days=d.days_to_auction??daysUntil(d.auction_date);
-    const disc=d.discount_percent?Math.round(d.discount_percent):0;
-    const score=d.deal_score?Math.round(d.deal_score*10)/10:0;
-    const second=d.auction_round===2;
-    const date=d.auction_date?new Date(d.auction_date).toLocaleDateString('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';
-    const km=d.km_case_number||'—';
-    const sid=d.source_id||(d.source_url?d.source_url.split('/').pop():d.id.slice(0,8));
-    return `<div class="deal-card">
-      ${i>0?`<div class="locked-overlay"><div class="lock-text">${lang==='pl'?'Dostępne w planie Pro':'Available in Pro plan'}</div><button class="btn-gold" style="padding:8px 18px;font-size:0.75rem;" onclick="location='#pricing'">${lang==='pl'?'Odblokuj':'Unlock'}</button></div>`:''}
-      <div class="deal-img">${typeEmoji(d.property_type)}
-        <div class="dscore">${score}</div>
-        <div class="dtype ${second?'second':''}">${second?(lang==='pl'?'II Lic.':'2nd'):(lang==='pl'?'I Lic.':'1st')}${d.auction_format&&d.auction_format.toLowerCase().includes('online')?' 💻':''}</div>
-      </div>
-      <div class="deal-body">
-        <div class="deal-title">${typeName(d.property_type)}</div>
-        <div class="deal-loc">📋 ${km}</div>
-        <div class="deal-km" style="font-family:monospace;">${sid}</div>
-        <div class="deal-prices">
-          <div><div class="plabel">${lang==='pl'?'Cena wywołania':'Starting bid'}</div><div class="pval">${d.starting_price?fmt(d.starting_price):'—'}</div></div>
-          <div style="text-align:right"><div class="plabel">${lang==='pl'?'Wartość szacunkowa':'Est. value'}</div><div class="pval-mkt">${d.estimated_value?fmt(d.estimated_value):'—'}</div></div>
-        </div>
-        <div class="deal-metrics">
-          <div class="metric"><div class="mval green">${disc?'-'+disc+'%':'—'}</div><div class="mlabel">${lang==='pl'?'Dyskonto':'Discount'}</div></div>
-          <div class="metric"><div class="mval gold">${score}</div><div class="mlabel">Score</div></div>
-          <div class="metric"><div class="mval ${daysClass(days)}">${days!==null?days+'d':'—'}</div><div class="mlabel">${lang==='pl'?'Dni':'Days'}</div></div>
-          <div class="metric"><div class="mval" style="font-size:0.72rem;color:var(--muted);">${date}</div><div class="mlabel">${lang==='pl'?'Data':'Date'}</div></div>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function renderTicker(){
-  const items=_liveDeals.filter(d=>d.starting_price&&d.discount_percent).slice(0,12);
-  if(!items.length)return;
-  document.getElementById('ticker').innerHTML=[...items,...items].map(d=>`
-    <div class="ticker-item">
-      <span class="tscore">${Math.round(d.deal_score||0)}</span>
-      <span>${d.km_case_number||d.source_id||'—'} · ${typeName(d.property_type)}</span>
-      <span>${lang==='pl'?'od':'from'} ${fmtK(d.starting_price)} PLN</span>
-      <span class="tdisc">-${Math.round(d.discount_percent)}%</span>
-    </div>`).join('');
-}
-async function subscribe(src){
-  const inp=document.getElementById(src+'-email');
-  const email=inp.value.trim();
-  if(!email||!email.includes('@')){inp.style.borderColor='var(--red)';setTimeout(()=>inp.style.borderColor='',1500);return;}
-  const btn=inp.nextElementSibling;
-  btn.disabled=true;
-  try{
-    const res=await fetch(`${SUPABASE_URL}/rest/v1/subscribers`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,'Prefer':'return=minimal'},
-      body:JSON.stringify({email,source:src,lang,created_at:new Date().toISOString()})
-    });
-    if(res.ok||res.status===409){
-      inp.value='';
-      document.getElementById(src+'-success').style.display='block';
-      setTimeout(()=>document.getElementById(src+'-success').style.display='none',4000);
-    } else {
-      inp.style.borderColor='var(--red)';
+// ── INTERSECTION OBSERVER ─────────────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Animate counters when stats bar enters view
+      if (entry.target.classList.contains('stats-bar') || entry.target.closest('.hero-stats')) {
+        document.querySelectorAll('[data-count]').forEach(el => {
+          const target = parseInt(el.dataset.count);
+          const suffix = el.dataset.suffix || '';
+          animateCounter(el, target, suffix);
+        });
+      }
+      observer.unobserve(entry.target);
     }
-  } catch(e){
-    inp.style.borderColor='var(--red)';
-  } finally {
-    btn.disabled=false;
-  }
-}
-function setLang(l){
-  lang=l;localStorage.setItem('lang',l);
-  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
-  document.querySelectorAll('[data-pl]').forEach(el=>{const t=el.getAttribute('data-'+l);if(t)el.innerHTML=t;});
-  document.querySelectorAll('[data-ph-pl]').forEach(el=>{el.placeholder=el.getAttribute('data-ph-'+l)||el.placeholder;});
-  document.querySelector('html').lang=l;
-  renderDeals();
-  renderTicker();
-}
-setLang(lang);
-loadLiveData();
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+document.querySelector('.stats-bar')?.let(el => observer.observe(el));
+document.querySelector('.hero-stats')?.let(el => observer.observe(el));
+
+// Trigger hero counters after short delay
+setTimeout(() => {
+  document.querySelectorAll('.hero-stats [data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    animateCounter(el, target, suffix);
+  });
+}, 800);
+
+// ── FAQ ACCORDION ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// ── SMOOTH SCROLL ─────────────────────────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// Fix for .let() which doesn't exist — run counters on scroll
+const statsBar = document.querySelector('.stats-bar');
+if (statsBar) observer.observe(statsBar);
 </script>
 </body>
 </html>
+<!-- INJECTED: Glow & HUD styles -->
+<style>
+/* ── GLOW ENHANCEMENTS ─────────────────────────────────────────────────────── */
+.hero-terminal,
+.deal-feature-card,
+.pricing-card,
+.inst-feature,
+.testimonial-card,
+.heatmap-city-row,
+.api-terminal {
+  position: relative;
+}
+
+/* Glowing border on hover for key cards */
+.deal-feature-card:hover,
+.pricing-card.featured,
+.inst-feature:hover {
+  box-shadow: 0 0 0 1px rgba(232,160,32,0.4), 0 0 20px rgba(232,160,32,0.1), 0 16px 40px rgba(0,0,0,0.5) !important;
+}
+
+/* Corner bracket decoration */
+.hud-corners {
+  position: relative;
+}
+.hud-corners::before,
+.hud-corners::after {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.6;
+}
+.hud-corners::before {
+  top: -1px; left: -1px;
+  border-width: 2px 0 0 2px;
+}
+.hud-corners::after {
+  bottom: -1px; right: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+/* Gold shimmer on featured pricing card */
+.pricing-card.featured::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(232,160,32,0.05) 0%, transparent 50%, rgba(232,160,32,0.03) 100%);
+  pointer-events: none;
+}
+
+/* Glowing ticker label */
+.ticker-label-box {
+  box-shadow: 2px 0 12px rgba(232,160,32,0.3);
+}
+
+/* Hero background — richer blue glow */
+.hero-bg {
+  background:
+    radial-gradient(ellipse 70% 50% at 65% 45%, rgba(232,160,32,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 10% 80%, rgba(0,80,180,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 90% 10%, rgba(232,160,32,0.04) 0%, transparent 50%),
+    #060A14 !important;
+}
+
+/* Terminal glow */
+.hero-terminal {
+  box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(232,160,32,0.15), 0 0 40px rgba(232,160,32,0.05) !important;
+}
+
+/* API terminal glow */
+.api-terminal {
+  box-shadow: 0 0 0 1px rgba(232,160,32,0.2), 0 0 30px rgba(232,160,32,0.08), 0 20px 60px rgba(0,0,0,0.6);
+  border: 1px solid rgba(232,160,32,0.2) !important;
+}
+
+/* Stats bar subtle top line glow */
+.stats-bar {
+  border-top: 1px solid rgba(232,160,32,0.15);
+  background: linear-gradient(180deg, rgba(232,160,32,0.02) 0%, transparent 100%), var(--navy) !important;
+}
+
+/* Score badge glow */
+.score-badge {
+  box-shadow: 0 0 12px rgba(232,160,32,0.2);
+}
+
+/* Green discount badge glow */
+.discount-badge {
+  box-shadow: 0 0 8px rgba(0,200,150,0.15);
+}
+
+/* Final CTA glow */
+.final-cta::before {
+  background: radial-gradient(ellipse, rgba(232,160,32,0.1) 0%, transparent 70%) !important;
+  width: 800px; height: 400px;
+}
+
+/* Pulse ring animation for map dots */
+@keyframes pulseRing {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0; transform: scale(2); }
+}
+</style>
