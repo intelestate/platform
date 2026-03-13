@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>intelEstate — Pricing & Plans</title>
+<meta name="description" content="Choose the right intelEstate plan. Free preview, Specialist €49/mo, Pro €149/mo, or Institutional €999/mo. Court auction intelligence for Poland.">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy-deep: #060A14;
+  --navy: #0A0E1A;
+  --navy-mid: #0E1422;
+  --navy-light: #121828;
+  --navy-hover: #161E30;
+  --gold: #E8A020;
+  --gold-light: #F0B840;
+  --gold-dim: rgba(232,160,32,0.12);
+  --gold-glow: rgba(232,160,32,0.06);
+  --text-primary: #FFFFFF;
+  --text-muted: #CCCCCC;
+  --green: #00C896;
+  --red: #EF4444;
+  --border: #1A2236;
+  --border-light: #243048;
+  --font-heading: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--navy-deep); color: var(--text-primary); font-family: var(--font-body); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.container-sm { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+.gold { color: var(--gold); }
+.green { color: var(--green); }
+
+/* ── NAVBAR ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(6,10,20,0.92); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; }
+.nav-links { display: flex; gap: 28px; font-size: 0.82rem; color: var(--text-muted); }
+.nav-links a:hover { color: var(--text-primary); }
+.nav-cta { background: var(--gold); color: var(--navy-deep); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px; padding: 8px 18px; border-radius: 4px; }
+.nav-cta:hover { background: var(--gold-light); }
+
+/* ── HERO ── */
+.pricing-hero {
+  padding: 120px 0 64px;
+  text-align: center;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(232,160,32,0.07) 0%, transparent 60%),
+    var(--navy-deep);
+  border-bottom: 1px solid var(--border);
+}
+.eyebrow { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 16px; }
+.pricing-hero h1 { font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.1; margin-bottom: 16px; }
+.pricing-hero p { font-size: 1rem; color: var(--text-muted); max-width: 520px; margin: 0 auto 36px; line-height: 1.7; }
+.billing-toggle { display: inline-flex; gap: 0; background: var(--navy-light); border: 1px solid var(--border); border-radius: 6px; padding: 4px; margin-bottom: 8px; }
+.billing-toggle button { padding: 8px 20px; border: none; border-radius: 4px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--text-muted); font-family: var(--font-body); }
+.billing-toggle button.active { background: var(--gold); color: var(--navy-deep); }
+.save-badge { font-size: 0.72rem; color: var(--green); font-family: var(--font-mono); letter-spacing: 1px; }
+
+/* ── PLAN CARDS ── */
+.plans-section { padding: 64px 0; background: var(--navy-deep); }
+.plans-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: stretch; }
+
+.plan-card {
+  background: var(--navy-light);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px 28px;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.plan-card:hover { border-color: var(--border-light); transform: translateY(-3px); }
+.plan-card.featured {
+  border-color: var(--gold);
+  background: linear-gradient(160deg, #0E1422 0%, #121828 100%);
+  box-shadow: 0 0 40px rgba(232,160,32,0.12), 0 0 0 1px var(--gold);
+  transform: scale(1.03);
+}
+.plan-card.featured:hover { transform: scale(1.03) translateY(-3px); }
+.plan-card.enterprise { border-color: var(--border-light); }
+
+.popular-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: var(--navy-deep);
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  padding: 4px 14px; border-radius: 20px; white-space: nowrap;
+}
+.plan-name { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+.plan-card.featured .plan-name { color: var(--gold); }
+.plan-price { font-family: var(--font-heading); font-size: 2.6rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+.plan-price .currency { font-size: 1.3rem; vertical-align: super; margin-right: 2px; color: var(--gold); }
+.plan-period { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px; }
+.plan-annual { font-size: 0.72rem; color: var(--green); font-family: var(--font-mono); min-height: 18px; margin-bottom: 16px; }
+.plan-tagline { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); min-height: 60px; }
+.plan-cta { display: block; text-align: center; padding: 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 28px; transition: all 0.2s; }
+.plan-cta.gold-btn { background: var(--gold); color: var(--navy-deep); }
+.plan-cta.gold-btn:hover { background: var(--gold-light); }
+.plan-cta.outline-btn { border: 1px solid var(--border-light); color: var(--text-primary); }
+.plan-cta.outline-btn:hover { border-color: var(--gold); color: var(--gold); }
+.plan-cta.ghost-btn { border: 1px solid var(--border); color: var(--text-muted); }
+.plan-cta.ghost-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
+
+.feat-group-label { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin: 20px 0 10px; opacity: 0.7; }
+.feat-group-label:first-child { margin-top: 0; }
+.feat-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.feat-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.83rem; line-height: 1.4; }
+.feat-list li .check { color: var(--green); flex-shrink: 0; margin-top: 1px; font-size: 0.8rem; }
+.feat-list li .cross { color: var(--border-light); flex-shrink: 0; margin-top: 1px; font-size: 0.8rem; }
+.feat-list li .cross + span { color: var(--text-muted); opacity: 0.5; }
+.feat-note { font-size: 0.72rem; color: var(--text-muted); opacity: 0.6; margin-left: 20px; display: block; margin-top: 2px; }
+
+/* ── COMPARISON TABLE ── */
+.compare-section { padding: 80px 0; background: var(--navy); }
+.compare-section h2 { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; text-align: center; margin-bottom: 48px; }
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table th { padding: 14px 20px; text-align: center; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+.compare-table th.active { color: var(--gold); }
+.compare-table th.tier-col { font-size: 0.85rem; font-family: var(--font-heading); font-weight: 700; }
+.compare-table td { padding: 13px 20px; border-bottom: 1px solid var(--border); font-size: 0.85rem; text-align: center; }
+.compare-table td:first-child { text-align: left; color: var(--text-muted); font-size: 0.83rem; }
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table .section-row td { background: var(--navy-light); font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); padding: 10px 20px; }
+.compare-table .section-row td:first-child { text-align: left; }
+.compare-table tbody tr:hover td { background: rgba(232,160,32,0.02); }
+.check-yes { color: var(--green); font-size: 1rem; }
+.check-no { color: var(--border-light); font-size: 0.9rem; }
+.check-partial { color: var(--gold); font-size: 0.75rem; }
+.featured-col { background: rgba(232,160,32,0.04); }
+
+/* ── FAQ ── */
+.faq-section { padding: 80px 0; background: var(--navy-deep); }
+.faq-section h2 { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; text-align: center; margin-bottom: 12px; }
+.faq-section .sub { text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 48px; }
+.faq-tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+.faq-tab { padding: 7px 18px; border: 1px solid var(--border); border-radius: 20px; font-size: 0.78rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--text-muted); font-family: var(--font-body); }
+.faq-tab.active, .faq-tab:hover { border-color: var(--gold); color: var(--gold); }
+.faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.faq-item { background: var(--navy-light); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.faq-q { padding: 18px 20px; font-size: 0.88rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.faq-q:hover { color: var(--gold); }
+.faq-icon { color: var(--gold); font-size: 1rem; flex-shrink: 0; transition: transform 0.2s; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a { display: none; padding: 0 20px 18px; font-size: 0.83rem; color: var(--text-muted); line-height: 1.7; border-top: 1px solid var(--border); padding-top: 14px; }
+.faq-item.open .faq-a { display: block; }
+
+/* ── TRUST BAR ── */
+.trust-bar { padding: 40px 0; background: var(--navy); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.trust-bar-inner { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.trust-stat { text-align: center; }
+.trust-stat .num { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 800; color: var(--gold); }
+.trust-stat .lbl { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+.trust-divider { width: 1px; height: 36px; background: var(--border); }
+
+/* ── ENTERPRISE BANNER ── */
+.enterprise-banner {
+  margin: 0; padding: 64px 0;
+  background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy-mid) 100%);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.enterprise-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+.enterprise-inner h3 { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+.enterprise-inner p { font-size: 0.9rem; color: var(--text-muted); max-width: 480px; line-height: 1.7; }
+.enterprise-ctas { display: flex; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+
+/* ── FOOTER ── */
+footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid var(--border); }
+.footer-simple { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-logo { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; }
+.footer-links-simple { display: flex; gap: 24px; font-size: 0.8rem; color: var(--text-muted); }
+.footer-links-simple a:hover { color: var(--gold); }
+.footer-copy { font-size: 0.75rem; color: var(--text-muted); }
+
+/* ── BUTTONS ── */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 5px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; border: none; font-family: var(--font-body); }
+.btn-primary { background: var(--gold); color: var(--navy-deep); }
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+.btn-ghost { border: 1px solid var(--border-light); color: var(--text-primary); background: transparent; }
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── ANIMATIONS ── */
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) {
+  .plans-grid { grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .plan-card.featured { transform: none; }
+}
+@media (max-width: 700px) {
+  .plans-grid { grid-template-columns: 1fr; }
+  .faq-grid { grid-template-columns: 1fr; }
+  .compare-section { overflow-x: auto; }
+  .trust-divider { display: none; }
+  .enterprise-inner { flex-direction: column; }
+  .nav-links { display: none; }
+  .footer-simple { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav>
+  <a href="index.html" class="nav-logo">intel<span class="gold">Estate</span></a>
+  <div class="nav-links">
+    <a href="index.html#deals">Hot Deals</a>
+    <a href="index.html#how">How It Works</a>
+    <a href="pricing.html" style="color:#fff;">Pricing</a>
+    <a href="index.html#institutional">Enterprise</a>
+    <a href="dashboard.html">Dashboard</a>
+  </div>
+  <a href="#" class="nav-cta">Get Free Access</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="pricing-hero">
+  <div class="container">
+    <div class="eyebrow">Transparent Pricing</div>
+    <h1>Intelligence that pays<br>for itself <span class="gold">on the first deal</span></h1>
+    <p>One HOT deal acquired at 35% below market value returns your annual subscription many times over. Choose the plan that fits your investment strategy.</p>
+    <div class="billing-toggle">
+      <button class="active" id="btnMonthly" onclick="setBilling('monthly')">Monthly</button>
+      <button id="btnAnnual" onclick="setBilling('annual')">Annual</button>
+    </div>
+    <br>
+    <span class="save-badge" id="saveBadge" style="display:none;">Save 20% — 2 months free</span>
+  </div>
+</section>
+
+<!-- ── TRUST BAR ── -->
+<div class="trust-bar">
+  <div class="container">
+    <div class="trust-bar-inner">
+      <div class="trust-stat"><div class="num">473+</div><div class="lbl">Auctions Monitored</div></div>
+      <div class="trust-divider"></div>
+      <div class="trust-stat"><div class="num">33%</div><div class="lbl">Avg Discount</div></div>
+      <div class="trust-divider"></div>
+      <div class="trust-stat"><div class="num">18</div><div class="lbl">HOT Deals Today</div></div>
+      <div class="trust-divider"></div>
+      <div class="trust-stat"><div class="num">06:00</div><div class="lbl">Daily Briefing</div></div>
+      <div class="trust-divider"></div>
+      <div class="trust-stat"><div class="num">16</div><div class="lbl">Voivodeships Covered</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PLAN CARDS ── -->
+<section class="plans-section" id="plans">
+  <div class="container">
+    <div class="plans-grid">
+
+      <!-- FREE -->
+      <div class="plan-card fade-up">
+        <div class="plan-name">Free</div>
+        <div class="plan-price"><span class="currency">€</span><span class="price-val" data-monthly="0" data-annual="0">0</span></div>
+        <div class="plan-period">forever free</div>
+        <div class="plan-annual">&nbsp;</div>
+        <div class="plan-tagline">Preview the market. See if intelEstate is right for your investment strategy before committing.</div>
+        <a href="#" class="plan-cta ghost-btn">Start Free — No Card Required</a>
+
+        <div class="feat-group-label">What You Get</div>
+        <ul class="feat-list">
+          <li><span class="check">✓</span><span>Top 3 deal previews daily<span class="feat-note">Deal 1 fully visible, deals 2–3 blurred</span></span></li>
+          <li><span class="check">✓</span><span>Deal score visible for Deal 1<span class="feat-note">Scores 2–3 hidden</span></span></li>
+          <li><span class="check">✓</span><span>Property type &amp; city visible</span></li>
+          <li><span class="check">✓</span><span>Weekly email digest<span class="feat-note">Top 3 deals only</span></span></li>
+        </ul>
+
+        <div class="feat-group-label">Not Included</div>
+        <ul class="feat-list">
+          <li><span class="cross">✗</span><span>Full dashboard access</span></li>
+          <li><span class="cross">✗</span><span>Discount % &amp; estimated value</span></li>
+          <li><span class="cross">✗</span><span>Filters &amp; search</span></li>
+          <li><span class="cross">✗</span><span>Daily email digest</span></li>
+        </ul>
+      </div>
+
+      <!-- SPECIALIST -->
+      <div class="plan-card featured fade-up">
+        <div class="popular-badge">Most Popular</div>
+        <div class="plan-name">Specialist</div>
+        <div class="plan-price"><span class="currency">€</span><span class="price-val" data-monthly="49" data-annual="39">49</span></div>
+        <div class="plan-period">per month</div>
+        <div class="plan-annual" id="annual-specialist">&nbsp;</div>
+        <div class="plan-tagline">Full access for serious individual investors. Everything you need to identify and act on the best court auction deals in Poland.</div>
+        <a href="#" class="plan-cta gold-btn">Start Specialist — €49/mo</a>
+
+        <div class="feat-group-label">Dashboard Access</div>
+        <ul class="feat-list">
+          <li><span class="check">✓</span><span>All HOT deals (score 85+)<span class="feat-note">Full data, unblurred</span></span></li>
+          <li><span class="check">✓</span><span>All GOOD deals (score 70–84)</span></li>
+          <li><span class="check">✓</span><span>Full deal score breakdown<span class="feat-note">Discount depth, round, urgency weights</span></span></li>
+          <li><span class="check">✓</span><span>Discount % vs estimated value</span></li>
+          <li><span class="check">✓</span><span>Auction countdown timer</span></li>
+          <li><span class="check">✓</span><span>Court &amp; bailiff (komornik) name</span></li>
+        </ul>
+
+        <div class="feat-group-label">Filtering &amp; Search</div>
+        <ul class="feat-list">
+          <li><span class="check">✓</span><span>Filter by city &amp; voivodeship</span></li>
+          <li><span class="check">✓</span><span>Filter by property type</span></li>
+          <li><span class="check">✓</span><span>Filter by discount % range</span></li>
+          <li><span class="check">✓</span><span>Filter by auction round (1st/2nd)</span></li>
+        </ul>
+
+        <div class="feat-group-label">Daily Intelligence</div>
+        <ul class="feat-list">
+          <li><span class="check">✓</span><span>Daily email digest at 06:00<span class="feat-note">All HOT + GOOD deals ranked by score</span></span></li>
+          <li><span class="check">✓</span><span>Urgent deal alerts (≤7 days)</span></li>
+        </ul>
+      </div>
+
+      <!-- PRO -->
+      <div class="plan-card fade-up">
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><span class="currency">€</span><span class="price-val" data-monthly="149" data-annual="119">149</span></div>
+        <div class="plan-period">per month</div>
+        <div class="plan-annual" id="annual-pro">&nbsp;</div>
+        <div class="plan-tagline">For portfolio builders, small funds, and serious investors who need early access, deeper data, and team collaboration.</div>
+        <a href="#" class="plan-cta outline-btn">Start Pro — €149/mo</a>
+
+        <div class="feat-group-label">Everything in Specialist, plus</div>
+        <ul class="feat-list">
+          <li><span class="check">✓</span><span>Deposit amount visible<span class="feat-note">Required to participate in auctions</span></span></li>
+          <li><span class="check">✓</span><span>Early alert — 24–48h before listing<span class="feat-note">Act before other investors see the deal</span></span></li>
+          <li><span class="check">✓</span><span>CSV export<span class="feat-note">Full auction dataset, filterable</span></span></li>
+          <li><span class="check">✓</span><span>5 user seats<span class="feat-note">Share with your investment team</span></span></li>
+          <li><span class="check">✓</span><span>Priority support<span class="feat-note">Response within 4 hours</span></span></li>
+          <li><span class="check">✓</span><span>Market avg discount benchmark<span class="feat-note">See how each deal compares to market</span></span></li>
+        </ul>
+
+        <div class="feat-group-label">Coming Soon</div>
+        <ul class="feat-list">
+          <li><span class="check" style="color:var(--gold);">◎</span><span style="color:var(--text-muted);">Watchlist &amp; saved deals</span></li>
+          <li><span class="check" style="color:var(--gold);">◎</span><span style="color:var(--text-muted);">Deal annotation &amp; notes</span></li>
+        </ul>
+      </div>
+
+      <!-- INSTITUTIONAL -->
+      <div class="plan-card enterprise fade-up">
+        <div class="plan-name" style="color:var(--gold);">Institutional</div>
+        <div class="plan-price"><span class="currency">€</span><span class="price-val" data-monthly="999" data-annual="799">999</span></div>
+        <div class="plan-period">per month</div>
+        <div class="plan-annual" id="annual-institutional">&nbsp;</div>
+        <div class="plan-tagline">Full programmatic access for real estate funds, debt recovery firms, and law firms operating at scale across Poland.</div>
+        <a href="mailto:enterprise@intelestate.eu?subject=Institutional Demo Request" class="plan-cta outline-btn">Request Institutional Demo →</a>
+
+        <div class="feat-group-label">Everything in Pro, plus</div>
+        <ul class="feat-list">
+          <li><span class="check">✓</span><span>Full REST API access<span class="feat-note">Real-time JSON feed, all fields</span></span></li>
+          <li><span class="check">✓</span><span>Custom alert rules via webhook<span class="feat-note">Trigger by city, score, discount %, type</span></span></li>
+          <li><span class="check">✓</span><span>Historical data archive<span class="feat-note">All auctions since platform launch</span></span></li>
+          <li><span class="check">✓</span><span>Bulk JSON &amp; CSV export</span></li>
+          <li><span class="check">✓</span><span>White-label PDF reports<span class="feat-note">Branded for client presentations</span></span></li>
+          <li><span class="check">✓</span><span>Unlimited user seats</span></li>
+          <li><span class="check">✓</span><span>Dedicated account manager</span></li>
+          <li><span class="check">✓</span><span>SLA &amp; invoice billing<span class="feat-note">30-day payment terms available</span></span></li>
+        </ul>
+
+        <div class="feat-group-label">API Endpoints</div>
+        <ul class="feat-list">
+          <li><span class="check" style="color:var(--gold);font-family:var(--font-mono);font-size:0.7rem;">GET</span><span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">/v1/auctions</span></li>
+          <li><span class="check" style="color:var(--gold);font-family:var(--font-mono);font-size:0.7rem;">GET</span><span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">/v1/auctions/:id</span></li>
+          <li><span class="check" style="color:#F97316;font-family:var(--font-mono);font-size:0.7rem;">POST</span><span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">/v1/alerts</span></li>
+          <li><span class="check" style="color:var(--gold);font-family:var(--font-mono);font-size:0.7rem;">GET</span><span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">/v1/export</span></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Guarantee strip -->
+    <div style="text-align:center;margin-top:40px;padding:20px;background:var(--navy-light);border:1px solid var(--border);border-radius:8px;">
+      <span style="font-size:0.85rem;color:var(--text-muted);">🔒 <strong style="color:var(--text-primary);">No contracts. Cancel anytime.</strong> &nbsp;·&nbsp; All paid plans include a 14-day money-back guarantee. &nbsp;·&nbsp; Data sourced from official Polish judicial portals.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── COMPARISON TABLE ── -->
+<section class="compare-section">
+  <div class="container">
+    <h2>Full Feature <span class="gold">Comparison</span></h2>
+    <div style="overflow-x:auto;">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;width:36%;">Feature</th>
+          <th>Free</th>
+          <th class="active tier-col featured-col">Specialist</th>
+          <th>Pro</th>
+          <th>Institutional</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-row"><td colspan="5">Dashboard & Data Access</td></tr>
+        <tr>
+          <td>Deal previews per day</td>
+          <td>3 (blurred)</td>
+          <td class="featured-col">All deals</td>
+          <td>All deals</td>
+          <td>All deals + API</td>
+        </tr>
+        <tr>
+          <td>Deal score (0–100)</td>
+          <td><span class="check-partial">Deal 1 only</span></td>
+          <td class="featured-col"><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>Discount % vs estimated value</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>Deposit amount required</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-no">–</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>Bailiff (komornik) contact</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>Auction round (1st / 2nd)</td>
+          <td><span class="check-yes">✓</span></td>
+          <td class="featured-col"><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>Market avg discount benchmark</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-no">–</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+
+        <tr class="section-row"><td colspan="5">Filtering & Search</td></tr>
+        <tr>
+          <td>City & voivodeship filter</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>Property type filter</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>Discount % range filter</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>Auction round filter</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+
+        <tr class="section-row"><td colspan="5">Alerts & Intelligence Delivery</td></tr>
+        <tr>
+          <td>Daily email digest (06:00)</td>
+          <td><span class="check-partial">Weekly, top 3</span></td>
+          <td class="featured-col"><span class="check-yes">✓</span> Daily, all deals</td>
+          <td><span class="check-yes">✓</span> Daily, all deals</td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>Early alert (24–48h before listing)</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-no">–</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>Custom alert rules (webhook)</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-no">–</span></td>
+          <td><span class="check-no">–</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+
+        <tr class="section-row"><td colspan="5">Export & API</td></tr>
+        <tr>
+          <td>CSV export</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-no">–</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>REST API access</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-no">–</span></td>
+          <td><span class="check-no">–</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>Historical data archive</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-no">–</span></td>
+          <td><span class="check-no">–</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>White-label PDF reports</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-no">–</span></td>
+          <td><span class="check-no">–</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+
+        <tr class="section-row"><td colspan="5">Team & Support</td></tr>
+        <tr>
+          <td>User seats</td>
+          <td>1</td>
+          <td class="featured-col">1</td>
+          <td>5</td>
+          <td>Unlimited</td>
+        </tr>
+        <tr>
+          <td>Support</td>
+          <td>Email</td>
+          <td class="featured-col">Email</td>
+          <td>Priority (4h)</td>
+          <td>Dedicated manager</td>
+        </tr>
+        <tr>
+          <td>SLA &amp; invoice billing</td>
+          <td><span class="check-no">–</span></td>
+          <td class="featured-col"><span class="check-no">–</span></td>
+          <td><span class="check-no">–</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+
+        <tr style="border-top:2px solid var(--border);">
+          <td style="padding-top:20px;font-weight:700;color:var(--text-primary);">Monthly price</td>
+          <td style="padding-top:20px;font-weight:700;">€0</td>
+          <td class="featured-col" style="padding-top:20px;font-weight:700;color:var(--gold);">€49</td>
+          <td style="padding-top:20px;font-weight:700;">€149</td>
+          <td style="padding-top:20px;font-weight:700;">€999</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><a href="#" style="font-size:0.78rem;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:2px;">Start Free</a></td>
+          <td class="featured-col"><a href="#" class="btn btn-primary" style="padding:8px 16px;font-size:0.78rem;display:inline-flex;">Choose Specialist →</a></td>
+          <td><a href="#" style="font-size:0.78rem;color:var(--gold);border-bottom:1px solid var(--gold);padding-bottom:2px;">Choose Pro</a></td>
+          <td><a href="mailto:enterprise@intelestate.eu" style="font-size:0.78rem;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:2px;">Contact Sales</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="faq-section">
+  <div class="container-sm">
+    <h2>Frequently Asked <span class="gold">Questions</span></h2>
+    <p class="sub">Everything you need to know before subscribing.</p>
+
+    <div class="faq-tabs">
+      <button class="faq-tab active" onclick="filterFaq('all', this)">All</button>
+      <button class="faq-tab" onclick="filterFaq('general', this)">General</button>
+      <button class="faq-tab" onclick="filterFaq('data', this)">Data & Scoring</button>
+      <button class="faq-tab" onclick="filterFaq('billing', this)">Billing</button>
+      <button class="faq-tab" onclick="filterFaq('api', this)">API & Enterprise</button>
+    </div>
+
+    <div class="faq-grid" id="faqGrid">
+
+      <div class="faq-item" data-cat="general">
+        <div class="faq-q" onclick="toggleFaq(this)">Where does the auction data come from? <span class="faq-icon">+</span></div>
+        <div class="faq-a">intelEstate sources data exclusively from official Polish judicial portals — the same government-operated databases used by courts and certified bailiffs (komornicy). Data is not scraped from secondary aggregators or third-party sites. This ensures legal compliance and data accuracy.</div>
+      </div>
+
+      <div class="faq-item" data-cat="general">
+        <div class="faq-q" onclick="toggleFaq(this)">How often is the data updated? <span class="faq-icon">+</span></div>
+        <div class="faq-a">The auction database is updated nightly. New listings discovered each day are processed, scored, and available in your dashboard the following morning. The 06:00 daily digest includes all new deals added overnight, scored and ranked before most investors start their day.</div>
+      </div>
+
+      <div class="faq-item" data-cat="data">
+        <div class="faq-q" onclick="toggleFaq(this)">How does the deal scoring algorithm work? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Each auction is scored 0–100 using three weighted factors: Discount depth (60%) — the difference between starting price and estimated market value; Auction round (20%) — second-round auctions score higher because they have deeper discounts and fewer bidders; Time urgency (20%) — auctions with fewer days remaining score higher. HOT deals score 85+, GOOD deals score 70–84.</div>
+      </div>
+
+      <div class="faq-item" data-cat="data">
+        <div class="faq-q" onclick="toggleFaq(this)">What is a second-round auction and why does it matter? <span class="faq-icon">+</span></div>
+        <div class="faq-a">In Poland's court auction system, if a first-round auction receives no bids, the property proceeds to a second round at a lower starting price — typically two-thirds of the estimated value. Second-round auctions often have fewer bidders and deeper discounts, making them the highest-opportunity listings on the platform. intelEstate flags these automatically.</div>
+      </div>
+
+      <div class="faq-item" data-cat="data">
+        <div class="faq-q" onclick="toggleFaq(this)">What is a deposit amount and why is it PRO-only? <span class="faq-icon">+</span></div>
+        <div class="faq-a">To participate in a court auction in Poland, bidders must submit a deposit (usually 10% of the starting price) before the auction date. This is critical planning information — you need to have the cash available before the auction. Deposit amounts are included in the PRO tier as part of deeper due diligence data.</div>
+      </div>
+
+      <div class="faq-item" data-cat="data">
+        <div class="faq-q" onclick="toggleFaq(this)">How accurate are the estimated property values? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Estimated values come directly from court-appointed appraisers (rzeczoznawcy majątkowi) — certified valuators required by Polish law. These are formal, legally-backed appraisals, not automated estimates. This is one of the key advantages of court auction data: the valuations are professional and auditable.</div>
+      </div>
+
+      <div class="faq-item" data-cat="billing">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I cancel at any time? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes. All plans are month-to-month with no long-term contract required. You can cancel at any time from your account settings and you'll retain access until the end of your current billing period. No cancellation fees.</div>
+      </div>
+
+      <div class="faq-item" data-cat="billing">
+        <div class="faq-q" onclick="toggleFaq(this)">Is there a money-back guarantee? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes. All paid plans include a 14-day money-back guarantee. If you're not satisfied within the first 14 days, contact support@intelestate.eu for a full refund — no questions asked.</div>
+      </div>
+
+      <div class="faq-item" data-cat="billing">
+        <div class="faq-q" onclick="toggleFaq(this)">What payment methods are accepted? <span class="faq-icon">+</span></div>
+        <div class="faq-a">All major credit and debit cards (Visa, Mastercard), SEPA bank transfer, and PayPal. Institutional customers can request invoice billing with 30-day payment terms. All payments are processed securely and your card details are never stored on our servers.</div>
+      </div>
+
+      <div class="faq-item" data-cat="billing">
+        <div class="faq-q" onclick="toggleFaq(this)">How does annual billing work? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Annual billing is charged once per year at a 20% discount (equivalent to 2 months free). Specialist annual is €39/mo (€468/yr), Pro annual is €119/mo (€1,428/yr). You can switch between monthly and annual billing at any renewal date.</div>
+      </div>
+
+      <div class="faq-item" data-cat="api">
+        <div class="faq-q" onclick="toggleFaq(this)">What does the REST API provide? <span class="faq-icon">+</span></div>
+        <div class="faq-a">The Institutional API provides real-time JSON access to the full auction database. Key endpoints: GET /v1/auctions (list all, filterable by score, city, property type, discount), GET /v1/auctions/:id (full detail including deposit, bailiff, documents), POST /v1/alerts (custom webhook triggers), GET /v1/export (bulk CSV/JSON). Rate limits and full API documentation provided on request.</div>
+      </div>
+
+      <div class="faq-item" data-cat="api">
+        <div class="faq-q" onclick="toggleFaq(this)">Is there a minimum commitment for Institutional? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Institutional plans are available monthly or annually. We also offer custom contracts for multi-year commitments or white-label arrangements. Contact enterprise@intelestate.eu to discuss your requirements. Most institutional clients start with a 30-day pilot period before committing annually.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── ENTERPRISE BANNER ── -->
+<section class="enterprise-banner">
+  <div class="container">
+    <div class="enterprise-inner">
+      <div>
+        <div class="eyebrow" style="text-align:left;margin-bottom:12px;">For Funds & Professional Firms</div>
+        <h3>Need a custom solution?<br><span class="gold">Let's talk.</span></h3>
+        <p>Real estate funds, debt recovery firms, and law firms operating at scale get custom pricing, dedicated support, white-label options, and API access tailored to your acquisition pipeline.</p>
+      </div>
+      <div class="enterprise-ctas">
+        <a href="mailto:enterprise@intelestate.eu?subject=Institutional Demo Request" class="btn btn-primary">Request Institutional Demo →</a>
+        <a href="index.html#institutional" class="btn btn-ghost">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-simple">
+      <div class="footer-logo">intel<span class="gold">Estate</span></div>
+      <div class="footer-links-simple">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="index.html#institutional">Enterprise</a>
+        <a href="mailto:hello@intelestate.eu">Contact</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+      <div class="footer-copy">© 2026 intelEstate · Court Auction Intelligence · Poland</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── BILLING TOGGLE ──
+let billing = 'monthly';
+function setBilling(mode) {
+  billing = mode;
+  document.getElementById('btnMonthly').classList.toggle('active', mode === 'monthly');
+  document.getElementById('btnAnnual').classList.toggle('active', mode === 'annual');
+  document.getElementById('saveBadge').style.display = mode === 'annual' ? 'inline' : 'none';
+
+  document.querySelectorAll('.price-val').forEach(el => {
+    el.textContent = mode === 'annual' ? el.dataset.annual : el.dataset.monthly;
+  });
+
+  const annualNotes = {
+    'annual-specialist': 'Billed €468/yr — save €120',
+    'annual-pro': 'Billed €1,428/yr — save €360',
+    'annual-institutional': 'Billed €9,588/yr — save €2,400'
+  };
+  ['annual-specialist','annual-pro','annual-institutional'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = mode === 'annual' ? annualNotes[id] : '\u00a0';
+  });
+
+  // Update CTA text
+  const ctaMap = {
+    monthly: ['Start Specialist — €49/mo', 'Start Pro — €149/mo'],
+    annual:  ['Start Specialist — €39/mo', 'Start Pro — €119/mo']
+  };
+}
+
+// ── FAQ TOGGLE ──
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  item.classList.toggle('open');
+}
+
+// ── FAQ FILTER ──
+function filterFaq(cat, btn) {
+  document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+
+// ── FADE UP ANIMATIONS ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
