@@ -83,6 +83,7 @@ nav {
   transition: border-color 0.2s, transform 0.2s;
   display: flex;
   flex-direction: column;
+  min-height: 620px;
 }
 .plan-card:hover { border-color: var(--border-light); transform: translateY(-3px); }
 .plan-card.featured {
@@ -110,12 +111,12 @@ nav {
 .plan-cta { display: block; text-align: center; padding: 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 28px; transition: all 0.2s; }
 .plan-cta.gold-btn { background: var(--gold); color: var(--navy-deep); }
 .plan-cta.gold-btn:hover { background: var(--gold-light); }
-.plan-cta.outline-btn { border: 1px solid var(--border-light); color: var(--text-primary); }
-.plan-cta.outline-btn:hover { border-color: var(--gold); color: var(--gold); }
+.plan-cta.outline-btn { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+.plan-cta.outline-btn:hover { background: rgba(232,160,32,0.08); transform: translateY(-1px); }
 .plan-cta.ghost-btn { border: 1px solid var(--border); color: var(--text-muted); }
 .plan-cta.ghost-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
 
-.feat-group-label { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin: 20px 0 10px; opacity: 0.7; }
+.feat-group-label { font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin: 20px 0 10px; opacity: 0.7; }
 .feat-group-label:first-child { margin-top: 0; }
 .feat-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
 .feat-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.83rem; line-height: 1.4; }
@@ -198,7 +199,7 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
 
 /* ── RESPONSIVE ── */
 @media (max-width: 1100px) {
-  .plans-grid { grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .plans-grid { grid-template-columns: 1fr 1fr; }
   .plan-card.featured { transform: none; }
 }
 @media (max-width: 700px) {
@@ -271,7 +272,6 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
         <div class="plan-period">forever free</div>
         <div class="plan-annual">&nbsp;</div>
         <div class="plan-tagline">Preview the market. See if intelEstate is right for your investment strategy before committing.</div>
-        <a href="#" class="plan-cta ghost-btn">Start Free — No Card Required</a>
 
         <div class="feat-group-label">What You Get</div>
         <ul class="feat-list">
@@ -288,6 +288,8 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
           <li><span class="cross">✗</span><span>Filters &amp; search</span></li>
           <li><span class="cross">✗</span><span>Daily email digest</span></li>
         </ul>
+
+        <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--border);"><a href="#" class="plan-cta outline-btn">Start Free — No Card Required</a></div>
       </div>
 
       <!-- SPECIALIST -->
@@ -298,7 +300,6 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
         <div class="plan-period">per month</div>
         <div class="plan-annual" id="annual-specialist">&nbsp;</div>
         <div class="plan-tagline">Full access for serious individual investors. Everything you need to identify and act on the best court auction deals in Poland.</div>
-        <a href="#" class="plan-cta gold-btn">Start Specialist — €49/mo</a>
 
         <div class="feat-group-label">Dashboard Access</div>
         <ul class="feat-list">
@@ -323,6 +324,8 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
           <li><span class="check">✓</span><span>Daily email digest at 06:00<span class="feat-note">All HOT + GOOD deals ranked by score</span></span></li>
           <li><span class="check">✓</span><span>Urgent deal alerts (≤7 days)</span></li>
         </ul>
+
+        <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--border);"><a href="#" class="plan-cta outline-btn">Start Specialist — €49/mo</a></div>
       </div>
 
       <!-- PRO -->
@@ -332,7 +335,6 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
         <div class="plan-period">per month</div>
         <div class="plan-annual" id="annual-pro">&nbsp;</div>
         <div class="plan-tagline">For portfolio builders, small funds, and serious investors who need early access, deeper data, and team collaboration.</div>
-        <a href="#" class="plan-cta outline-btn">Start Pro — €149/mo</a>
 
         <div class="feat-group-label">Everything in Specialist, plus</div>
         <ul class="feat-list">
@@ -349,6 +351,8 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
           <li><span class="check" style="color:var(--gold);">◎</span><span style="color:var(--text-muted);">Watchlist &amp; saved deals</span></li>
           <li><span class="check" style="color:var(--gold);">◎</span><span style="color:var(--text-muted);">Deal annotation &amp; notes</span></li>
         </ul>
+
+        <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--border);"><a href="#" class="plan-cta outline-btn">Start Pro — €149/mo</a></div>
       </div>
 
       <!-- INSTITUTIONAL -->
@@ -358,7 +362,6 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
         <div class="plan-period">per month</div>
         <div class="plan-annual" id="annual-institutional">&nbsp;</div>
         <div class="plan-tagline">Full programmatic access for real estate funds, debt recovery firms, and law firms operating at scale across Poland.</div>
-        <a href="mailto:enterprise@intelestate.eu?subject=Institutional Demo Request" class="plan-cta outline-btn">Request Institutional Demo →</a>
 
         <div class="feat-group-label">Everything in Pro, plus</div>
         <ul class="feat-list">
@@ -379,6 +382,8 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
           <li><span class="check" style="color:#F97316;font-family:var(--font-mono);font-size:0.7rem;">POST</span><span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">/v1/alerts</span></li>
           <li><span class="check" style="color:var(--gold);font-family:var(--font-mono);font-size:0.7rem;">GET</span><span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">/v1/export</span></li>
         </ul>
+
+        <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--border);"><a href="/cdn-cgi/l/email-protection#6d080319081f1d1f041e082d0403190801081e190c1908430818521e180f07080e195024031e19041918190402030c014d290800024d3f081c18081e19" class="plan-cta outline-btn">Request Institutional Demo →</a></div>
       </div>
 
     </div>
@@ -575,7 +580,7 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
           <td><a href="#" style="font-size:0.78rem;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:2px;">Start Free</a></td>
           <td class="featured-col"><a href="#" class="btn btn-primary" style="padding:8px 16px;font-size:0.78rem;display:inline-flex;">Choose Specialist →</a></td>
           <td><a href="#" style="font-size:0.78rem;color:var(--gold);border-bottom:1px solid var(--gold);padding-bottom:2px;">Choose Pro</a></td>
-          <td><a href="mailto:enterprise@intelestate.eu" style="font-size:0.78rem;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:2px;">Contact Sales</a></td>
+          <td><a href="/cdn-cgi/l/email-protection#7c191208190e0c0e150f193c1512081910190f081d0819521909" style="font-size:0.78rem;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:2px;">Contact Sales</a></td>
         </tr>
       </tbody>
     </table>
@@ -636,7 +641,7 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
 
       <div class="faq-item" data-cat="billing">
         <div class="faq-q" onclick="toggleFaq(this)">Is there a money-back guarantee? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Yes. All paid plans include a 14-day money-back guarantee. If you're not satisfied within the first 14 days, contact support@intelestate.eu for a full refund — no questions asked.</div>
+        <div class="faq-a">Yes. All paid plans include a 14-day money-back guarantee. If you're not satisfied within the first 14 days, contact <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2f5c5a5f5f405d5b6f46415b4a434a5c5b4e5b4a014a5a">[email&#160;protected]</a> for a full refund — no questions asked.</div>
       </div>
 
       <div class="faq-item" data-cat="billing">
@@ -656,7 +661,7 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
 
       <div class="faq-item" data-cat="api">
         <div class="faq-q" onclick="toggleFaq(this)">Is there a minimum commitment for Institutional? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Institutional plans are available monthly or annually. We also offer custom contracts for multi-year commitments or white-label arrangements. Contact enterprise@intelestate.eu to discuss your requirements. Most institutional clients start with a 30-day pilot period before committing annually.</div>
+        <div class="faq-a">Institutional plans are available monthly or annually. We also offer custom contracts for multi-year commitments or white-label arrangements. Contact <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d3b6bda7b6a1a3a1baa0b693babda7b6bfb6a0a7b2a7b6fdb6a6">[email&#160;protected]</a> to discuss your requirements. Most institutional clients start with a 30-day pilot period before committing annually.</div>
       </div>
 
     </div>
@@ -673,7 +678,7 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
         <p>Real estate funds, debt recovery firms, and law firms operating at scale get custom pricing, dedicated support, white-label options, and API access tailored to your acquisition pipeline.</p>
       </div>
       <div class="enterprise-ctas">
-        <a href="mailto:enterprise@intelestate.eu?subject=Institutional Demo Request" class="btn btn-primary">Request Institutional Demo →</a>
+        <a href="/cdn-cgi/l/email-protection#1c797268796e6c6e756f795c7572687970796f687d6879327969236f697e76797f682155726f68756869687573727d703c587971733c4e796d69796f68" class="btn btn-primary">Request Institutional Demo →</a>
         <a href="index.html#institutional" class="btn btn-ghost">Learn More</a>
       </div>
     </div>
@@ -690,7 +695,7 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
         <a href="dashboard.html">Dashboard</a>
         <a href="pricing.html">Pricing</a>
         <a href="index.html#institutional">Enterprise</a>
-        <a href="mailto:hello@intelestate.eu">Contact</a>
+        <a href="/cdn-cgi/l/email-protection#3c54595050537c5552485950594f485d4859125949">Contact</a>
         <a href="#">Privacy</a>
         <a href="#">Terms</a>
       </div>
@@ -699,7 +704,7 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── BILLING TOGGLE ──
 let billing = 'monthly';
 function setBilling(mode) {
@@ -719,7 +724,7 @@ function setBilling(mode) {
   };
   ['annual-specialist','annual-pro','annual-institutional'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.textContent = mode === 'annual' ? annualNotes[id] : '\u00a0';
+    if (el) el.textContent = mode === 'annual' ? annualNotes[id] : ' ';
   });
 
   // Update CTA text
@@ -737,18 +742,37 @@ function toggleFaq(el) {
 
 // ── FAQ FILTER ──
 function filterFaq(cat, btn) {
-  document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'block' : 'none';
+  const items = document.querySelectorAll('.faq-item');
+  items.forEach(item => {
+    const itemCat = item.getAttribute('data-cat');
+    item.style.display = (cat === 'all' || itemCat === cat) ? 'block' : 'none';
   });
+  document.querySelectorAll('.faq-tabs button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
-// ── FADE UP ANIMATIONS ──
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+// ── FADE UP OBSERVER ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
 }, { threshold: 0.1 });
+
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Trigger immediately for elements already in view
+setTimeout(() => {
+  document.querySelectorAll('.fade-up').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      el.classList.add('visible');
+    }
+  });
+}, 100);
+
 </script>
 </body>
 </html>
