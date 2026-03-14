@@ -95,6 +95,8 @@ input { font-family: inherit; }
 .topbar-title { font-family: var(--font-h); font-size: 0.9rem; font-weight: 700; }
 .topbar-sub { font-family: var(--font-m); font-size: 0.6rem; color: var(--text-muted); }
 .topbar-right { display: flex; align-items: center; gap: 10px; }
+.sync-status { display: flex; align-items: center; gap: 6px; background: var(--navy-light); border: 1px solid var(--border); border-radius: 5px; padding: 5px 10px; font-family: var(--font-m); font-size: 0.6rem; color: #CCCCCC; letter-spacing: 0.5px; white-space: nowrap; }
+.sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px rgba(0,200,150,0.6); flex-shrink: 0; }
 .search-wrap { position: relative; }
 .search-wrap::before { content:'⌕'; position:absolute; left:9px; top:50%; transform:translateY(-50%); color:var(--text-muted); font-size:1rem; pointer-events:none; }
 .topbar-search { background: var(--navy-light); border: 1px solid var(--border); border-radius: 5px; padding: 6px 10px 6px 28px; font-size: 0.75rem; color: var(--text-primary); width: 190px; }
@@ -298,7 +300,7 @@ input { font-family: inherit; }
 .drawer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .drawer-field { display: flex; flex-direction: column; gap: 2px; }
 .drawer-field-label { font-family: var(--font-m); font-size: 0.58rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
-.drawer-field-value { font-size: 0.82rem; color: var(--text-primary); font-weight: 500; }
+.drawer-field-value { font-size: 0.82rem; color: var(--text-primary); font-weight: 500; font-family: var(--font-m); }
 .kw-row { display: flex; align-items: center; gap: 8px; }
 .kw-val { font-family: var(--font-m); font-size: 0.82rem; color: var(--text-primary); }
 .kw-btn { font-size: 0.7rem; padding: 3px 8px; border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); transition: all 0.15s; }
@@ -392,6 +394,10 @@ input { font-family: inherit; }
       </div>
     </div>
     <div class="topbar-right">
+      <div class="sync-status">
+        <div class="sync-dot"></div>
+        System Online &nbsp;·&nbsp; Last sync: 02:00 CET &nbsp;·&nbsp; Next: 02:00
+      </div>
       <div class="search-wrap">
         <input class="topbar-search" type="text" placeholder="Search city, type, KM…">
       </div>
@@ -504,7 +510,7 @@ input { font-family: inherit; }
                   <span class="score s-hot">94</span>
               </div>
               </td>
-              <td><div class="dp-name">Apartment · 72 m²</div><div class="dp-loc">Kraków, Małopolska</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);opacity:0.7;" title="View on licytacje.komornik.pl">KM 4821/24 ↗</a></div></td>
+              <td><div class="dp-name">Apartment · 72 m²</div><div class="dp-loc">Kraków, Małopolska</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);" title="View on licytacje.komornik.pl">KM 4821/24 ↗</a></div></td>
               <td><span class="tag tag-t">Apartment</span></td>
               <td><span class="v-disc">–41%</span></td>
               <td><div class="v-price">364,667 PLN</div><div class="v-sub">appraised 618,000</div></td>
@@ -519,7 +525,7 @@ input { font-family: inherit; }
                   <span class="score s-hot">91</span>
               </div>
               </td>
-              <td><div class="dp-name">House · 148 m²</div><div class="dp-loc">Łódź, Łódzkie</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);opacity:0.7;" title="View on licytacje.komornik.pl">KMP 3317/24 ↗</a></div></td>
+              <td><div class="dp-name">House · 148 m²</div><div class="dp-loc">Łódź, Łódzkie</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);" title="View on licytacje.komornik.pl">KMP 3317/24 ↗</a></div></td>
               <td><span class="tag tag-t">House</span></td>
               <td><span class="v-disc">–38%</span></td>
               <td><div class="v-price">287,500 PLN</div><div class="v-sub">appraised 464,000</div></td>
@@ -534,7 +540,7 @@ input { font-family: inherit; }
                   <span class="score s-hot">88</span>
               </div>
               </td>
-              <td><div class="dp-name">Apartment · 55 m²</div><div class="dp-loc">Wrocław, Dolnośląskie</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);opacity:0.7;" title="View on licytacje.komornik.pl">KM 2209/25 ↗</a></div></td>
+              <td><div class="dp-name">Apartment · 55 m²</div><div class="dp-loc">Wrocław, Dolnośląskie</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);" title="View on licytacje.komornik.pl">KM 2209/25 ↗</a></div></td>
               <td><span class="tag tag-t">Apartment</span></td>
               <td><span class="v-disc">–35%</span></td>
               <td><div class="v-price">312,000 PLN</div><div class="v-sub">appraised 480,000</div></td>
