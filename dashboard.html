@@ -162,11 +162,10 @@ input { font-family: inherit; }
 .s-hot  { background: rgba(232,160,32,0.13); color: var(--gold);   border: 1px solid rgba(232,160,32,0.3); }
 .s-good { background: rgba(0,200,150,0.10);  color: var(--green);  border: 1px solid rgba(0,200,150,0.25); }
 .s-fair { background: rgba(249,115,22,0.10); color: var(--orange); border: 1px solid rgba(249,115,22,0.25); }
-.score-tip { position: absolute; bottom: calc(100% + 7px); left: 50%; transform: translateX(-50%); background: var(--navy); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; font-size: 0.65rem; color: var(--text-muted); white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 30; min-width: 190px; }
-.score-tip strong { color: var(--text-primary); display: block; margin-bottom: 6px; font-size: 0.68rem; }
-.score-tip .sr { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 3px; }
-.score-tip .sr span:last-child { color: var(--gold); font-family: var(--font-m); }
-.score-wrap:hover .score-tip { opacity: 1; }
+
+
+
+.score-wrap:hover 
 
 .dp-name { font-weight: 500; font-size: 0.8rem; }
 .dp-loc  { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
@@ -499,13 +498,7 @@ input { font-family: inherit; }
               <td>
                 <div class="score-wrap">
                   <span class="score s-hot">94</span>
-                  <div class="score-tip">
-                    <strong>Score: 94 / 100</strong>
-                    <div class="sr"><span>Discount depth (60%)</span><span>57 pts</span></div>
-                    <div class="sr"><span>2nd round bonus (20%)</span><span>20 pts</span></div>
-                    <div class="sr"><span>Urgency — 3 days (20%)</span><span>17 pts</span></div>
-                  </div>
-                </div>
+              </div>
               </td>
               <td><div class="dp-name">Apartment · 72 m²</div><div class="dp-loc">Kraków, Małopolska</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);opacity:0.7;" title="View on licytacje.komornik.pl">KM 4821/24 ↗</a></div></td>
               <td><span class="tag tag-t">Apartment</span></td>
@@ -520,13 +513,7 @@ input { font-family: inherit; }
               <td>
                 <div class="score-wrap">
                   <span class="score s-hot">91</span>
-                  <div class="score-tip">
-                    <strong>Score: 91 / 100</strong>
-                    <div class="sr"><span>Discount depth (60%)</span><span>54 pts</span></div>
-                    <div class="sr"><span>2nd round bonus (20%)</span><span>20 pts</span></div>
-                    <div class="sr"><span>Urgency — 5 days (20%)</span><span>17 pts</span></div>
-                  </div>
-                </div>
+              </div>
               </td>
               <td><div class="dp-name">House · 148 m²</div><div class="dp-loc">Łódź, Łódzkie</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);opacity:0.7;" title="View on licytacje.komornik.pl">KMP 3317/24 ↗</a></div></td>
               <td><span class="tag tag-t">House</span></td>
@@ -541,13 +528,7 @@ input { font-family: inherit; }
               <td>
                 <div class="score-wrap">
                   <span class="score s-hot">88</span>
-                  <div class="score-tip">
-                    <strong>Score: 88 / 100</strong>
-                    <div class="sr"><span>Discount depth (60%)</span><span>52 pts</span></div>
-                    <div class="sr"><span>1st round (20%)</span><span>14 pts</span></div>
-                    <div class="sr"><span>Urgency — 8 days (20%)</span><span>22 pts</span></div>
-                  </div>
-                </div>
+              </div>
               </td>
               <td><div class="dp-name">Apartment · 55 m²</div><div class="dp-loc">Wrocław, Dolnośląskie</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);opacity:0.7;" title="View on licytacje.komornik.pl">KM 2209/25 ↗</a></div></td>
               <td><span class="tag tag-t">Apartment</span></td>
@@ -699,7 +680,32 @@ input { font-family: inherit; }
             <div class="leg"><div class="leg-dot" style="background:var(--green)"></div> Exceptional (&gt;55%)</div>
           </div>
         </div>
-      </div>
+        <div class="panel-divider"></div>
+        <div style="padding:14px 16px;">
+          <div class="chart-lbl" style="margin-bottom:10px;">Avg Deal Score by Property Type</div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="font-size:0.72rem;color:#CCCCCC;width:90px;flex-shrink:0;">Apartments</div>
+              <div style="flex:1;height:5px;background:var(--navy);border-radius:3px;overflow:hidden;"><div class="dist-fill" style="width:0%;background:var(--gold)" data-w="78%"></div></div>
+              <div style="font-family:var(--font-m);font-size:0.7rem;color:var(--gold);width:28px;text-align:right;">78</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="font-size:0.72rem;color:#CCCCCC;width:90px;flex-shrink:0;">Houses</div>
+              <div style="flex:1;height:5px;background:var(--navy);border-radius:3px;overflow:hidden;"><div class="dist-fill" style="width:0%;background:var(--gold)" data-w="71%"></div></div>
+              <div style="font-family:var(--font-m);font-size:0.7rem;color:var(--gold);width:28px;text-align:right;">71</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="font-size:0.72rem;color:#CCCCCC;width:90px;flex-shrink:0;">Commercial</div>
+              <div style="flex:1;height:5px;background:var(--navy);border-radius:3px;overflow:hidden;"><div class="dist-fill" style="width:0%;background:var(--gold)" data-w="69%"></div></div>
+              <div style="font-family:var(--font-m);font-size:0.7rem;color:var(--gold);width:28px;text-align:right;">69</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="font-size:0.72rem;color:#CCCCCC;width:90px;flex-shrink:0;">Land</div>
+              <div style="flex:1;height:5px;background:var(--navy);border-radius:3px;overflow:hidden;"><div class="dist-fill" style="width:0%;background:rgba(232,160,32,0.4)" data-w="62%"></div></div>
+              <div style="font-family:var(--font-m);font-size:0.7rem;color:var(--text-muted);width:28px;text-align:right;">62</div>
+            </div>
+          </div>
+        </div>
 
       <!-- UPCOMING + PROPERTY TYPE -->
       <div class="panel" style="animation-delay:.25s">
