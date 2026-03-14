@@ -180,6 +180,7 @@ input { font-family: inherit; }
 .v-sub     { font-size: 0.62rem; color: var(--text-muted); margin-top: 1px; }
 .v-deposit { font-family: var(--font-m); font-size: 0.75rem; }
 .d-urg  { font-family: var(--font-m); font-size: 0.72rem; color: var(--red); font-weight: 500; }
+.countdown { font-family: var(--font-m); font-size: 0.68rem; color: var(--red); font-weight: 700; display: block; margin-top: 2px; letter-spacing: 0.5px; }
 .d-soon { font-family: var(--font-m); font-size: 0.72rem; color: var(--orange); }
 .d-ok   { font-family: var(--font-m); font-size: 0.72rem; color: var(--text-muted); }
 .save-btn { font-size: 0.85rem; color: var(--text-dim); transition: color 0.15s, transform 0.15s; padding: 2px 4px; }
@@ -507,7 +508,7 @@ input { font-family: inherit; }
               <td><div class="v-price">364,667 PLN</div><div class="v-sub">appraised 618,000</div></td>
               <td><div class="v-deposit">36,467 PLN</div><div class="v-sub">10% of start</div></td>
               <td><span class="tag tag-r2">2nd 🏷</span> <span class="tag-online">⚡ E-licytacja</span></td>
-              <td><span class="d-urg">3 days</span></td>
+              <td><span class="d-urg">3 days</span><span class="countdown" id="cd-4821"></span></td>
               <td><button class="save-btn" title="Save">♡</button></td>
             </tr>
             <tr class="drow" data-score="91" data-type="house" data-reg="lodz" data-tier="hot" data-days="5" data-format="inperson" data-bailiff="Marek Wiśniewski" data-bailiff-office="Kancelaria Komornicza Łódź" data-bailiff-phone="+48 42 234 56 78">
@@ -894,22 +895,47 @@ input { font-family: inherit; }
       </div>
     </div>
     <div class="drawer-calc">
-      <div class="drawer-section-title">Investment Calculator</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div class="drawer-section-title" style="margin-bottom:0;">Investment Calculator</div>
+        <div style="display:flex;gap:4px;">
+          <button id="calc-mode-rent" onclick="setCalcMode('rent')" style="font-family:var(--font-m);font-size:0.62rem;padding:3px 10px;border-radius:4px;border:1px solid var(--gold-border);background:var(--gold-dim);color:var(--gold);">🏠 Rent</button>
+          <button id="calc-mode-flip" onclick="setCalcMode('flip')" style="font-family:var(--font-m);font-size:0.62rem;padding:3px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:#CCCCCC;">🔄 Flip</button>
+        </div>
+      </div>
       <div class="calc-row">
         <div class="calc-label"><span>Renovation Estimate</span><span id="calc-reno-val">30,000 PLN</span></div>
         <input type="range" class="calc-slider" id="calc-reno" min="0" max="200000" step="5000" value="30000">
+      </div>
+      <div class="calc-row" id="calc-rent-row">
+        <div class="calc-label"><span>Est. Monthly Rent</span><span id="calc-rent-val">2,800 PLN</span></div>
+        <input type="range" class="calc-slider" id="calc-rent" min="500" max="10000" step="100" value="2800">
       </div>
       <div class="calc-row">
         <div class="calc-label"><span>PCC Tax (2%)</span><span id="calc-pcc-val">—</span></div>
       </div>
       <div class="calc-result">
-        <div class="calc-total-label">Total Investment Cost</div>
+        <div class="calc-total-label" id="calc-result-label">Total Investment Cost</div>
         <div class="calc-total-value" id="calc-total">—</div>
       </div>
+      <div id="calc-extra" style="display:none;margin-top:10px;display:none;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:var(--navy);border:1px solid var(--border);border-radius:5px;padding:10px;text-align:center;">
+          <div style="font-family:var(--font-m);font-size:0.55rem;color:#CCCCCC;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;" id="calc-extra-label1">Gross Yield</div>
+          <div style="font-family:var(--font-h);font-size:1.1rem;font-weight:800;color:var(--green);" id="calc-extra-val1">—</div>
+        </div>
+        <div style="background:var(--navy);border:1px solid var(--border);border-radius:5px;padding:10px;text-align:center;">
+          <div style="font-family:var(--font-m);font-size:0.55rem;color:#CCCCCC;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;" id="calc-extra-label2">Payback</div>
+          <div style="font-family:var(--font-h);font-size:1.1rem;font-weight:800;color:var(--gold);" id="calc-extra-val2">—</div>
+        </div>
+      </div>
+      <div style="font-size:0.62rem;color:#999999;font-family:var(--font-m);margin-top:8px;" id="calc-disclaimer">* Gross estimate only. Excludes management fees, vacancy, financing.</div>
+    </div>
+    <div id="d-bid-online-wrap" style="display:none;margin-bottom:8px;">
+      <a id="d-bid-online" href="https://elicytacje.komornik.pl" target="_blank" style="display:block;text-align:center;background:var(--green);color:var(--navy-deep);font-family:var(--font-h);font-size:0.82rem;font-weight:700;padding:11px;border-radius:5px;transition:opacity 0.15s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">⚡ Bid Online — E-licytacja →</a>
     </div>
     <div class="drawer-actions">
-      <a id="d-action-source" href="#" target="_blank" class="drawer-btn-primary">View on licytacje.komornik.pl →</a>
-      <button class="drawer-btn-secondary" id="d-action-save">♡ Save Deal</button>
+      <a id="d-action-source" href="#" target="_blank" class="drawer-btn-primary">View Source →</a>
+      <a id="d-bailiff-email" href="#" class="drawer-btn-secondary" style="text-align:center;">✉ Email Bailiff</a>
+      <button class="drawer-btn-secondary" id="d-action-save">♡ Save</button>
     </div>
   </div>
 </div>
@@ -1162,6 +1188,36 @@ function openDrawer(row) {
     if (saveBtn) { saveBtn.click(); dSave.textContent = saveBtn.classList.contains('saved') ? '♥ Saved' : '♡ Save Deal'; }
   };
 
+  // Bailiff info
+  document.getElementById('d-bailiff').textContent        = row.dataset.bailiff || 'Not available';
+  document.getElementById('d-bailiff-office').textContent = row.dataset.bailiffOffice || '—';
+  document.getElementById('d-bailiff-phone').textContent  = row.dataset.bailiffPhone || '—';
+
+  // Format
+  const fmt2 = row.dataset.format;
+  const fmtEl = document.getElementById('d-format');
+  if (fmtEl) {
+    if (fmt2 === 'online') fmtEl.innerHTML = '<span style="color:var(--green)">⚡ E-licytacja (Online)</span>';
+    else if (fmt2 === 'inperson') fmtEl.innerHTML = '<span style="color:#CCCCCC">🏛 In-Person</span>';
+    else fmtEl.textContent = 'Not specified';
+  }
+
+  // Bid online button
+  const bidWrap = document.getElementById('d-bid-online-wrap');
+  if (bidWrap) bidWrap.style.display = fmt2 === 'online' ? 'block' : 'none';
+
+  // Appraised for flip calc
+  const appraisedText = row.querySelector('.v-sub')?.textContent?.replace('appraised ','') || '';
+  drawer._appraisedNum = parseInt(appraisedText.replace(/[^0-9]/g,'')) || 0;
+
+  // Bailiff email
+  const emailLink = document.getElementById('d-bailiff-email');
+  if (emailLink) {
+    const bailiffName = row.dataset.bailiff || '';
+    const emailBody = 'Dear ' + bailiffName + ', I am writing regarding auction case ' + km + '. Please confirm deposit account details and procedure. Kind regards';
+    emailLink.href = 'mailto:' + (row.dataset.bailiffEmail || 'kancelaria@komornik.pl') + '?subject=' + encodeURIComponent('Inquiry re: ' + km) + '&body=' + encodeURIComponent(emailBody);
+  }
+
   drawer.classList.add('open');
   drawerBg.classList.add('open');
 }
@@ -1218,25 +1274,7 @@ if (searchInput) {
   });
 }
 
-// ── BAILIFF DATA IN DRAWER ────────────────────────────────────────────────────
-const _origOpenDrawer = openDrawer;
-function openDrawer(row) {
-  _origOpenDrawer(row);
-  // Bailiff
-  document.getElementById('d-bailiff').textContent        = row.dataset.bailiff || 'Not available';
-  document.getElementById('d-bailiff-office').textContent = row.dataset.bailiffOffice || '—';
-  document.getElementById('d-bailiff-phone').textContent  = row.dataset.bailiffPhone || '—';
-  // Format
-  const fmt = row.dataset.format;
-  const fmtEl = document.getElementById('d-format');
-  if (fmt === 'online') {
-    fmtEl.innerHTML = '<span style="color:var(--green)">⚡ E-licytacja (Online)</span>';
-  } else if (fmt === 'inperson') {
-    fmtEl.innerHTML = '<span style="color:#CCCCCC">🏛 In-Person</span>';
-  } else {
-    fmtEl.textContent = 'Not specified';
-  }
-}
+// Bailiff + format handled in main openDrawer below
 
 // ── J/K KEYBOARD NAVIGATION ───────────────────────────────────────────────────
 let _activeRowIndex = -1;
@@ -1272,6 +1310,162 @@ document.addEventListener('keydown', function(e) {
       openDrawer(rows[_activeRowIndex]);
     }
   }
+});
+
+
+// ── FLIP VS RENT CALCULATOR ───────────────────────────────────────────────────
+let _calcMode = 'rent';
+function setCalcMode(mode) {
+  _calcMode = mode;
+  const rentBtn = document.getElementById('calc-mode-rent');
+  const flipBtn = document.getElementById('calc-mode-flip');
+  const rentRow = document.getElementById('calc-rent-row');
+  if (mode === 'rent') {
+    rentBtn.style.background = 'var(--gold-dim)'; rentBtn.style.borderColor = 'var(--gold-border)'; rentBtn.style.color = 'var(--gold)';
+    flipBtn.style.background = 'transparent'; flipBtn.style.borderColor = 'var(--border)'; flipBtn.style.color = '#CCCCCC';
+    rentRow.style.display = 'block';
+    document.getElementById('calc-result-label').textContent = 'Total Investment Cost';
+    document.getElementById('calc-disclaimer').textContent = '* Gross estimate only. Excludes management fees, vacancy, financing.';
+  } else {
+    flipBtn.style.background = 'var(--gold-dim)'; flipBtn.style.borderColor = 'var(--gold-border)'; flipBtn.style.color = 'var(--gold)';
+    rentBtn.style.background = 'transparent'; rentBtn.style.borderColor = 'var(--border)'; rentBtn.style.color = '#CCCCCC';
+    rentRow.style.display = 'none';
+    document.getElementById('calc-result-label').textContent = 'Net Profit After Tax';
+    document.getElementById('calc-disclaimer').textContent = '* Flip: (Appraised value × 85%) - Total cost - 19% capital gains tax.';
+  }
+  updateCalc();
+}
+
+// Override updateCalc with full flip/rent logic
+function updateCalc() {
+  const price = drawer._priceNum || 0;
+  const reno  = parseInt(document.getElementById('calc-reno')?.value) || 0;
+  const pcc   = Math.round(price * 0.02);
+  const total = price + reno + pcc;
+  const appraised = drawer._appraisedNum || Math.round(price / 0.67);
+  document.getElementById('calc-reno-val').textContent = reno.toLocaleString('pl-PL') + ' PLN';
+  document.getElementById('calc-pcc-val').textContent  = pcc.toLocaleString('pl-PL') + ' PLN';
+
+  const extra = document.getElementById('calc-extra');
+
+  if (_calcMode === 'rent') {
+    const rent   = parseInt(document.getElementById('calc-rent')?.value) || 2800;
+    const annual = rent * 12;
+    const yld    = total > 0 ? ((annual / total) * 100).toFixed(1) : 0;
+    const payback= annual > 0 ? (total / annual).toFixed(1) : '∞';
+    document.getElementById('calc-rent-val').textContent = rent.toLocaleString('pl-PL') + ' PLN';
+    document.getElementById('calc-total').textContent = total.toLocaleString('pl-PL') + ' PLN';
+    extra.style.display = 'grid';
+    document.getElementById('calc-extra-label1').textContent = 'Gross Yield';
+    document.getElementById('calc-extra-val1').textContent   = yld + '%';
+    document.getElementById('calc-extra-label2').textContent = 'Payback';
+    document.getElementById('calc-extra-val2').textContent   = payback + ' yrs';
+  } else {
+    const salePrice  = Math.round(appraised * 0.85);
+    const grossProfit= salePrice - total;
+    const tax        = grossProfit > 0 ? Math.round(grossProfit * 0.19) : 0;
+    const netProfit  = grossProfit - tax;
+    const roi        = total > 0 ? ((netProfit / total) * 100).toFixed(1) : 0;
+    document.getElementById('calc-total').textContent = netProfit.toLocaleString('pl-PL') + ' PLN';
+    document.getElementById('calc-total').style.color = netProfit >= 0 ? 'var(--green)' : 'var(--red)';
+    extra.style.display = 'grid';
+    document.getElementById('calc-extra-label1').textContent = 'Est. Sale Price';
+    document.getElementById('calc-extra-val1').textContent   = salePrice.toLocaleString('pl-PL') + ' PLN';
+    document.getElementById('calc-extra-val1').style.color   = 'var(--gold)';
+    document.getElementById('calc-extra-label2').textContent = 'ROI';
+    document.getElementById('calc-extra-val2').textContent   = roi + '%';
+  }
+}
+
+document.getElementById('calc-reno')?.addEventListener('input', updateCalc);
+document.getElementById('calc-rent')?.addEventListener('input', updateCalc);
+
+// ── BID ONLINE + BAILIFF EMAIL ────────────────────────────────────────────────
+// Bid online + bailiff email handled in main openDrawer below
+
+// ── COUNTDOWN TIMER ───────────────────────────────────────────────────────────
+function startCountdowns() {
+  document.querySelectorAll('.countdown').forEach(el => {
+    // Target: days left from data attribute on parent row
+    const row  = el.closest('tr');
+    const days = parseInt(row?.dataset.days || 3);
+    const target = new Date();
+    target.setDate(target.getDate() + days);
+    target.setHours(10, 0, 0, 0); // assume 10AM auction time
+
+    function tick() {
+      const now  = new Date();
+      const diff = target - now;
+      if (diff <= 0) { el.textContent = 'ENDING NOW'; return; }
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      el.textContent = h + 'h ' + String(m).padStart(2,'0') + 'm ' + String(s).padStart(2,'0') + 's';
+    }
+    tick();
+    setInterval(tick, 1000);
+  });
+}
+startCountdowns();
+
+// ── CTRL+K COMMAND PALETTE ────────────────────────────────────────────────────
+const cmdPalette = document.createElement('div');
+cmdPalette.id = 'cmd-palette';
+cmdPalette.style.cssText = 'display:none;position:fixed;top:20%;left:50%;transform:translateX(-50%);width:480px;max-width:90vw;background:var(--navy-light);border:1px solid var(--gold-border);border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,0.6);z-index:200;overflow:hidden;';
+cmdPalette.innerHTML = '<div style="display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border);"><span style="font-size:1rem;color:var(--gold);">⌕</span><input id="cmd-input" type="text" placeholder="Search city, type, score... (e.g. Kraków, apartment, score > 85)" style="flex:1;background:none;border:none;outline:none;font-family:var(--font-b);font-size:0.85rem;color:#FFFFFF;"><span style="font-family:var(--font-m);font-size:0.6rem;color:#999999;padding:2px 6px;border:1px solid var(--border);border-radius:3px;">ESC</span></div><div id="cmd-results" style="padding:10px 16px;font-family:var(--font-m);font-size:0.68rem;color:#999999;">Type to search deals...</div>';
+document.body.appendChild(cmdPalette);
+
+function openCmdPalette() {
+  cmdPalette.style.display = 'block';
+  document.getElementById('cmd-input').value = '';
+  document.getElementById('cmd-input').focus();
+  document.getElementById('cmd-results').textContent = 'Type to search deals...';
+}
+function closeCmdPalette() { cmdPalette.style.display = 'none'; }
+
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openCmdPalette(); }
+  if (e.key === 'Escape') closeCmdPalette();
+});
+
+document.getElementById('cmd-input').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  const rows = [...document.querySelectorAll('.drow:not(.blurred)')];
+  const matches = rows.filter(r => r.textContent.toLowerCase().includes(q));
+  const res = document.getElementById('cmd-results');
+  if (!q) { res.textContent = 'Type to search deals...'; return; }
+  if (matches.length === 0) { res.textContent = 'No deals found for "' + q + '"'; return; }
+  const fragment = document.createDocumentFragment();
+  matches.slice(0,5).forEach((r, i) => {
+    const name = r.querySelector('.dp-name')?.textContent || '';
+    const loc  = r.querySelector('.dp-loc')?.textContent  || '';
+    const disc = r.querySelector('.v-disc')?.textContent  || '';
+    const score= r.dataset.score || '';
+    const item = document.createElement('div');
+    item.style.cssText = 'padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;';
+    item.innerHTML = '<span>' + name + ' · ' + loc + '</span><span style="color:var(--gold);">' + disc + ' · ' + score + '</span>';
+    item.addEventListener('mouseover', () => item.style.color = 'var(--gold)');
+    item.addEventListener('mouseout',  () => item.style.color = '');
+    item.addEventListener('click', () => { closeCmdPalette(); openDrawer(r); });
+    fragment.appendChild(item);
+  });
+  res.innerHTML = '';
+  res.appendChild(fragment);
+  if (matches.length > 5) {
+    const more = document.createElement('div');
+    more.style.cssText = 'padding:8px 0;color:#999999;';
+    more.textContent = '...and ' + (matches.length - 5) + ' more';
+    res.appendChild(more);
+  }
+});
+
+
+// ── ANIMATE BARS ON LOAD ──────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelectorAll('.bc-fill[data-h]').forEach(el => { el.style.height = el.dataset.h; });
+    document.querySelectorAll('.tl-bar[data-w], .dist-fill[data-w]').forEach(el => { el.style.width = el.dataset.w; });
+  }, 300);
 });
 
 </script>
