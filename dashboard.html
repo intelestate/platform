@@ -173,6 +173,7 @@ input { font-family: inherit; }
 .tag { font-size: 0.62rem; padding: 2px 7px; border-radius: 3px; font-family: var(--font-m); white-space: nowrap; }
 .tag-t { background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border); }
 .tag-r1 { background: rgba(255,255,255,0.04); color: var(--text-muted); }
+.tag-online { background: rgba(0,200,150,0.10); color: var(--green); border: 1px solid rgba(0,200,150,0.25); font-size: 0.58rem; padding: 2px 6px; border-radius: 3px; font-family: var(--font-m); white-space: nowrap; }
 .tag-r2 { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
 .v-disc    { font-family: var(--font-m); font-size: 0.8rem; font-weight: 500; color: var(--green); }
 .v-price   { font-family: var(--font-m); font-size: 0.78rem; }
@@ -494,7 +495,7 @@ input { font-family: inherit; }
             </tr>
           </thead>
           <tbody>
-            <tr class="drow" data-score="94" data-type="apt" data-reg="krakow" data-tier="hot" data-days="3">
+            <tr class="drow" data-score="94" data-type="apt" data-reg="krakow" data-tier="hot" data-days="3" data-format="online" data-bailiff="Anna Kowalska" data-bailiff-office="Kancelaria Komornicza Kraków" data-bailiff-phone="+48 12 345 67 89">
               <td>
                 <div class="score-wrap">
                   <span class="score s-hot">94</span>
@@ -505,11 +506,11 @@ input { font-family: inherit; }
               <td><span class="v-disc">–41%</span></td>
               <td><div class="v-price">364,667 PLN</div><div class="v-sub">appraised 618,000</div></td>
               <td><div class="v-deposit">36,467 PLN</div><div class="v-sub">10% of start</div></td>
-              <td><span class="tag tag-r2">2nd 🏷</span></td>
+              <td><span class="tag tag-r2">2nd 🏷</span> <span class="tag-online">⚡ E-licytacja</span></td>
               <td><span class="d-urg">3 days</span></td>
               <td><button class="save-btn" title="Save">♡</button></td>
             </tr>
-            <tr class="drow" data-score="91" data-type="house" data-reg="lodz" data-tier="hot" data-days="5">
+            <tr class="drow" data-score="91" data-type="house" data-reg="lodz" data-tier="hot" data-days="5" data-format="inperson" data-bailiff="Marek Wiśniewski" data-bailiff-office="Kancelaria Komornicza Łódź" data-bailiff-phone="+48 42 234 56 78">
               <td>
                 <div class="score-wrap">
                   <span class="score s-hot">91</span>
@@ -524,7 +525,7 @@ input { font-family: inherit; }
               <td><span class="d-urg">5 days</span></td>
               <td><button class="save-btn saved" title="Saved">♥</button></td>
             </tr>
-            <tr class="drow" data-score="88" data-type="apt" data-reg="wroclaw" data-tier="hot" data-days="8">
+            <tr class="drow" data-score="88" data-type="apt" data-reg="wroclaw" data-tier="hot" data-days="8" data-format="online" data-bailiff="Piotr Nowak" data-bailiff-office="Kancelaria Komornicza Wrocław" data-bailiff-phone="+48 71 345 67 89">
               <td>
                 <div class="score-wrap">
                   <span class="score s-hot">88</span>
@@ -535,7 +536,7 @@ input { font-family: inherit; }
               <td><span class="v-disc">–35%</span></td>
               <td><div class="v-price">312,000 PLN</div><div class="v-sub">appraised 480,000</div></td>
               <td><div class="v-deposit">31,200 PLN</div><div class="v-sub">10% of start</div></td>
-              <td><span class="tag tag-r1">1st</span></td>
+              <td><span class="tag tag-r1">1st</span> <span class="tag-online">⚡ E-licytacja</span></td>
               <td><span class="d-soon">8 days</span></td>
               <td><button class="save-btn" title="Save">♡</button></td>
             </tr>
@@ -706,6 +707,7 @@ input { font-family: inherit; }
             </div>
           </div>
         </div>
+      </div>
 
       <!-- UPCOMING + PROPERTY TYPE -->
       <div class="panel" style="animation-delay:.25s">
@@ -880,6 +882,15 @@ input { font-family: inherit; }
         <button class="kw-btn" id="d-km-copy">📋 Copy</button>
         <button class="kw-btn" id="d-km-search">🔍 Search</button>
         <a id="d-source-link" href="#" target="_blank" class="kw-btn" style="text-decoration:none;">↗ Source</a>
+      </div>
+    </div>
+    <div class="drawer-section">
+      <div class="drawer-section-title">Bailiff Information</div>
+      <div class="drawer-grid">
+        <div class="drawer-field" style="grid-column:span 2"><div class="drawer-field-label">Bailiff Name</div><div class="drawer-field-value" id="d-bailiff">—</div></div>
+        <div class="drawer-field" style="grid-column:span 2"><div class="drawer-field-label">Office</div><div class="drawer-field-value" id="d-bailiff-office" style="font-size:0.75rem;">—</div></div>
+        <div class="drawer-field"><div class="drawer-field-label">Phone</div><div class="drawer-field-value" id="d-bailiff-phone" style="color:var(--gold)">—</div></div>
+        <div class="drawer-field"><div class="drawer-field-label">Auction Format</div><div class="drawer-field-value" id="d-format">—</div></div>
       </div>
     </div>
     <div class="drawer-calc">
@@ -1184,6 +1195,85 @@ document.querySelectorAll('.drow:not(.blurred)').forEach(row => {
     openDrawer(this);
   });
 });
+
+// ── LIVE SEARCH ───────────────────────────────────────────────────────────────
+const searchInput = document.querySelector('.topbar-search');
+if (searchInput) {
+  searchInput.addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    document.querySelectorAll('.drow:not(.blurred)').forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = (!q || text.includes(q)) ? '' : 'none';
+    });
+    // Show empty state if nothing visible
+    const visible = [...document.querySelectorAll('.drow:not(.blurred)')].filter(r => r.style.display !== 'none');
+    let emptySearch = document.getElementById('search-empty');
+    if (!emptySearch) {
+      emptySearch = document.createElement('tr');
+      emptySearch.id = 'search-empty';
+      emptySearch.innerHTML = '<td colspan="9" style="text-align:center;padding:32px;color:#CCCCCC;font-size:0.78rem;"><div style="font-size:1.5rem;margin-bottom:8px;">🔍</div><div style="font-weight:600;color:#FFFFFF;margin-bottom:4px;">No deals match your search</div><div>Try a different city, type or case number</div></td>';
+      document.querySelector('.deals-table tbody').appendChild(emptySearch);
+    }
+    emptySearch.style.display = visible.length === 0 && q ? 'table-row' : 'none';
+  });
+}
+
+// ── BAILIFF DATA IN DRAWER ────────────────────────────────────────────────────
+const _origOpenDrawer = openDrawer;
+function openDrawer(row) {
+  _origOpenDrawer(row);
+  // Bailiff
+  document.getElementById('d-bailiff').textContent        = row.dataset.bailiff || 'Not available';
+  document.getElementById('d-bailiff-office').textContent = row.dataset.bailiffOffice || '—';
+  document.getElementById('d-bailiff-phone').textContent  = row.dataset.bailiffPhone || '—';
+  // Format
+  const fmt = row.dataset.format;
+  const fmtEl = document.getElementById('d-format');
+  if (fmt === 'online') {
+    fmtEl.innerHTML = '<span style="color:var(--green)">⚡ E-licytacja (Online)</span>';
+  } else if (fmt === 'inperson') {
+    fmtEl.innerHTML = '<span style="color:#CCCCCC">🏛 In-Person</span>';
+  } else {
+    fmtEl.textContent = 'Not specified';
+  }
+}
+
+// ── J/K KEYBOARD NAVIGATION ───────────────────────────────────────────────────
+let _activeRowIndex = -1;
+const _drawerEl = document.getElementById('propertyDrawer');
+
+function getVisibleRows() {
+  return [...document.querySelectorAll('.drow:not(.blurred)')].filter(r => r.style.display !== 'none');
+}
+
+// Override openDrawer to track active row
+document.querySelectorAll('.drow:not(.blurred)').forEach((row, idx) => {
+  row.addEventListener('click', function(e) {
+    if (e.target.closest('.save-btn') || e.target.closest('a')) return;
+    _activeRowIndex = getVisibleRows().indexOf(this);
+  });
+});
+
+document.addEventListener('keydown', function(e) {
+  if (!_drawerEl.classList.contains('open')) return;
+  if (e.key === 'j' || e.key === 'ArrowDown') {
+    e.preventDefault();
+    const rows = getVisibleRows();
+    if (_activeRowIndex < rows.length - 1) {
+      _activeRowIndex++;
+      openDrawer(rows[_activeRowIndex]);
+    }
+  }
+  if (e.key === 'k' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const rows = getVisibleRows();
+    if (_activeRowIndex > 0) {
+      _activeRowIndex--;
+      openDrawer(rows[_activeRowIndex]);
+    }
+  }
+});
+
 </script>
 </body>
 </html>
