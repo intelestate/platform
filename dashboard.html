@@ -1,498 +1,953 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard — intelEstate</title>
+<meta name="description" content="intelEstate dashboard — ranked Polish court auction deals, live alerts, deal scoring and market intelligence.">
+<link rel="canonical" href="https://intelestate.eu/dashboard.html">
+<meta property="og:title" content="Dashboard — intelEstate">
+<meta property="og:description" content="Monitor 473+ Polish court auctions. HOT deals scored, alerted and ranked daily.">
+<meta property="og:url" content="https://intelestate.eu/dashboard.html">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="intelEstate dashboard — ranked Polish court auction deals, deal scores, alerts and market intelligence.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23060A14'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='18' fill='%23E8A020'>i</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --black: #080810;
-  --deep: #0d0d1a;
-  --card: #11111f;
-  --border: #1e1e35;
-  --gold: #c9a84c;
-  --gold-light: #e8c96a;
-  --gold-dim: rgba(201,168,76,0.12);
-  --white: #f0efe8;
-  --muted: #7a7a9a;
-  --green: #2ecc71;
-  --red: #e74c3c;
-  --orange: #e67e22;
+  --navy-deep: #060A14;
+  --navy: #0A0E1A;
+  --navy-light: #121828;
+  --navy-mid: #0E1422;
+  --navy-hover: #162030;
+  --gold: #E8A020;
+  --gold-light: #F0B840;
+  --gold-dim: rgba(232,160,32,0.10);
+  --gold-border: rgba(232,160,32,0.25);
+  --green: #00C896;
+  --green-dim: rgba(0,200,150,0.08);
+  --red: #EF4444;
+  --orange: #F97316;
+  --text-primary: #FFFFFF;
+  --text-muted: #8A9BBE;
+  --text-dim: #3A4A66;
+  --border: #1A2236;
+  --border-light: #243048;
+  --font-h: 'Syne', sans-serif;
+  --font-b: 'DM Sans', sans-serif;
+  --font-m: 'DM Mono', monospace;
+  --sw: 224px;
+  --th: 56px;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; display: flex; min-height: 100vh; }
+html { font-size: 15px; }
+body { background: var(--navy-deep); color: var(--text-primary); font-family: var(--font-b); line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; color: inherit; }
+input { font-family: inherit; }
+
+.app { display: flex; min-height: 100vh; }
+
+/* SIDEBAR */
 .sidebar {
-  width: 240px; min-height: 100vh; background: var(--deep);
-  border-right: 1px solid var(--border); display: flex; flex-direction: column;
-  padding: 24px 0; position: fixed; left: 0; top: 0; bottom: 0; z-index: 100;
+  width: var(--sw); flex-shrink: 0;
+  background: var(--navy); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 60;
+  transition: transform 0.25s ease;
 }
-.sidebar-logo { padding: 0 24px 24px; border-bottom: 1px solid var(--border); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; }
-.sidebar-logo span { color: var(--gold); }
-.sidebar-nav { padding: 16px 0; flex: 1; }
-.nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 24px; color: var(--muted); font-size: 0.88rem; cursor: pointer; transition: all 0.2s; text-decoration: none; border-left: 3px solid transparent; }
-.nav-item:hover { color: var(--white); background: rgba(255,255,255,0.03); }
-.nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); }
-.nav-icon { font-size: 1rem; width: 20px; text-align: center; }
-.sidebar-bottom { padding: 16px 24px; border-top: 1px solid var(--border); }
-.tier-badge { background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); font-size: 0.72rem; font-weight: 500; padding: 4px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.08em; display: inline-block; margin-bottom: 8px; }
-.upgrade-btn { width: 100%; background: var(--gold); color: var(--black); border: none; padding: 10px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+.sidebar-logo { padding: 16px 18px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.logo-text { font-family: var(--font-h); font-size: 1.1rem; font-weight: 700; }
+.logo-text span { color: var(--gold); }
+.logo-sub { display: none; }
+.sidebar-close { display: none; font-size: 1.1rem; color: var(--text-muted); padding: 4px 6px; border-radius: 4px; }
+.sidebar-close:hover { color: var(--text-primary); }
+.sidebar-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
+.nav-label { font-family: var(--font-m); font-size: 0.55rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-dim); padding: 10px 18px 5px; }
+.nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 18px; font-size: 0.8rem; color: var(--text-muted); border-left: 2px solid transparent; cursor: pointer; transition: color 0.15s, background 0.15s; }
+.nav-item:hover { color: var(--text-primary); background: rgba(255,255,255,0.02); }
+.nav-item.active { color: var(--gold); background: var(--gold-dim); border-left-color: var(--gold); }
+.nav-icon { font-size: 0.85rem; width: 15px; text-align: center; flex-shrink: 0; }
+.nav-badge { margin-left: auto; background: var(--gold); color: var(--navy-deep); font-size: 0.58rem; font-weight: 700; padding: 1px 6px; border-radius: 10px; font-family: var(--font-m); }
+.nav-badge.g { background: var(--green); }
+.nav-badge.r { background: var(--red); }
+.sidebar-bottom { padding: 14px 18px; border-top: 1px solid var(--border); }
+.tier-pill { background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: 6px; padding: 10px 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.tier-icon { font-size: 1.1rem; }
+.t-name { font-family: var(--font-h); font-size: 0.75rem; font-weight: 700; color: var(--gold); }
+.t-sub { font-size: 0.65rem; color: var(--text-muted); margin-top: 1px; }
+.upgrade-btn { display: block; text-align: center; background: var(--gold); color: var(--navy-deep); font-size: 0.72rem; font-weight: 700; padding: 8px; border-radius: 5px; font-family: var(--font-h); transition: background 0.15s; }
 .upgrade-btn:hover { background: var(--gold-light); }
-.main { margin-left: 240px; flex: 1; min-height: 100vh; }
-.topbar { background: var(--deep); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
-.topbar-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; }
-.topbar-right { display: flex; gap: 12px; align-items: center; }
-.live-badge { display: flex; align-items: center; gap: 6px; background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.25); color: var(--green); font-size: 0.72rem; font-weight: 500; padding: 4px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.06em; }
-.live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(1.4);} }
-.lang-switcher { display: flex; }
-.lang-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 5px 10px; font-size: 0.72rem; font-weight: 500; cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em; font-family: 'DM Sans', sans-serif; }
-.lang-btn:first-child { border-radius: 4px 0 0 4px; }
-.lang-btn:last-child { border-radius: 0 4px 4px 0; }
-.lang-btn.active { background: var(--gold); border-color: var(--gold); color: var(--black); }
-.content { padding: 32px; }
-.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; }
-.stat-card-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
-.stat-card-value { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.8rem; color: var(--gold); }
-.stat-card-sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
-.hot-deals-banner { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; }
-.hot-deals-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-.hot-deals-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.04em; text-transform: uppercase; }
-.hot-deals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.hot-card { background: var(--deep); border: 1px solid rgba(201,168,76,0.25); border-radius: 8px; padding: 14px 16px; transition: border-color 0.2s; }
-.hot-card:hover { border-color: rgba(201,168,76,0.5); }
-.hot-card-score { display: inline-block; background: var(--gold); color: var(--black); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.85rem; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; }
-.hot-card-label { display: inline-block; background: rgba(231,76,60,0.12); border: 1px solid rgba(231,76,60,0.3); color: #e74c3c; font-size: 0.65rem; font-weight: 500; padding: 2px 8px; border-radius: 4px; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
-.quick-filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-.qf-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 6px 14px; font-size: 0.78rem; font-family: 'DM Sans', sans-serif; border-radius: 100px; cursor: pointer; transition: all 0.2s; }
-.qf-btn:hover { border-color: var(--gold); color: var(--gold); }
-.qf-btn.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
-.filters { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end; }
-.filter-group { display: flex; flex-direction: column; gap: 6px; }
-.filter-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-.filter-select { background: var(--deep); border: 1px solid var(--border); color: var(--white); padding: 8px 12px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; border-radius: 6px; outline: none; cursor: pointer; transition: border-color 0.2s; min-width: 130px; }
-.filter-select:focus { border-color: var(--gold); }
-.btn-filter { background: var(--gold); color: var(--black); border: none; padding: 8px 20px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; border-radius: 6px; cursor: pointer; align-self: flex-end; transition: background 0.2s; }
-.btn-filter:hover { background: var(--gold-light); }
-.btn-reset { background: none; border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; border-radius: 6px; cursor: pointer; align-self: flex-end; transition: all 0.2s; }
-.btn-reset:hover { border-color: var(--white); color: var(--white); }
-.deals-table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-.table-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid var(--border); }
-.table-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; }
-.table-count { font-size: 0.8rem; color: var(--muted); }
-table { width: 100%; border-collapse: collapse; }
-th { text-align: left; padding: 12px 16px; font-size: 0.7rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid var(--border); background: var(--deep); cursor: pointer; user-select: none; }
-th:hover { color: var(--white); }
-td { padding: 13px 16px; border-bottom: 1px solid rgba(30,30,53,0.5); font-size: 0.86rem; vertical-align: middle; }
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: rgba(255,255,255,0.02); }
-.deal-label-badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
-.label-hot { background: rgba(231,76,60,0.15); color: #e74c3c; border: 1px solid rgba(231,76,60,0.3); }
-.label-good { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
-.label-fair { background: rgba(122,122,154,0.1); color: var(--muted); border: 1px solid var(--border); }
-.label-watch { background: rgba(230,126,34,0.1); color: var(--orange); border: 1px solid rgba(230,126,34,0.25); }
-.round-badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
-.badge-second { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
-.badge-first { background: rgba(122,122,154,0.1); color: var(--muted); border: 1px solid var(--border); }
-.days-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 100px; font-size: 0.72rem; font-weight: 500; white-space: nowrap; }
-.days-urgent { background: rgba(231,76,60,0.12); color: #e74c3c; border: 1px solid rgba(231,76,60,0.25); }
-.days-soon { background: rgba(230,126,34,0.12); color: var(--orange); border: 1px solid rgba(230,126,34,0.25); }
-.days-upcoming { background: rgba(241,196,15,0.1); color: #f1c40f; border: 1px solid rgba(241,196,15,0.2); }
-.days-later { background: rgba(122,122,154,0.1); color: var(--muted); border: 1px solid var(--border); }
-.score-cell { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; }
-.score-high { color: var(--gold); }
-.score-mid { color: var(--white); }
-.score-low { color: var(--muted); }
-.price-cell { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.88rem; }
-.discount-cell { color: var(--green); font-weight: 500; font-size: 0.85rem; }
-.type-badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 0.68rem; color: var(--muted); border: 1px solid var(--border); text-transform: uppercase; letter-spacing: 0.04em; }
-.btn-view { background: none; border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; font-size: 0.75rem; border-radius: 4px; cursor: pointer; transition: all 0.2s; white-space: nowrap; text-decoration: none; display: inline-block; }
-.btn-view:hover { border-color: var(--gold); color: var(--gold); }
-.loading-row { text-align: center; padding: 60px 24px; color: var(--muted); font-size: 0.9rem; }
-.loading-spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.pagination { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 20px; border-top: 1px solid var(--border); flex-wrap: wrap; }
-.page-btn { background: none; border: 1px solid var(--border); color: var(--muted); min-width: 36px; height: 36px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; display: flex; align-items: center; justify-content: center; padding: 0 10px; font-family: 'DM Sans', sans-serif; }
-.page-btn:hover, .page-btn.active { border-color: var(--gold); color: var(--gold); }
+
+/* MAIN */
+.main { margin-left: var(--sw); flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+
+/* TOPBAR */
+.topbar { height: var(--th); position: sticky; top: 0; z-index: 40; background: rgba(6,10,20,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; gap: 12px; }
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.hamburger-btn { display: none; width: 32px; height: 32px; align-items: center; justify-content: center; border-radius: 5px; border: 1px solid var(--border); color: var(--text-muted); font-size: 1rem; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(0,200,150,0.4); animation: pulse 2s infinite; flex-shrink: 0; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(0,200,150,0.4)} 50%{box-shadow:0 0 0 5px rgba(0,200,150,0)} }
+.topbar-title { font-family: var(--font-h); font-size: 0.9rem; font-weight: 700; }
+.topbar-sub { font-family: var(--font-m); font-size: 0.6rem; color: var(--text-muted); }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.search-wrap { position: relative; }
+.search-wrap::before { content:'⌕'; position:absolute; left:9px; top:50%; transform:translateY(-50%); color:var(--text-muted); font-size:1rem; pointer-events:none; }
+.topbar-search { background: var(--navy-light); border: 1px solid var(--border); border-radius: 5px; padding: 6px 10px 6px 28px; font-size: 0.75rem; color: var(--text-primary); width: 190px; }
+.topbar-search::placeholder { color: var(--text-dim); }
+.topbar-search:focus { outline: none; border-color: var(--gold); }
+.icon-btn { width: 32px; height: 32px; border-radius: 5px; background: var(--navy-light); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--text-muted); transition: all 0.15s; flex-shrink: 0; }
+.icon-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
+.notif-wrap { position: relative; }
+.notif-dot { position: absolute; top: -2px; right: -2px; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); border: 2px solid var(--navy-deep); }
+.avatar { width: 32px; height: 32px; border-radius: 5px; background: var(--gold-dim); border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-family: var(--font-h); font-size: 0.7rem; font-weight: 700; color: var(--gold); flex-shrink: 0; }
+
+/* CONTENT */
+.content { padding: 20px; flex: 1; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* STAT CARDS */
+.stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
+.stat-card { background: var(--navy-light); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; animation: fadeUp 0.4s ease both; transition: border-color 0.15s, transform 0.15s; }
+.stat-card:hover { border-color: var(--border-light); transform: translateY(-1px); }
+.stat-label { font-family: var(--font-m); font-size: 0.58rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 7px; }
+.stat-value { font-family: var(--font-h); font-size: 1.55rem; font-weight: 800; line-height: 1; }
+.stat-value.gold { color: var(--gold); }
+.stat-value.green { color: var(--green); }
+.stat-delta { font-size: 0.66rem; color: var(--text-muted); margin-top: 5px; }
+.up { color: var(--green); }
+.dn { color: var(--red); }
+
+/* GRID */
+.grid-main   { display: grid; grid-template-columns: 1fr 300px; gap: 14px; margin-bottom: 14px; }
+.grid-bottom { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+/* PANEL */
+.panel { background: var(--navy-light); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; animation: fadeUp 0.4s ease both; }
+.panel-hdr { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 8px; }
+.panel-title { font-family: var(--font-h); font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 7px; }
+.panel-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.pbtn { font-size: 0.67rem; color: var(--text-muted); padding: 3px 9px; border: 1px solid var(--border); border-radius: 4px; font-family: var(--font-m); transition: all 0.15s; }
+.pbtn:hover { color: var(--gold); border-color: var(--gold-border); }
+.pbtn.on { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
+
+/* FILTERS */
+.filters-bar { display: flex; align-items: center; gap: 6px; padding: 10px 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.fchip { font-size: 0.67rem; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-muted); font-family: var(--font-m); cursor: pointer; transition: all 0.15s; }
+.fchip:hover { border-color: var(--border-light); color: var(--text-primary); }
+.fchip.on { background: var(--gold-dim); border-color: var(--gold-border); color: var(--gold); }
+.fsep { width: 1px; height: 14px; background: var(--border); margin: 0 2px; flex-shrink: 0; }
+.sort-btn { font-size: 0.67rem; color: var(--text-muted); font-family: var(--font-m); display: flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); margin-left: auto; transition: all 0.15s; }
+.sort-btn:hover { color: var(--gold); border-color: var(--gold-border); }
+.export-wrap { position: relative; }
+.export-btn { font-size: 0.67rem; color: var(--text-dim); font-family: var(--font-m); display: flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); transition: all 0.15s; }
+.export-btn:hover { border-color: var(--border-light); color: var(--text-muted); }
+.export-tooltip { position: absolute; bottom: calc(100% + 6px); right: 0; background: var(--navy); border: 1px solid var(--border); border-radius: 5px; padding: 7px 10px; font-size: 0.65rem; color: var(--text-muted); white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 10; }
+.export-wrap:hover .export-tooltip { opacity: 1; }
+
+/* DEALS TABLE */
+.deals-table { width: 100%; border-collapse: collapse; }
+.deals-table th { font-family: var(--font-m); font-size: 0.58rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none; }
+.deals-table th:hover { color: var(--text-muted); }
+.deals-table th.sorted { color: var(--gold); }
+.deals-table td { padding: 10px 14px; border-bottom: 1px solid rgba(26,34,54,0.5); font-size: 0.78rem; vertical-align: middle; }
+.deals-table tr:last-child td { border-bottom: none; }
+.deals-table tbody tr.drow { transition: background 0.1s; cursor: pointer; }
+.deals-table tbody tr.drow:hover td { background: var(--navy-hover); }
+
+.score-wrap { position: relative; display: inline-block; }
+.score { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 22px; border-radius: 4px; font-family: var(--font-m); font-size: 0.7rem; }
+.s-hot  { background: rgba(232,160,32,0.13); color: var(--gold);   border: 1px solid rgba(232,160,32,0.3); }
+.s-good { background: rgba(0,200,150,0.10);  color: var(--green);  border: 1px solid rgba(0,200,150,0.25); }
+.s-fair { background: rgba(249,115,22,0.10); color: var(--orange); border: 1px solid rgba(249,115,22,0.25); }
+.score-tip { position: absolute; bottom: calc(100% + 7px); left: 50%; transform: translateX(-50%); background: var(--navy); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; font-size: 0.65rem; color: var(--text-muted); white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 30; min-width: 190px; }
+.score-tip strong { color: var(--text-primary); display: block; margin-bottom: 6px; font-size: 0.68rem; }
+.score-tip .sr { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 3px; }
+.score-tip .sr span:last-child { color: var(--gold); font-family: var(--font-m); }
+.score-wrap:hover .score-tip { opacity: 1; }
+
+.dp-name { font-weight: 500; font-size: 0.8rem; }
+.dp-loc  { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+.dp-ref  { font-family: var(--font-m); font-size: 0.6rem; color: var(--text-dim); margin-top: 1px; }
+.tag { font-size: 0.62rem; padding: 2px 7px; border-radius: 3px; font-family: var(--font-m); white-space: nowrap; }
+.tag-t { background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border); }
+.tag-r1 { background: rgba(255,255,255,0.04); color: var(--text-muted); }
+.tag-r2 { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
+.v-disc    { font-family: var(--font-m); font-size: 0.8rem; font-weight: 500; color: var(--green); }
+.v-price   { font-family: var(--font-m); font-size: 0.78rem; }
+.v-sub     { font-size: 0.62rem; color: var(--text-muted); margin-top: 1px; }
+.v-deposit { font-family: var(--font-m); font-size: 0.75rem; }
+.d-urg  { font-family: var(--font-m); font-size: 0.72rem; color: var(--red); font-weight: 500; }
+.d-soon { font-family: var(--font-m); font-size: 0.72rem; color: var(--orange); }
+.d-ok   { font-family: var(--font-m); font-size: 0.72rem; color: var(--text-muted); }
+.save-btn { font-size: 0.85rem; color: var(--text-dim); transition: color 0.15s, transform 0.15s; padding: 2px 4px; }
+.save-btn:hover { color: var(--gold); transform: scale(1.2); }
+.save-btn.saved { color: var(--gold); }
+
+.blurred td { filter: blur(4px); pointer-events: none; user-select: none; opacity: 0.4; }
+.unlock-row { background: rgba(232,160,32,0.02); }
+.unlock-row td { border-top: 1px dashed var(--gold-border); padding: 12px; }
+.unlock-inner { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.unlock-msg { font-size: 0.75rem; color: var(--text-muted); }
+.unlock-cta { font-size: 0.75rem; font-weight: 700; color: var(--gold); border: 1px solid var(--gold-border); padding: 5px 14px; border-radius: 4px; transition: background 0.15s; }
+.unlock-cta:hover { background: var(--gold-dim); }
+
+.pagination { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-top: 1px solid var(--border); }
+.page-info { font-family: var(--font-m); font-size: 0.62rem; color: var(--text-muted); }
+.page-btns { display: flex; gap: 4px; }
+.page-btn { width: 26px; height: 26px; border-radius: 4px; font-size: 0.68rem; border: 1px solid var(--border); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-family: var(--font-m); transition: all 0.15s; }
+.page-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
+.page-btn.on { background: var(--gold-dim); border-color: var(--gold-border); color: var(--gold); }
 .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-@media (max-width: 1024px) { .sidebar { display: none; } .main { margin-left: 0; } .stats-row { grid-template-columns: repeat(2,1fr); } }
-@media (max-width: 600px) { .content { padding: 16px; } .stats-row { grid-template-columns: 1fr 1fr; } .filters { flex-direction: column; } .hot-deals-grid { grid-template-columns: 1fr; } }
+
+/* RIGHT COLUMN */
+.right-col { display: flex; flex-direction: column; gap: 14px; }
+.alert-feed { max-height: 210px; overflow-y: auto; }
+.alert-item { display: flex; gap: 10px; padding: 10px 16px; border-bottom: 1px solid rgba(26,34,54,0.5); cursor: pointer; transition: background 0.1s; }
+.alert-item:last-child { border-bottom: none; }
+.alert-item:hover { background: var(--navy-hover); }
+.a-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.a-dot.hot { background: var(--gold); }
+.a-dot.good { background: var(--green); }
+.a-dot.info { background: var(--text-dim); }
+.a-dot.urg { background: var(--red); animation: pulse-r 2s infinite; }
+@keyframes pulse-r { 0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.4)} 50%{box-shadow:0 0 0 4px rgba(239,68,68,0)} }
+.a-text { font-size: 0.75rem; color: var(--text-primary); line-height: 1.4; flex: 1; }
+.a-sub { color: var(--text-muted); font-size: 0.67rem; display: block; margin-top: 1px; }
+.a-time { font-family: var(--font-m); font-size: 0.6rem; color: var(--text-dim); flex-shrink: 0; margin-top: 3px; }
+
+.digest-inner { margin: 12px 14px; background: var(--navy); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.d-hdr { background: var(--navy-mid); padding: 9px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+.d-hdr-t { font-family: var(--font-h); font-size: 0.72rem; font-weight: 700; }
+.d-date { font-family: var(--font-m); font-size: 0.6rem; color: var(--text-muted); }
+.d-stats { display: flex; border-bottom: 1px solid var(--border); }
+.d-stat { flex: 1; padding: 9px; text-align: center; border-right: 1px solid var(--border); }
+.d-stat:last-child { border-right: none; }
+.d-val { font-family: var(--font-h); font-size: 0.95rem; font-weight: 800; color: var(--gold); }
+.d-lbl { font-family: var(--font-m); font-size: 0.53rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 1px; }
+.d-deal { padding: 8px 12px; border-bottom: 1px solid rgba(26,34,54,0.5); display: flex; justify-content: space-between; align-items: center; }
+.d-deal:last-of-type { border-bottom: none; }
+.d-deal-n { font-size: 0.72rem; font-weight: 500; }
+.d-deal-s { font-size: 0.62rem; color: var(--text-muted); margin-top: 1px; }
+.d-score { font-family: var(--font-h); font-size: 0.85rem; font-weight: 800; color: var(--gold); }
+.d-footer { padding: 8px 12px; text-align: center; font-size: 0.62rem; color: var(--text-dim); font-family: var(--font-m); border-top: 1px solid var(--border); }
+
+/* BOTTOM PANELS */
+.chart-body { padding: 16px; }
+.chart-lbl { font-family: var(--font-m); font-size: 0.58rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
+.bar-chart { display: flex; align-items: flex-end; gap: 7px; height: 80px; }
+.bc { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; }
+.bc-track { flex: 1; width: 100%; background: var(--navy); border-radius: 3px 3px 0 0; display: flex; align-items: flex-end; }
+.bc-fill { width: 100%; border-radius: 3px 3px 0 0; transition: height 1s cubic-bezier(.4,0,.2,1); }
+.bc-fill.gld { background: linear-gradient(to top, var(--gold), rgba(232,160,32,0.4)); }
+.bc-fill.grn { background: linear-gradient(to top, var(--green), rgba(0,200,150,0.3)); }
+.bc-val { font-family: var(--font-m); font-size: 0.6rem; color: var(--text-primary); }
+.bc-lbl { font-family: var(--font-m); font-size: 0.55rem; color: var(--text-muted); text-align: center; }
+.chart-legend { display: flex; gap: 14px; margin-top: 10px; }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 0.65rem; color: var(--text-muted); }
+.leg-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.tl-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+.tl-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.tl-label { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 7px; }
+.tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.tl-right { display: flex; align-items: center; gap: 10px; }
+.tl-count { font-family: var(--font-h); font-size: 1rem; font-weight: 800; min-width: 28px; text-align: right; }
+.tl-bar-wrap { width: 70px; height: 4px; background: var(--navy); border-radius: 2px; }
+.tl-bar { height: 100%; border-radius: 2px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+
+.dist-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+.dist-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.dist-name { font-size: 0.75rem; color: var(--text-muted); }
+.dist-pct { font-family: var(--font-m); font-size: 0.7rem; }
+.dist-bar { height: 4px; background: var(--navy); border-radius: 2px; overflow: hidden; }
+.dist-fill { height: 100%; border-radius: 2px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+
+/* PANEL DIVIDER inside panel */
+.panel-divider { border-top: 1px solid var(--border); margin-top: 4px; }
+.panel-sub-hdr { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px 8px; }
+.panel-sub-title { font-family: var(--font-h); font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
+
+/* OVERLAY + SCROLLBAR */
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 55; backdrop-filter: blur(2px); }
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+
+/* RESPONSIVE */
+@media (max-width: 1280px) { .grid-bottom { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 1100px) { .stats-row { grid-template-columns: repeat(3,1fr); } .grid-main { grid-template-columns: 1fr; } .right-col { flex-direction: row; flex-wrap: wrap; } .right-col .panel { flex: 1; min-width: 260px; } }
+@media (max-width: 780px) { .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .sidebar-close { display: block; } .sidebar-overlay.open { display: block; } .main { margin-left: 0; } .hamburger-btn { display: flex; } .stats-row { grid-template-columns: 1fr 1fr; } .grid-bottom { grid-template-columns: 1fr; } .topbar-search { width: 140px; } }
+@media (max-width: 480px) { .stats-row { grid-template-columns: 1fr; } .content { padding: 12px; } }
 </style>
 </head>
 <body>
+<div class="app">
 
-<aside class="sidebar">
-  <div class="sidebar-logo">intel<span>Estate</span></div>
+<div class="sidebar-overlay" id="overlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <a href="index.html" style="text-decoration:none;color:inherit;">
+      <div class="logo-text">intel<span>Estate</span></div>
+      <span class="logo-sub">Court Auction Intelligence</span>
+    </a>
+    <button class="sidebar-close" id="sidebarClose">✕</button>
+  </div>
   <nav class="sidebar-nav">
-    <a class="nav-item active" href="dashboard.html"><span class="nav-icon">⊞</span><span data-pl="Dashboard" data-en="Dashboard">Dashboard</span></a>
-    <a class="nav-item" href="#"><span class="nav-icon">🔥</span><span data-pl="HOT DEALS" data-en="HOT DEALS">HOT DEALS</span></a>
-    <a class="nav-item" href="#"><span class="nav-icon">◎</span><span data-pl="Moje alerty" data-en="My alerts">Moje alerty</span></a>
-    <a class="nav-item" href="#"><span class="nav-icon">↗</span><span data-pl="Analityka" data-en="Analytics">Analityka</span></a>
-    <a class="nav-item" href="#"><span class="nav-icon">⭐</span><span data-pl="Obserwowane" data-en="Watchlist">Obserwowane</span></a>
-    <a class="nav-item" href="#"><span class="nav-icon">↓</span><span data-pl="Eksport" data-en="Export">Eksport</span></a>
-    <a class="nav-item" href="index.html"><span class="nav-icon">←</span><span data-pl="Strona główna" data-en="Homepage">Strona główna</span></a>
+    <div class="nav-label">Main</div>
+    <div class="nav-item active"><span class="nav-icon">▦</span> Dashboard</div>
+    <div class="nav-item"><span class="nav-icon">🔥</span> Hot Deals <span class="nav-badge">18</span></div>
+    <div class="nav-item"><a href="index.html#deals" style="display:flex;align-items:center;gap:9px;color:var(--text-muted);width:100%"><span class="nav-icon">≡</span> All Auctions</a></div>
+    <div class="nav-item" id="savedNavBtn"><span class="nav-icon">♡</span> Saved Deals <span class="nav-badge">2</span></div>
+    <div class="nav-item"><span class="nav-icon">⚡</span> Alerts <span class="nav-badge r">3</span></div>
+    <div class="nav-label">Analysis</div>
+    <div class="nav-item"><span class="nav-icon">◫</span> Market Intel</div>
+    <div class="nav-item"><span class="nav-icon">⊞</span> Map View <span style="margin-left:auto;font-family:var(--font-m);font-size:0.55rem;color:var(--text-dim);border:1px solid var(--border);padding:1px 5px;border-radius:3px;">SOON</span></div>
+    <div class="nav-item"><span class="nav-icon">↗</span> Price Trends</div>
+    <div class="nav-item" id="roiNavBtn"><span class="nav-icon">⬡</span> ROI Calculator</div>
+    <div class="nav-label">Account</div>
+    <div class="nav-item"><span class="nav-icon">✉</span> Email Digest</div>
+    <div class="nav-item"><a href="mailto:hello@intelestate.eu?subject=Account Settings" style="display:flex;align-items:center;gap:9px;color:var(--text-muted);width:100%"><span class="nav-icon">◈</span> Settings</a></div>
+    <div class="nav-item"><a href="index.html" style="display:flex;align-items:center;gap:9px;color:var(--text-muted);"><span class="nav-icon">←</span> Back to Site</a></div>
+    <div class="nav-item"><a href="how-court-auctions-work.html" style="display:flex;align-items:center;gap:9px;color:var(--text-muted);"><span class="nav-icon">📖</span> Auction Guide</a></div>
+    <div class="nav-item"><a href="mailto:hello@intelestate.eu" style="display:flex;align-items:center;gap:9px;color:var(--text-muted);"><span class="nav-icon">✉</span> Contact Support</a></div>
   </nav>
   <div class="sidebar-bottom">
-    <div class="tier-badge">Beta</div>
-    <div style="font-size:0.78rem;color:var(--muted);margin-bottom:12px;" data-pl="Dane na żywo z licytacje.komornik.pl" data-en="Live data from licytacje.komornik.pl">Dane na żywo z licytacje.komornik.pl</div>
-    <button class="upgrade-btn" onclick="window.location='index.html#pricing'" data-pl="Uaktualnij do Pro →" data-en="Upgrade to Pro →">Uaktualnij do Pro →</button>
+    <div style="display:flex;gap:6px;margin-bottom:10px;">
+      <button onclick="this.style.color='var(--gold)';this.nextElementSibling.style.color='var(--text-muted)'" style="flex:1;padding:5px;border-radius:4px;border:1px solid var(--gold-border);background:var(--gold-dim);color:var(--gold);font-family:var(--font-m);font-size:0.68rem;font-weight:700;">EN</button>
+      <button onclick="this.style.color='var(--gold)';this.previousElementSibling.style.color='var(--text-muted)'" style="flex:1;padding:5px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-family:var(--font-m);font-size:0.68rem;font-weight:700;">PL</button>
+    </div>
+    <div class="tier-pill">
+      <div class="tier-icon">🆓</div>
+      <div>
+        <div class="t-name">FREE TIER</div>
+        <div class="t-sub">3 of 18 HOT deals visible</div>
+      </div>
+    </div>
+    <a href="pricing.html" class="upgrade-btn">Upgrade to Specialist →</a>
   </div>
 </aside>
 
-<main class="main">
-  <div class="topbar">
-    <div class="topbar-title" data-pl="Przeglądarka licytacji" data-en="Auction Browser">Przeglądarka licytacji</div>
-    <div class="topbar-right">
-      <div class="live-badge"><span class="live-dot"></span><span data-pl="Dane na żywo" data-en="Live data">Dane na żywo</span></div>
-      <div class="lang-switcher">
-        <button class="lang-btn active" onclick="setLang('pl')">PL</button>
-        <button class="lang-btn" onclick="setLang('en')">EN</button>
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger-btn icon-btn" id="hamburger">☰</button>
+      <div class="live-dot"></div>
+      <div>
+        <div class="topbar-title">Dashboard</div>
+        <div class="topbar-sub">Updated 06:00 · Thu 12 Mar 2026</div>
       </div>
     </div>
-  </div>
+    <div class="topbar-right">
+      <div class="search-wrap">
+        <input class="topbar-search" type="text" placeholder="Search city, type, KM…">
+      </div>
+      <div class="notif-wrap">
+        <button class="icon-btn" title="Alerts">🔔</button>
+        <div class="notif-dot"></div>
+      </div>
+      <a href="mailto:hello@intelestate.eu?subject=Account Settings" class="icon-btn" title="Settings" style="display:flex;align-items:center;justify-content:center;">⚙</a>
+      <div style="position:relative;" id="avatarWrap">
+        <div class="avatar" style="cursor:pointer;" onclick="document.getElementById('avatarMenu').classList.toggle('open')">JK</div>
+        <div id="avatarMenu" style="display:none;position:absolute;top:calc(100% + 8px);right:0;background:var(--navy-light);border:1px solid var(--border);border-radius:7px;padding:6px;min-width:180px;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+          <div style="padding:8px 10px;border-bottom:1px solid var(--border);margin-bottom:4px;">
+            <div style="font-family:var(--font-h);font-size:0.78rem;font-weight:700;">Jan Kowalski</div>
+            <div style="font-size:0.65rem;color:var(--text-muted);font-family:var(--font-m);">jan@example.com</div>
+            <div style="font-size:0.6rem;color:var(--gold);margin-top:3px;font-family:var(--font-m);">FREE TIER</div>
+          </div>
+          <a href="pricing.html" style="display:flex;align-items:center;gap:8px;padding:7px 10px;font-size:0.75rem;color:var(--text-muted);border-radius:4px;transition:background 0.1s;" onmouseover="this.style.background='var(--navy-hover)'" onmouseout="this.style.background='transparent'">⬆ Upgrade Plan</a>
+          <a href="mailto:hello@intelestate.eu?subject=Account Settings" style="display:flex;align-items:center;gap:8px;padding:7px 10px;font-size:0.75rem;color:var(--text-muted);border-radius:4px;transition:background 0.1s;" onmouseover="this.style.background='var(--navy-hover)'" onmouseout="this.style.background='transparent'">⚙ Account Settings</a>
+          <a href="mailto:hello@intelestate.eu" style="display:flex;align-items:center;gap:8px;padding:7px 10px;font-size:0.75rem;color:var(--text-muted);border-radius:4px;transition:background 0.1s;" onmouseover="this.style.background='var(--navy-hover)'" onmouseout="this.style.background='transparent'">✉ Contact Support</a>
+          <div style="border-top:1px solid var(--border);margin-top:4px;padding-top:4px;">
+            <a href="index.html" style="display:flex;align-items:center;gap:8px;padding:7px 10px;font-size:0.75rem;color:var(--red);border-radius:4px;transition:background 0.1s;" onmouseover="this.style.background='var(--navy-hover)'" onmouseout="this.style.background='transparent'">← Log Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
 
   <div class="content">
+
+    <!-- STAT CARDS -->
     <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-card-label" data-pl="Aktywnych licytacji" data-en="Active auctions">Aktywnych licytacji</div>
-        <div class="stat-card-value" id="stat-total">—</div>
-        <div class="stat-card-sub" data-pl="w bazie danych" data-en="in database">w bazie danych</div>
+      <div class="stat-card" style="animation-delay:0s">
+        <div class="stat-label">Active Auctions</div>
+        <div class="stat-value">473</div>
+        <div class="stat-delta"><span class="up">↑ 14</span> new today</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-label" data-pl="HOT DEALS" data-en="HOT DEALS">HOT DEALS</div>
-        <div class="stat-card-value" id="stat-hot" style="color:#e74c3c;">—</div>
-        <div class="stat-card-sub" data-pl="najlepsze okazje" data-en="best opportunities">najlepsze okazje</div>
+      <div class="stat-card" style="animation-delay:.05s">
+        <div class="stat-label">HOT Deals 🔥</div>
+        <div class="stat-value gold">18</div>
+        <div class="stat-delta"><span class="up">↑ 3</span> since yesterday</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-label" data-pl="Śr. dyskonto" data-en="Avg discount">Śr. dyskonto</div>
-        <div class="stat-card-value" id="stat-discount">—</div>
-        <div class="stat-card-sub" data-pl="poniżej wartości rynkowej" data-en="below market value">poniżej wartości rynkowej</div>
+      <div class="stat-card" style="animation-delay:.1s">
+        <div class="stat-label">Avg Discount</div>
+        <div class="stat-value green">33%</div>
+        <div class="stat-delta">vs appraised value</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-label" data-pl="II licytacje" data-en="2nd round">II licytacje</div>
-        <div class="stat-card-value" id="stat-second">—</div>
-        <div class="stat-card-sub" data-pl="niższa cena wywołania" data-en="lower starting price">niższa cena wywołania</div>
+      <div class="stat-card" style="animation-delay:.15s">
+        <div class="stat-label">2nd Round 🏷</div>
+        <div class="stat-value">61</div>
+        <div class="stat-delta"><span class="up">↑</span> deeper price floor</div>
+      </div>
+      <div class="stat-card" style="animation-delay:.2s">
+        <div class="stat-label">Auctions This Week</div>
+        <div class="stat-value">18</div>
+        <div class="stat-delta"><span class="dn">↓ 4</span> vs last week</div>
       </div>
     </div>
 
-    <div class="hot-deals-banner" id="hot-banner" style="display:none;">
-      <div class="hot-deals-header">
-        <span style="font-size:1rem;">🔥</span>
-        <div class="hot-deals-title" data-pl="HOT DEALS — najlepsze okazje tygodnia" data-en="HOT DEALS — top opportunities">HOT DEALS — najlepsze okazje tygodnia</div>
-      </div>
-      <div class="hot-deals-grid" id="hot-deals-grid"></div>
-    </div>
+    <!-- MAIN GRID -->
+    <div class="grid-main">
 
-    <div class="quick-filters">
-      <button class="qf-btn active" id="qf-all" onclick="quickFilter('all')" data-pl="Wszystkie" data-en="All">Wszystkie</button>
-      <button class="qf-btn" id="qf-hot" onclick="quickFilter('hot')" data-pl="🔥 HOT DEALS" data-en="🔥 HOT DEALS">🔥 HOT DEALS</button>
-      <button class="qf-btn" id="qf-good" onclick="quickFilter('good')" data-pl="GOOD DEALS" data-en="GOOD DEALS">GOOD DEALS</button>
-      <button class="qf-btn" id="qf-week" onclick="quickFilter('week')" data-pl="Ten tydzień" data-en="This week">Ten tydzień</button>
-      <button class="qf-btn" id="qf-second" onclick="quickFilter('second')" data-pl="II Licytacje" data-en="2nd Round">II Licytacje</button>
-    </div>
+      <!-- DEALS TABLE PANEL -->
+      <div class="panel" style="animation-delay:.1s">
+        <div class="panel-hdr">
+          <div class="panel-title">🔥 Today's Ranked Deals</div>
+          <div class="panel-actions">
+            <button class="pbtn on" data-tab="hot">HOT</button>
+            <button class="pbtn" data-tab="good">GOOD</button>
+            <button class="pbtn" data-tab="all">All</button>
+          </div>
+        </div>
+        <div class="filters-bar">
+          <button class="fchip on" data-f="type" data-v="all">All Types</button>
+          <button class="fchip" data-f="type" data-v="apt">Apartments</button>
+          <button class="fchip" data-f="type" data-v="house">Houses</button>
+          <button class="fchip" data-f="type" data-v="land">Land</button>
+          <button class="fchip" data-f="type" data-v="comm">Commercial</button>
+          <div class="fsep"></div>
+          <button class="fchip on" data-f="reg" data-v="all">All Poland</button>
+          <button class="fchip" data-f="reg" data-v="krakow">Kraków</button>
+          <button class="fchip" data-f="reg" data-v="warsaw">Warsaw</button>
+          <button class="fchip" data-f="reg" data-v="wroclaw">Wrocław</button>
+          <div class="fsep"></div>
+          <span style="font-family:var(--font-m);font-size:0.6rem;color:var(--text-dim);padding:2px 8px;border:1px solid var(--border);border-radius:3px;" title="Road shares and non-investable property types are automatically excluded from scoring">🚫 Road shares excluded</span>
+          <button class="sort-btn" id="sortBtn">Sort: Score ↓</button>
+          <div class="export-wrap">
+            <button class="export-btn">🔒 CSV Export</button>
+            <div class="export-tooltip">CSV export available on PRO plan — <a href="pricing.html" style="color:var(--gold)">upgrade →</a></div>
+          </div>
+        </div>
 
-    <div class="filters">
-      <div class="filter-group">
-        <label class="filter-label" data-pl="Typ nieruchomości" data-en="Property type">Typ nieruchomości</label>
-        <select class="filter-select" id="f-type">
-          <option value="" data-pl="Wszystkie" data-en="All">Wszystkie</option>
-          <option value="APARTMENT" data-pl="Mieszkanie" data-en="Apartment">Mieszkanie</option>
-          <option value="HOUSE" data-pl="Dom" data-en="House">Dom</option>
-          <option value="LAND" data-pl="Grunt" data-en="Land">Grunt</option>
-          <option value="COMMERCIAL" data-pl="Komercyjne" data-en="Commercial">Komercyjne</option>
-          <option value="SHARE" data-pl="Udział" data-en="Share">Udział</option>
-          <option value="OTHER" data-pl="Inne" data-en="Other">Inne</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label" data-pl="Min. dyskonto" data-en="Min discount">Min. dyskonto</label>
-        <select class="filter-select" id="f-discount">
-          <option value="0" data-pl="Wszystkie" data-en="All">Wszystkie</option>
-          <option value="20">20%+</option>
-          <option value="25">25%+</option>
-          <option value="30">30%+</option>
-          <option value="40">40%+</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label" data-pl="Licytacja" data-en="Round">Licytacja</label>
-        <select class="filter-select" id="f-round">
-          <option value="" data-pl="Wszystkie" data-en="All">Wszystkie</option>
-          <option value="2" data-pl="II Licytacja" data-en="2nd Auction">II Licytacja</option>
-          <option value="1" data-pl="I Licytacja" data-en="1st Auction">I Licytacja</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label" data-pl="Maks. dni" data-en="Max days">Maks. dni</label>
-        <select class="filter-select" id="f-days">
-          <option value="" data-pl="Wszystkie" data-en="All">Wszystkie</option>
-          <option value="7">7 dni</option>
-          <option value="14">14 dni</option>
-          <option value="30">30 dni</option>
-          <option value="60">60 dni</option>
-        </select>
-      </div>
-      <button class="btn-filter" onclick="applyFilters()" data-pl="Filtruj" data-en="Filter">Filtruj</button>
-      <button class="btn-reset" onclick="resetFilters()" data-pl="Reset" data-en="Reset">Reset</button>
-    </div>
-
-    <div class="deals-table-wrap">
-      <div class="table-header">
-        <div class="table-title" data-pl="Aktywne licytacje" data-en="Active auctions">Aktywne licytacje</div>
-        <div class="table-count" id="deal-count"></div>
-      </div>
-      <div style="overflow-x:auto;">
-        <table>
+        <table class="deals-table">
           <thead>
             <tr>
-              <th onclick="toggleSort('score')" data-pl="Score ↕" data-en="Score ↕">Score ↕</th>
-              <th data-pl="Oferta" data-en="Deal">Oferta</th>
-              <th data-pl="Typ" data-en="Type">Typ</th>
-              <th data-pl="Sprawa KM" data-en="KM Case">Sprawa KM</th>
-              <th onclick="toggleSort('round')" data-pl="Licytacja ↕" data-en="Round ↕">Licytacja ↕</th>
-              <th onclick="toggleSort('discount')" data-pl="Dyskonto ↕" data-en="Discount ↕">Dyskonto ↕</th>
-              <th onclick="toggleSort('price')" data-pl="Cena wywołania ↕" data-en="Starting price ↕">Cena wywołania ↕</th>
-              <th onclick="toggleSort('date')" data-pl="Data ↕" data-en="Date ↕">Data ↕</th>
-              <th data-pl="Pozostało" data-en="Time left">Pozostało</th>
+              <th class="sorted" data-col="score">Score ↓</th>
+              <th data-col="prop">Property</th>
+              <th>Type</th>
+              <th data-col="disc">Discount</th>
+              <th data-col="price">Starting Price</th>
+              <th data-col="dep">Deposit <span style="color:var(--orange);font-size:0.5rem;">PRO</span></th>
+              <th>Round</th>
+              <th data-col="days">Days Left</th>
               <th></th>
             </tr>
           </thead>
-          <tbody id="deals-tbody">
-            <tr><td colspan="10"><div class="loading-row"><div class="loading-spinner"></div><span data-pl="Ładowanie danych..." data-en="Loading data...">Ładowanie danych...</span></div></td></tr>
+          <tbody>
+            <tr class="drow" data-score="94" data-type="apt" data-reg="krakow" data-tier="hot" data-days="3">
+              <td>
+                <div class="score-wrap">
+                  <span class="score s-hot">94</span>
+                  <div class="score-tip">
+                    <strong>Score: 94 / 100</strong>
+                    <div class="sr"><span>Discount depth (60%)</span><span>57 pts</span></div>
+                    <div class="sr"><span>2nd round bonus (20%)</span><span>20 pts</span></div>
+                    <div class="sr"><span>Urgency — 3 days (20%)</span><span>17 pts</span></div>
+                  </div>
+                </div>
+              </td>
+              <td><div class="dp-name">Apartment · 72 m²</div><div class="dp-loc">Kraków, Małopolska</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);opacity:0.7;" title="View on licytacje.komornik.pl">KM 4821/24 ↗</a></div></td>
+              <td><span class="tag tag-t">Apartment</span></td>
+              <td><span class="v-disc">–41%</span></td>
+              <td><div class="v-price">364,667 PLN</div><div class="v-sub">appraised 618,000</div></td>
+              <td><div class="v-deposit">36,467 PLN</div><div class="v-sub">10% of start</div></td>
+              <td><span class="tag tag-r2">2nd 🏷</span></td>
+              <td><span class="d-urg">3 days</span></td>
+              <td><button class="save-btn" title="Save">♡</button></td>
+            </tr>
+            <tr class="drow" data-score="91" data-type="house" data-reg="lodz" data-tier="hot" data-days="5">
+              <td>
+                <div class="score-wrap">
+                  <span class="score s-hot">91</span>
+                  <div class="score-tip">
+                    <strong>Score: 91 / 100</strong>
+                    <div class="sr"><span>Discount depth (60%)</span><span>54 pts</span></div>
+                    <div class="sr"><span>2nd round bonus (20%)</span><span>20 pts</span></div>
+                    <div class="sr"><span>Urgency — 5 days (20%)</span><span>17 pts</span></div>
+                  </div>
+                </div>
+              </td>
+              <td><div class="dp-name">House · 148 m²</div><div class="dp-loc">Łódź, Łódzkie</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);opacity:0.7;" title="View on licytacje.komornik.pl">KMP 3317/24 ↗</a></div></td>
+              <td><span class="tag tag-t">House</span></td>
+              <td><span class="v-disc">–38%</span></td>
+              <td><div class="v-price">287,500 PLN</div><div class="v-sub">appraised 464,000</div></td>
+              <td><div class="v-deposit">28,750 PLN</div><div class="v-sub">10% of start</div></td>
+              <td><span class="tag tag-r2">2nd 🏷</span></td>
+              <td><span class="d-urg">5 days</span></td>
+              <td><button class="save-btn saved" title="Saved">♥</button></td>
+            </tr>
+            <tr class="drow" data-score="88" data-type="apt" data-reg="wroclaw" data-tier="hot" data-days="8">
+              <td>
+                <div class="score-wrap">
+                  <span class="score s-hot">88</span>
+                  <div class="score-tip">
+                    <strong>Score: 88 / 100</strong>
+                    <div class="sr"><span>Discount depth (60%)</span><span>52 pts</span></div>
+                    <div class="sr"><span>1st round (20%)</span><span>14 pts</span></div>
+                    <div class="sr"><span>Urgency — 8 days (20%)</span><span>22 pts</span></div>
+                  </div>
+                </div>
+              </td>
+              <td><div class="dp-name">Apartment · 55 m²</div><div class="dp-loc">Wrocław, Dolnośląskie</div><div class="dp-ref"><a href="https://licytacje.komornik.pl" target="_blank" style="color:var(--gold);opacity:0.7;" title="View on licytacje.komornik.pl">KM 2209/25 ↗</a></div></td>
+              <td><span class="tag tag-t">Apartment</span></td>
+              <td><span class="v-disc">–35%</span></td>
+              <td><div class="v-price">312,000 PLN</div><div class="v-sub">appraised 480,000</div></td>
+              <td><div class="v-deposit">31,200 PLN</div><div class="v-sub">10% of start</div></td>
+              <td><span class="tag tag-r1">1st</span></td>
+              <td><span class="d-soon">8 days</span></td>
+              <td><button class="save-btn" title="Save">♡</button></td>
+            </tr>
+            <tr class="drow blurred" data-score="86" data-type="comm" data-reg="poznan" data-tier="hot" data-days="9">
+              <td><span class="score s-hot">86</span></td>
+              <td><div class="dp-name">Commercial · 210 m²</div><div class="dp-loc">Poznań, Wielkopolskie</div></td>
+              <td><span class="tag tag-t">Commercial</span></td>
+              <td><span class="v-disc">–33%</span></td>
+              <td><div class="v-price">521,000 PLN</div></td>
+              <td><div class="v-deposit">52,100 PLN</div></td>
+              <td><span class="tag tag-r2">2nd 🏷</span></td>
+              <td><span class="d-soon">9 days</span></td>
+              <td>♡</td>
+            </tr>
+            <tr class="drow blurred" data-score="85" data-type="house" data-reg="gdansk" data-tier="hot" data-days="11">
+              <td><span class="score s-hot">85</span></td>
+              <td><div class="dp-name">House · 190 m²</div><div class="dp-loc">Gdańsk, Pomorskie</div></td>
+              <td><span class="tag tag-t">House</span></td>
+              <td><span class="v-disc">–31%</span></td>
+              <td><div class="v-price">445,000 PLN</div></td>
+              <td><div class="v-deposit">44,500 PLN</div></td>
+              <td><span class="tag tag-r1">1st</span></td>
+              <td><span class="d-ok">11 days</span></td>
+              <td>♡</td>
+            </tr>
+            <tr class="unlock-row">
+              <td colspan="9">
+                <div class="unlock-inner">
+                  <span class="unlock-msg">🔒 15 more HOT deals hidden — Specialist plan unlocks all</span>
+                  <a href="pricing.html" class="unlock-cta">Upgrade Now →</a>
+                </div>
+              </td>
+            </tr>
+            <tr id="saved-empty" style="display:none;">
+              <td colspan="9" style="text-align:center;padding:32px;color:var(--text-muted);font-size:0.78rem;">
+                <div style="font-size:1.5rem;margin-bottom:8px;">♡</div>
+                <div style="font-weight:600;color:var(--text-primary);margin-bottom:4px;">No saved deals yet</div>
+                <div>Click the ♡ on any deal row to save it to your watchlist</div>
+              </td>
+            </tr>
           </tbody>
         </table>
+        <div class="pagination">
+          <div class="page-info">Showing 3 of 18 HOT deals · Upgrade to see all</div>
+          <div class="page-btns">
+            <button class="page-btn on">1</button>
+            <button class="page-btn" disabled>2</button>
+            <button class="page-btn" disabled>3</button>
+            <button class="page-btn" disabled>→</button>
+          </div>
+        </div>
       </div>
-      <div class="pagination" id="pagination"></div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
+
+        <!-- ALERTS -->
+        <div class="panel" style="animation-delay:.15s">
+          <div class="panel-hdr">
+            <div class="panel-title">⚡ Live Alerts</div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-family:var(--font-m);font-size:0.58rem;color:var(--text-dim);border:1px solid var(--border);padding:2px 6px;border-radius:3px;" title="PRO: get alerts 3 days before auction">⚡ Early Alert = PRO</span>
+              <span class="nav-badge r" style="font-size:0.6rem;padding:2px 7px;">3 new</span>
+            </div>
+          </div>
+          <div class="alert-feed">
+            <div class="alert-item">
+              <div class="a-dot urg"></div>
+              <div class="a-text">Kraków KM 4821/24 — auction in <strong>3 days</strong>. Score 94🔥<span class="a-sub">06:00 today · Małopolska</span></div>
+              <div class="a-time">now</div>
+            </div>
+            <div class="alert-item">
+              <div class="a-dot hot"></div>
+              <div class="a-text">New 2nd-round: Łódź house –38% added<span class="a-sub">06:00 today · Łódzkie</span></div>
+              <div class="a-time">6h</div>
+            </div>
+            <div class="alert-item">
+              <div class="a-dot good"></div>
+              <div class="a-text">Wrocław apartment relisted, price dropped to 312k<span class="a-sub">Yesterday · Dolnośląskie</span></div>
+              <div class="a-time">1d</div>
+            </div>
+            <div class="alert-item">
+              <div class="a-dot info"></div>
+              <div class="a-text">Daily digest sent — 4 HOT, 9 GOOD deals<span class="a-sub">06:00 today</span></div>
+              <div class="a-time">6h</div>
+            </div>
+            <div class="alert-item">
+              <div class="a-dot info"></div>
+              <div class="a-text">14 new auctions scraped overnight<span class="a-sub">02:00 today</span></div>
+              <div class="a-time">10h</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DIGEST PREVIEW -->
+        <div class="panel" style="animation-delay:.2s">
+          <div class="panel-hdr">
+            <div class="panel-title">📧 Today's Digest</div>
+            <button class="pbtn">View Full</button>
+          </div>
+          <div class="digest-inner">
+            <div class="d-hdr">
+              <div class="d-hdr-t">intel<span style="color:var(--gold)">Estate</span> · Morning Brief</div>
+              <div class="d-date">Thu 12 Mar 2026</div>
+            </div>
+            <div class="d-stats">
+              <div class="d-stat"><div class="d-val">4</div><div class="d-lbl">HOT 🔥</div></div>
+              <div class="d-stat"><div class="d-val" style="color:var(--green)">9</div><div class="d-lbl">GOOD ✓</div></div>
+              <div class="d-stat"><div class="d-val" style="color:var(--text-muted)">5</div><div class="d-lbl">New</div></div>
+            </div>
+            <div class="d-deal"><div><div class="d-deal-n">Kraków · Apt 72m²</div><div class="d-deal-s">–41% · 2nd · 3 days</div></div><div class="d-score">94</div></div>
+            <div class="d-deal"><div><div class="d-deal-n">Łódź · House 148m²</div><div class="d-deal-s">–38% · 2nd · 5 days</div></div><div class="d-score">91</div></div>
+            <div class="d-deal"><div><div class="d-deal-n">Wrocław · Apt 55m²</div><div class="d-deal-s">–35% · 1st · 8 days</div></div><div class="d-score">88</div></div>
+            <div class="d-footer">Sent 06:00 · digest@intelestate.eu</div>
+          </div>
+        </div>
+
+      </div><!-- end right-col -->
+    </div><!-- end grid-main -->
+
+    <!-- BOTTOM PANELS -->
+    <div class="grid-bottom">
+
+      <!-- DISCOUNT DISTRIBUTION -->
+      <div class="panel" style="animation-delay:.2s">
+        <div class="panel-hdr">
+          <div class="panel-title">📊 Discount Distribution</div>
+          <button class="pbtn on">This Week</button>
+        </div>
+        <div class="chart-body">
+          <div class="chart-lbl">Auctions by discount band (473 total)</div>
+          <div class="bar-chart">
+            <div class="bc"><div class="bc-val">12</div><div class="bc-track"><div class="bc-fill gld" style="height:0%" data-h="20%"></div></div><div class="bc-lbl">&lt;15%</div></div>
+            <div class="bc"><div class="bc-val">38</div><div class="bc-track"><div class="bc-fill gld" style="height:0%" data-h="46%"></div></div><div class="bc-lbl">15–25%</div></div>
+            <div class="bc"><div class="bc-val">81</div><div class="bc-track"><div class="bc-fill gld" style="height:0%" data-h="72%"></div></div><div class="bc-lbl">25–35%</div></div>
+            <div class="bc"><div class="bc-val">94</div><div class="bc-track"><div class="bc-fill gld" style="height:0%" data-h="90%"></div></div><div class="bc-lbl">35–45%</div></div>
+            <div class="bc"><div class="bc-val">67</div><div class="bc-track"><div class="bc-fill gld" style="height:0%" data-h="66%"></div></div><div class="bc-lbl">45–55%</div></div>
+            <div class="bc"><div class="bc-val">29</div><div class="bc-track"><div class="bc-fill grn" style="height:0%" data-h="32%"></div></div><div class="bc-lbl">&gt;55%</div></div>
+          </div>
+          <div class="chart-legend">
+            <div class="leg"><div class="leg-dot" style="background:var(--gold)"></div> Standard</div>
+            <div class="leg"><div class="leg-dot" style="background:var(--green)"></div> Exceptional (&gt;55%)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPCOMING + PROPERTY TYPE -->
+      <div class="panel" style="animation-delay:.25s">
+        <div class="panel-hdr">
+          <div class="panel-title">📅 Upcoming Auctions</div>
+          <button class="pbtn">Calendar</button>
+        </div>
+        <div class="tl-list">
+          <div class="tl-item">
+            <div class="tl-label"><div class="tl-dot" style="background:var(--red)"></div>This week (7 days)</div>
+            <div class="tl-right"><div class="tl-count" style="color:var(--red)">18</div><div class="tl-bar-wrap"><div class="tl-bar" style="width:0%;background:var(--red)" data-w="22%"></div></div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-label"><div class="tl-dot" style="background:var(--orange)"></div>Next week</div>
+            <div class="tl-right"><div class="tl-count" style="color:var(--orange)">27</div><div class="tl-bar-wrap"><div class="tl-bar" style="width:0%;background:var(--orange)" data-w="33%"></div></div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-label"><div class="tl-dot" style="background:var(--green)"></div>Next 30 days</div>
+            <div class="tl-right"><div class="tl-count" style="color:var(--green)">121</div><div class="tl-bar-wrap"><div class="tl-bar" style="width:0%;background:var(--green)" data-w="100%"></div></div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-label"><div class="tl-dot" style="background:var(--gold)"></div>2nd round only</div>
+            <div class="tl-right"><div class="tl-count" style="color:var(--gold)">61</div><div class="tl-bar-wrap"><div class="tl-bar" style="width:0%;background:var(--gold)" data-w="75%"></div></div></div>
+          </div>
+        </div>
+        <div class="panel-divider"></div>
+        <div class="panel-sub-hdr"><div class="panel-sub-title">Property Type Breakdown</div></div>
+        <div class="dist-list" style="padding-top:4px;">
+          <div><div class="dist-hdr"><span class="dist-name">Apartments</span><span class="dist-pct">45%</span></div><div class="dist-bar"><div class="dist-fill" style="width:0%;background:var(--gold)" data-w="45%"></div></div></div>
+          <div><div class="dist-hdr"><span class="dist-name">Houses</span><span class="dist-pct">30%</span></div><div class="dist-bar"><div class="dist-fill" style="width:0%;background:var(--gold)" data-w="30%"></div></div></div>
+          <div><div class="dist-hdr"><span class="dist-name">Land</span><span class="dist-pct">18%</span></div><div class="dist-bar"><div class="dist-fill" style="width:0%;background:rgba(232,160,32,0.5)" data-w="18%"></div></div></div>
+          <div><div class="dist-hdr"><span class="dist-name">Commercial</span><span class="dist-pct">7%</span></div><div class="dist-bar"><div class="dist-fill" style="width:0%;background:rgba(232,160,32,0.3)" data-w="7%"></div></div></div>
+        </div>
+      </div>
+
+      <!-- REGIONAL COVERAGE -->
+      <div class="panel" style="animation-delay:.3s">
+        <div class="panel-hdr">
+          <div class="panel-title">🗺️ Regional Coverage</div>
+          <button class="pbtn on">All 16</button>
+        </div>
+        <div class="dist-list">
+          <div><div class="dist-hdr"><span class="dist-name">Mazowieckie <span style="color:var(--gold);font-size:0.62rem;">4 HOT</span></span><span class="dist-pct">84</span></div><div class="dist-bar"><div class="dist-fill" style="width:0%;background:var(--gold)" data-w="100%"></div></div></div>
+          <div><div class="dist-hdr"><span class="dist-name">Śląskie <span style="color:var(--gold);font-size:0.62rem;">2 HOT</span></span><span class="dist-pct">71</span></div><div class="dist-bar"><div class="dist-fill" style="width:0%;background:var(--gold)" data-w="85%"></div></div></div>
+          <div><div class="dist-hdr"><span class="dist-name">Małopolska <span style="color:var(--gold);font-size:0.62rem;">3 HOT</span></span><span class="dist-pct">67</span></div><div class="dist-bar"><div class="dist-fill" style="width:0%;background:var(--gold)" data-w="80%"></div></div></div>
+          <div><div class="dist-hdr"><span class="dist-name">Dolnośląskie <span style="color:var(--green);font-size:0.62rem;">2 GOOD</span></span><span class="dist-pct">58</span></div><div class="dist-bar"><div class="dist-fill" style="width:0%;background:var(--gold)" data-w="69%"></div></div></div>
+          <div><div class="dist-hdr"><span class="dist-name">Łódzkie</span><span class="dist-pct">49</span></div><div class="dist-bar"><div class="dist-fill" style="width:0%;background:var(--border-light)" data-w="58%"></div></div></div>
+          <div><div class="dist-hdr"><span class="dist-name">Wielkopolskie</span><span class="dist-pct">42</span></div><div class="dist-bar"><div class="dist-fill" style="width:0%;background:var(--border-light)" data-w="50%"></div></div></div>
+          <div><div class="dist-hdr"><span class="dist-name">Other 10 regions</span><span class="dist-pct">102</span></div><div class="dist-bar"><div class="dist-fill" style="width:0%;background:var(--border-light)" data-w="60%"></div></div></div>
+        </div>
+      </div>
+
+    </div><!-- end grid-bottom -->
+
+    <!-- INSTITUTIONAL UPSELL BANNER -->
+    <div style="margin-top:14px;background:linear-gradient(135deg,#0A0E1A,#121828);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:8px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;animation:fadeUp 0.4s ease both;animation-delay:.35s">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="width:40px;height:40px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏛️</div>
+        <div>
+          <div style="font-family:var(--font-h);font-size:0.85rem;font-weight:700;margin-bottom:3px;">Need full API access or white-label reports?</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.5;">The Institutional tier gives funds, law firms and debt recovery firms full REST API access, bulk JSON/CSV export, custom alert thresholds and a dedicated account manager.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap;">
+        <a href="pricing.html" style="font-size:0.75rem;font-weight:700;color:var(--gold);border:1px solid var(--gold-border);padding:7px 16px;border-radius:5px;background:var(--gold-dim);white-space:nowrap;">View Institutional Plan →</a>
+        <a href="mailto:enterprise@intelestate.eu" style="font-size:0.75rem;color:var(--text-muted);border:1px solid var(--border);padding:7px 16px;border-radius:5px;white-space:nowrap;">enterprise@intelestate.eu</a>
+      </div>
     </div>
-  </div>
-</main>
+
+    <!-- ROI CALCULATOR PANEL -->
+    <div class="panel" id="roiPanel" style="margin-top:14px;animation:fadeUp 0.4s ease both;animation-delay:.4s">
+      <div class="panel-hdr">
+        <div class="panel-title">⬡ ROI Calculator <span style="font-family:var(--font-m);font-size:0.58rem;color:var(--text-muted);font-weight:400;margin-left:6px;">Quick deal estimate</span></div>
+        <button class="pbtn" onclick="document.getElementById('roiPanel').style.display='none'">✕ Close</button>
+      </div>
+      <div style="padding:18px 20px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;align-items:end;">
+        <div>
+          <div style="font-family:var(--font-m);font-size:0.58rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Purchase Price (PLN)</div>
+          <input id="roi-price" type="number" value="364667" style="width:100%;background:var(--navy);border:1px solid var(--border);border-radius:5px;padding:8px 10px;color:var(--text-primary);font-family:var(--font-m);font-size:0.8rem;">
+        </div>
+        <div>
+          <div style="font-family:var(--font-m);font-size:0.58rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Monthly Rent (PLN)</div>
+          <input id="roi-rent" type="number" value="2800" style="width:100%;background:var(--navy);border:1px solid var(--border);border-radius:5px;padding:8px 10px;color:var(--text-primary);font-family:var(--font-m);font-size:0.8rem;">
+        </div>
+        <div>
+          <div style="font-family:var(--font-m);font-size:0.58rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Renovation Budget (PLN)</div>
+          <input id="roi-reno" type="number" value="30000" style="width:100%;background:var(--navy);border:1px solid var(--border);border-radius:5px;padding:8px 10px;color:var(--text-primary);font-family:var(--font-m);font-size:0.8rem;">
+        </div>
+        <button onclick="calcROI()" style="padding:9px 18px;background:var(--gold);color:var(--navy-deep);font-family:var(--font-h);font-size:0.78rem;font-weight:700;border-radius:5px;transition:background 0.15s;" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">Calculate →</button>
+      </div>
+      <div id="roi-results" style="display:none;padding:0 20px 18px;display:none;grid-template-columns:repeat(4,1fr);gap:12px;">
+        <div style="background:var(--navy);border:1px solid var(--border);border-radius:6px;padding:14px;text-align:center;">
+          <div style="font-family:var(--font-m);font-size:0.58rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Gross Yield</div>
+          <div id="roi-yield" style="font-family:var(--font-h);font-size:1.4rem;font-weight:800;color:var(--green);">—</div>
+        </div>
+        <div style="background:var(--navy);border:1px solid var(--border);border-radius:6px;padding:14px;text-align:center;">
+          <div style="font-family:var(--font-m);font-size:0.58rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Annual Rent</div>
+          <div id="roi-annual" style="font-family:var(--font-h);font-size:1.4rem;font-weight:800;color:var(--text-primary);">—</div>
+        </div>
+        <div style="background:var(--navy);border:1px solid var(--border);border-radius:6px;padding:14px;text-align:center;">
+          <div style="font-family:var(--font-m);font-size:0.58rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Total Investment</div>
+          <div id="roi-total" style="font-family:var(--font-h);font-size:1.4rem;font-weight:800;color:var(--text-primary);">—</div>
+        </div>
+        <div style="background:var(--navy);border:1px solid var(--border);border-radius:6px;padding:14px;text-align:center;">
+          <div style="font-family:var(--font-m);font-size:0.58rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Payback Period</div>
+          <div id="roi-payback" style="font-family:var(--font-h);font-size:1.4rem;font-weight:800;color:var(--gold);">—</div>
+        </div>
+      </div>
+      <div style="padding:0 20px 14px;font-size:0.65rem;color:var(--text-dim);font-family:var(--font-m);">* Gross yield estimate only. Does not account for taxes, management fees, vacancy, or financing costs.</div>
+    </div>
+
+  </div><!-- end content -->
+</div><!-- end main -->
+</div><!-- end app -->
 
 <script>
-const SUPABASE_URL = 'https://jvtuknygwtonykrccqmd.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_5i4ptLiVZmKRo2qn7splZg_-H9QfnNb';
-const PAGE_SIZE = 50;
-
-let lang = localStorage.getItem('lang') || 'pl';
-let allData = [], filteredData = [];
-let sortField = 'score', sortDir = 'desc';
-let quickMode = 'all', currentPage = 1;
-
-function daysUntil(d) {
-  if (!d) return null;
-  return Math.ceil((new Date(d) - new Date()) / 86400000);
-}
-
-function daysBadge(days) {
-  if (days === null) return `<span class="days-badge days-later">—</span>`;
-  if (days < 0) return `<span class="days-badge days-later">${lang==='pl'?'Zakończona':'Ended'}</span>`;
-  if (days <= 3) return `<span class="days-badge days-urgent">🔴 ${days}d</span>`;
-  if (days <= 7) return `<span class="days-badge days-soon">🟠 ${days}d</span>`;
-  if (days <= 14) return `<span class="days-badge days-upcoming">🟡 ${days}d</span>`;
-  return `<span class="days-badge days-later">${days}d</span>`;
-}
-
-function fmtPrice(n) {
-  if (!n) return '—';
-  return new Intl.NumberFormat('pl-PL').format(Math.round(n)) + ' PLN';
-}
-
-function labelBadge(label) {
-  if (!label) return '';
-  if (label.includes('HOT')) return `<span class="deal-label-badge label-hot">🔥 HOT</span>`;
-  if (label.includes('GOOD')) return `<span class="deal-label-badge label-good">GOOD</span>`;
-  if (label.includes('FAIR')) return `<span class="deal-label-badge label-fair">FAIR</span>`;
-  return `<span class="deal-label-badge label-watch">WATCH</span>`;
-}
-
-function scoreClass(s) {
-  if (s >= 80) return 'score-high';
-  if (s >= 60) return 'score-mid';
-  return 'score-low';
-}
-
-function typeName(t) {
-  const map = { APARTMENT: lang==='pl'?'Mieszkanie':'Apt', HOUSE: lang==='pl'?'Dom':'House', LAND: lang==='pl'?'Grunt':'Land', COMMERCIAL: lang==='pl'?'Komercyjne':'Comm', SHARE: lang==='pl'?'Udział':'Share', ROAD_SHARE: lang==='pl'?'Droga':'Road', OTHER: lang==='pl'?'Inne':'Other' };
-  return map[t] || t || '—';
-}
-
-async function loadData() {
-  try {
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/auctions?select=id,source_url,source_id,auction_round,auction_date,auction_format,km_case_number,bailiff_name,bailiff_office,current_status,starting_price,estimated_value,discount_percent,deal_score,deal_label,days_to_auction,is_second_round,property_type,deposit_amount&order=deal_score.desc.nullslast&limit=1000`,
-      { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` } }
-    );
-    allData = await res.json();
-    if (!Array.isArray(allData)) throw new Error(allData.message || 'Invalid response');
-    updateStats();
-    renderHotDeals();
-    applyFilters();
-  } catch (err) {
-    document.getElementById('deals-tbody').innerHTML = `<tr><td colspan="10"><div class="loading-row" style="color:var(--red);">⚠ ${err.message}</div></td></tr>`;
+// Avatar menu — close on outside click
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('avatarWrap');
+  const menu = document.getElementById('avatarMenu');
+  if (wrap && menu && !wrap.contains(e.target)) {
+    menu.style.display = 'none';
+    menu.classList.remove('open');
   }
-}
+});
+document.getElementById('avatarMenu').addEventListener('transitionend', function(){});
+// Toggle display properly
+document.querySelector('.avatar').addEventListener('click', function() {
+  const menu = document.getElementById('avatarMenu');
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+});
 
-function updateStats() {
-  document.getElementById('stat-total').textContent = allData.length.toLocaleString('pl-PL');
-  const hot = allData.filter(d => d.deal_label && d.deal_label.includes('HOT')).length;
-  document.getElementById('stat-hot').textContent = hot;
-  const withDiscount = allData.filter(d => d.discount_percent);
-  const avg = withDiscount.length ? Math.round(withDiscount.reduce((s,d) => s+d.discount_percent, 0) / withDiscount.length) : 0;
-  document.getElementById('stat-discount').textContent = avg + '%';
-  const second = allData.filter(d => d.auction_round === 2).length;
-  document.getElementById('stat-second').textContent = second;
-}
+// Mobile sidebar
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+document.getElementById('hamburger').addEventListener('click', () => { sidebar.classList.add('open'); overlay.classList.add('open'); });
+document.getElementById('sidebarClose').addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); });
+overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); });
 
-function renderHotDeals() {
-  const hot = allData.filter(d => d.deal_label && d.deal_label.includes('HOT')).slice(0, 3);
-  if (!hot.length) return;
-  document.getElementById('hot-banner').style.display = '';
-  document.getElementById('hot-deals-grid').innerHTML = hot.map(d => {
-    const days = d.days_to_auction ?? daysUntil(d.auction_date);
-    const id = d.source_id || (d.source_url ? d.source_url.split('/').pop() : d.id.slice(0,8));
-    return `<div class="hot-card">
-      <div style="margin-bottom:8px;">
-        <span class="hot-card-score">${Math.round(d.deal_score||0)}</span>
-        <span class="hot-card-label">🔥 HOT DEAL</span>
-      </div>
-      <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;font-family:monospace;">${id}</div>
-      <div style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;">${typeName(d.property_type)} · ${d.km_case_number||'—'}</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.92rem;">${fmtPrice(d.starting_price)}</div>
-        <div style="color:var(--green);font-weight:500;">-${Math.round(d.discount_percent||0)}%</div>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        ${daysBadge(days)}
-        ${d.source_url?`<a href="${d.source_url}" target="_blank" class="btn-view">${lang==='pl'?'Zobacz':'View'} ↗</a>`:''}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function quickFilter(mode) {
-  quickMode = mode;
-  document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(`qf-${mode}`).classList.add('active');
-  applyFilters();
-}
-
-function applyFilters() {
-  const type = document.getElementById('f-type').value;
-  const minDiscount = parseInt(document.getElementById('f-discount').value) || 0;
-  const round = document.getElementById('f-round').value;
-  const maxDays = document.getElementById('f-days').value ? parseInt(document.getElementById('f-days').value) : null;
-  const now = new Date();
-
-  filteredData = allData.filter(d => {
-    if (type && d.property_type !== type) return false;
-    if (minDiscount && (d.discount_percent||0) < minDiscount) return false;
-    if (round && d.auction_round !== parseInt(round)) return false;
-    if (maxDays !== null) {
-      const days = d.days_to_auction ?? daysUntil(d.auction_date);
-      if (days === null || days > maxDays || days < 0) return false;
-    }
-    if (quickMode === 'hot' && !(d.deal_label && d.deal_label.includes('HOT'))) return false;
-    if (quickMode === 'good' && !(d.deal_label && d.deal_label.includes('GOOD'))) return false;
-    if (quickMode === 'week') {
-      const cutoff = new Date(now); cutoff.setDate(cutoff.getDate()+7);
-      if (!d.auction_date || new Date(d.auction_date) > cutoff) return false;
-    }
-    if (quickMode === 'second' && d.auction_round !== 2) return false;
-    return true;
+// Nav active
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', function() {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    this.classList.add('active');
   });
+});
 
-  sortData(); currentPage = 1; renderTable(); renderPagination();
+// Filter chips — single select per group
+document.querySelectorAll('.fchip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    const group = this.dataset.f;
+    document.querySelectorAll(`.fchip[data-f="${group}"]`).forEach(c => c.classList.remove('on'));
+    this.classList.add('on');
+  });
+});
+
+// Panel tab buttons — single select
+document.querySelectorAll('[data-tab]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    this.closest('.panel-actions').querySelectorAll('.pbtn').forEach(b => b.classList.remove('on'));
+    this.classList.add('on');
+  });
+});
+
+// Column sort highlight
+document.querySelectorAll('.deals-table th[data-col]').forEach(th => {
+  th.addEventListener('click', function() {
+    document.querySelectorAll('.deals-table th').forEach(t => t.classList.remove('sorted'));
+    this.classList.add('sorted');
+  });
+});
+
+// Save / watchlist toggle
+document.querySelectorAll('.save-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const saved = this.classList.toggle('saved');
+    this.textContent = saved ? '♥' : '♡';
+    this.title = saved ? 'Saved' : 'Save deal';
+  });
+});
+
+// Animate bars on load
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelectorAll('.bc-fill[data-h]').forEach(el => { el.style.height = el.dataset.h; });
+    document.querySelectorAll('.tl-bar[data-w], .dist-fill[data-w]').forEach(el => { el.style.width = el.dataset.w; });
+  }, 300);
+});
+
+// ROI Calculator
+function calcROI() {
+  const price = parseFloat(document.getElementById('roi-price').value) || 0;
+  const rent  = parseFloat(document.getElementById('roi-rent').value) || 0;
+  const reno  = parseFloat(document.getElementById('roi-reno').value) || 0;
+  const total = price + reno;
+  const annual = rent * 12;
+  const yield_ = total > 0 ? ((annual / total) * 100).toFixed(2) : 0;
+  const payback = annual > 0 ? (total / annual).toFixed(1) : '∞';
+  document.getElementById('roi-yield').textContent = yield_ + '%';
+  document.getElementById('roi-annual').textContent = annual.toLocaleString('pl-PL') + ' PLN';
+  document.getElementById('roi-total').textContent = total.toLocaleString('pl-PL') + ' PLN';
+  document.getElementById('roi-payback').textContent = payback + ' yrs';
+  const res = document.getElementById('roi-results');
+  res.style.display = 'grid';
 }
 
-function sortData() {
-  filteredData.sort((a,b) => {
-    let va, vb;
-    if (sortField==='score') { va=a.deal_score||0; vb=b.deal_score||0; }
-    else if (sortField==='discount') { va=a.discount_percent||0; vb=b.discount_percent||0; }
-    else if (sortField==='price') { va=a.starting_price||0; vb=b.starting_price||0; }
-    else if (sortField==='date') { va=a.auction_date?new Date(a.auction_date):new Date('9999'); vb=b.auction_date?new Date(b.auction_date):new Date('9999'); }
-    else if (sortField==='round') { va=a.auction_round||0; vb=b.auction_round||0; }
-    return sortDir==='desc' ? vb-va : va-vb;
+// ROI nav button opens panel
+const roiNav = document.getElementById('roiNavBtn');
+if (roiNav) {
+  roiNav.addEventListener('click', function() {
+    const panel = document.getElementById('roiPanel');
+    panel.style.display = 'block';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    this.classList.add('active');
   });
 }
 
-function toggleSort(field) {
-  if (sortField===field) sortDir=sortDir==='desc'?'asc':'desc';
-  else { sortField=field; sortDir='desc'; }
-  sortData(); renderTable();
+// Saved Deals filter — highlight saved rows
+const savedNav = document.getElementById('savedNavBtn');
+let savedMode = false;
+if (savedNav) {
+  savedNav.addEventListener('click', function() {
+    savedMode = !savedMode;
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if (savedMode) {
+      this.classList.add('active');
+      document.querySelectorAll('.drow').forEach(row => {
+        const btn = row.querySelector('.save-btn');
+        if (btn && !btn.classList.contains('saved')) {
+          row.style.display = 'none';
+        }
+      });
+      // Show empty state if nothing saved
+      const visible = [...document.querySelectorAll('.drow')].filter(r => r.style.display !== 'none');
+      if (visible.length === 0) {
+        document.getElementById('saved-empty').style.display = 'table-row';
+      }
+    } else {
+      document.querySelectorAll('.drow').forEach(row => { row.style.display = ''; });
+      document.getElementById('saved-empty').style.display = 'none';
+    }
+  });
 }
 
-function resetFilters() {
-  document.getElementById('f-type').value='';
-  document.getElementById('f-discount').value='0';
-  document.getElementById('f-round').value='';
-  document.getElementById('f-days').value='';
-  quickFilter('all');
+// Wire filter chips + HOT/GOOD/All tabs to table
+function filterTable() {
+  const typeV = document.querySelector('.fchip[data-f="type"].on')?.dataset.v || 'all';
+  const regV  = document.querySelector('.fchip[data-f="reg"].on')?.dataset.v  || 'all';
+  const tabV  = document.querySelector('[data-tab].on')?.dataset.tab || 'hot';
+  const rows  = document.querySelectorAll('.drow');
+  rows.forEach(row => {
+    if (row.classList.contains('blurred')) return; // keep blurred always visible as teaser
+    const t = row.dataset.type || '';
+    const r = row.dataset.reg  || '';
+    const tier = row.dataset.tier || '';
+    const typeOk = typeV === 'all' || t === typeV;
+    const regOk  = regV  === 'all' || r === regV;
+    const tabOk  = tabV  === 'all' || (tabV === 'hot' ? tier === 'hot' : tabV === 'good' ? tier === 'good' : true);
+    row.style.display = (typeOk && regOk && tabOk) ? '' : 'none';
+  });
 }
+document.querySelectorAll('.fchip, [data-tab]').forEach(el => el.addEventListener('click', () => setTimeout(filterTable, 10)));
 
-function renderTable() {
-  const tbody = document.getElementById('deals-tbody');
-  document.getElementById('deal-count').textContent = `${filteredData.length.toLocaleString('pl-PL')} ${lang==='pl'?'wyników':'results'}`;
-  if (!filteredData.length) { tbody.innerHTML=`<tr><td colspan="10"><div class="loading-row">${lang==='pl'?'Brak wyników':'No results'}</div></td></tr>`; return; }
-  const start=(currentPage-1)*PAGE_SIZE;
-  tbody.innerHTML = filteredData.slice(start, start+PAGE_SIZE).map(d => {
-    const days = d.days_to_auction ?? daysUntil(d.auction_date);
-    const date = d.auction_date ? new Date(d.auction_date).toLocaleDateString('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
-    const round = d.auction_round===2
-      ? `<span class="round-badge badge-second">${lang==='pl'?'II Lic.':'2nd'}</span>`
-      : `<span class="round-badge badge-first">${lang==='pl'?'I Lic.':'1st'}</span>`;
-    const km = d.km_case_number
-      ? `<div style="font-family:monospace;font-size:0.8rem;color:var(--white);">${d.km_case_number}</div>${d.bailiff_name?`<div style="font-size:0.7rem;color:var(--muted);margin-top:2px;">${d.bailiff_name}</div>`:''}`
-      : `<span style="color:var(--muted);font-size:0.75rem;">—</span>`;
-    const sid = d.source_id || (d.source_url?d.source_url.split('/').pop():d.id.slice(0,8));
-    const score = d.deal_score ? `<span class="score-cell ${scoreClass(d.deal_score)}">${Math.round(d.deal_score)}</span>` : '—';
-    return `<tr>
-      <td>${score}<br>${labelBadge(d.deal_label)}</td>
-      <td><div style="font-family:monospace;font-size:0.75rem;color:var(--muted);">${sid}</div>${d.auction_format?`<div style="font-size:0.7rem;color:var(--muted);margin-top:2px;">${d.auction_format}</div>`:''}</td>
-      <td><span class="type-badge">${typeName(d.property_type)}</span></td>
-      <td>${km}</td>
-      <td>${round}</td>
-      <td class="discount-cell">${d.discount_percent?'-'+Math.round(d.discount_percent)+'%':'—'}</td>
-      <td class="price-cell">${fmtPrice(d.starting_price)}</td>
-      <td style="font-size:0.82rem;color:var(--muted);white-space:nowrap;">${date}</td>
-      <td>${daysBadge(days)}</td>
-      <td>${d.source_url?`<a class="btn-view" href="${d.source_url}" target="_blank">${lang==='pl'?'Zobacz':'View'} ↗</a>`:'—'}</td>
-    </tr>`;
-  }).join('');
-}
+// Wire sort columns to actually sort rows
+let sortDir = { score: -1, disc: -1, days: 1 };
+document.querySelectorAll('.deals-table th[data-col]').forEach(th => {
+  th.addEventListener('click', function() {
+    const col = this.dataset.col;
+    if (!col || col === 'prop' || col === 'type' || col === 'dep' || col === 'price') return;
+    sortDir[col] = (sortDir[col] || -1) * -1;
+    const tbody = document.querySelector('.deals-table tbody');
+    const rows = [...tbody.querySelectorAll('tr.drow:not(.blurred)')];
+    rows.sort((a, b) => {
+      let av, bv;
+      if (col === 'score') { av = parseInt(a.dataset.score||0); bv = parseInt(b.dataset.score||0); }
+      if (col === 'disc')  { av = parseInt(a.querySelector('.v-disc')?.textContent||0); bv = parseInt(b.querySelector('.v-disc')?.textContent||0); }
+      if (col === 'days')  { av = parseInt(a.dataset.days||99); bv = parseInt(b.dataset.days||99); }
+      return (av - bv) * sortDir[col];
+    });
+    const blurred = [...tbody.querySelectorAll('tr.drow.blurred')];
+    const unlock  = tbody.querySelector('tr.unlock-row');
+    const empty   = tbody.querySelector('#saved-empty');
+    rows.forEach(r => tbody.insertBefore(r, blurred[0] || unlock));
+  });
+});
 
-function renderPagination() {
-  const pages = Math.ceil(filteredData.length/PAGE_SIZE);
-  const pag = document.getElementById('pagination');
-  if (pages<=1) { pag.innerHTML=''; return; }
-  let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
-  for (let i=1;i<=pages;i++) {
-    if (i===1||i===pages||(i>=currentPage-2&&i<=currentPage+2)) html+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
-    else if (i===currentPage-3||i===currentPage+3) html+=`<span style="color:var(--muted);padding:0 4px;">…</span>`;
-  }
-  html+=`<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>›</button>`;
-  html+=`<span style="font-size:0.78rem;color:var(--muted);margin-left:8px;">${lang==='pl'?'Strona':'Page'} ${currentPage}/${pages}</span>`;
-  pag.innerHTML=html;
-}
-
-function goPage(p) {
-  const pages=Math.ceil(filteredData.length/PAGE_SIZE);
-  if (p<1||p>pages) return;
-  currentPage=p; renderTable(); renderPagination();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function setLang(l) {
-  lang=l; localStorage.setItem('lang',l);
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
-  document.querySelectorAll('[data-pl]').forEach(el=>{const t=el.getAttribute('data-'+l);if(t)el.innerHTML=t;});
-  document.querySelector('html').lang=l;
-  renderTable(); renderPagination(); renderHotDeals();
-}
-
-setLang(lang);
-loadData();
+// Auto-run ROI on input change
+['roi-price','roi-rent','roi-reno'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', calcROI);
+});
 </script>
 </body>
 </html>
