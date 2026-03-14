@@ -49,9 +49,9 @@ nav {
   padding: 0 24px; height: 60px;
   display: flex; align-items: center; justify-content: space-between;
 }
-.nav-logo { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; }
-.nav-links { display: flex; gap: 28px; font-size: 0.82rem; color: var(--text-muted); }
-.nav-links a:hover { color: var(--text-primary); }
+.nav-logo { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 900; letter-spacing: -0.5px; }
+.nav-links { display: flex; align-items: center; gap: 32px; font-size: 0.875rem; font-weight: 500; color: #FFFFFF; }
+.nav-links a:hover { color: var(--gold); }
 .nav-cta { background: var(--gold); color: var(--navy-deep); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px; padding: 8px 18px; border-radius: 4px; }
 .nav-cta:hover { background: var(--gold-light); }
 
@@ -196,7 +196,7 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
 /* ── BUTTONS ── */
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 5px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; border: none; font-family: var(--font-body); }
 .btn-primary { background: var(--gold); color: var(--navy-deep); }
-.btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(232,160,32,0.3); }
 .btn-ghost { border: 1px solid #E8A020; color: #E8A020; background: transparent; }
 .btn-ghost:hover { background: rgba(232,160,32,0.08); transform: translateY(-1px); border-color: #E8A020; color: #E8A020; }
 
@@ -278,7 +278,7 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
         <div class="plan-price"><span class="currency">€</span><span class="price-val" data-monthly="0" data-annual="0">0</span></div>
         <div class="plan-period">forever free</div>
         <div class="plan-annual">&nbsp;</div>
-        <div class="plan-tagline">Preview the market. See if intelEstate is right for your investment strategy before committing.</div>
+        <div class="plan-tagline">See today's top deals. No card required, no commitment. Upgrade when you're ready.</div>
 
         <div class="feat-group-label">What You Get</div>
         <ul class="feat-list">
@@ -312,7 +312,7 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
         <ul class="feat-list">
           <li><span class="check">✓</span><span>All HOT deals (score 85+)<span class="feat-note">Full data, unblurred</span></span></li>
           <li><span class="check">✓</span><span>All GOOD deals (score 70–84)</span></li>
-          <li><span class="check">✓</span><span>Full deal score breakdown<span class="feat-note">Discount depth, round, urgency weights</span></span></li>
+          <li><span class="check">✓</span><span>Full deal score breakdown<span class="feat-note">Discount, round, and urgency signals</span></span></li>
           <li><span class="check">✓</span><span>Discount % vs estimated value</span></li>
           <li><span class="check">✓</span><span>Auction countdown timer</span></li>
           <li><span class="check">✓</span><span>Court &amp; bailiff (komornik) name</span></li>
@@ -623,7 +623,7 @@ footer { padding: 32px 0; background: var(--navy-deep); border-top: 1px solid va
 
       <div class="faq-item" data-cat="data">
         <div class="faq-q" onclick="toggleFaq(this)">How does the deal scoring algorithm work? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Each auction is scored 0–100 using three weighted factors: Discount depth (60%) — the difference between starting price and estimated market value; Auction round (20%) — second-round auctions score higher because they have deeper discounts and fewer bidders; Time urgency (20%) — auctions with fewer days remaining score higher. HOT deals score 85+, GOOD deals score 70–84.</div>
+        <div class="faq-a">Each auction is scored 0–100 using three proprietary factors: Discount depth — the gap between starting price and court-appraised value; Auction round — second-round auctions score higher because they carry deeper discounts and attract fewer bidders; Time urgency — auctions with fewer days remaining score higher. HOT deals score 85+, GOOD deals score 70–84.</div>
       </div>
 
       <div class="faq-item" data-cat="data">
