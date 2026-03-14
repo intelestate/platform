@@ -4,6 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>intelEstate — Court Auction Intelligence Platform</title>
+<meta name="description" content="intelEstate — Professional court auction intelligence for Poland. Monitor 473+ properties at 30-60% below market value. Scored, alerted, searchable.">
+<meta property="og:title" content="intelEstate — Court Auction Intelligence Platform">
+<meta property="og:description" content="Every court auction in Poland — analyzed, scored, and delivered before your competition.">
+<meta property="og:url" content="https://intelestate.eu">
+<link rel="canonical" href="https://intelestate.eu">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "intelEstate",
+  "description": "Professional court auction intelligence for Poland. Monitor 473+ properties at 30-60% below market value.",
+  "url": "https://intelestate.eu",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": [
+    {"@type":"Offer","name":"FREE","price":"0","priceCurrency":"EUR"},
+    {"@type":"Offer","name":"Specialist","price":"49","priceCurrency":"EUR"},
+    {"@type":"Offer","name":"PRO","price":"149","priceCurrency":"EUR"},
+    {"@type":"Offer","name":"Institutional","price":"999","priceCurrency":"EUR"}
+  ]
+}
+</script>
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -16,7 +41,6 @@
   --navy: #0A0E1A;
   --navy-mid: #0E1422;
   --navy-light: #121828;
-  --navy-border: #1A2236;
   --navy-hover: #161E30;
   --gold: #E8A020;
   --gold-light: #F0B840;
@@ -41,8 +65,8 @@ body {
   background: var(--navy-deep);
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 18px;
+  line-height: 1.7;
   overflow-x: hidden;
 }
 
@@ -137,7 +161,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 700; }
   font-weight: 500;
   transition: color 0.2s;
 }
-.navbar-links a:hover { color: var(--text-primary); }
+.navbar-links a:hover { color: var(--gold); }
 .navbar-actions { display: flex; align-items: center; gap: 12px; }
 .lang-toggle {
   font-family: var(--font-mono);
@@ -460,7 +484,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 700; }
   font-size: 0.9rem;
 }
 .ps-icon.bad { background: rgba(239,68,68,0.12); }
-.ps-icon.good { background: rgba(200,168,75,0.12); }
+.ps-icon.good { background: rgba(232,160,32,0.12); }
 .ps-title {
   font-family: var(--font-heading);
   font-weight: 700;
@@ -678,6 +702,205 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 700; }
   font-weight: 700;
 }
 
+/* ── DEAL SCORE BREAKDOWN ─────────────────────────────────────────────────── */
+.score-section { background: var(--navy-deep); }
+.score-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.score-formula {
+  background: var(--navy);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+}
+.score-formula::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.score-formula-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.score-formula-num {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  line-height: 1;
+}
+.score-formula-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.score-weights { display: flex; flex-direction: column; gap: 18px; }
+.weight-row {}
+.weight-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 7px;
+}
+.weight-name {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.weight-pct {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--gold);
+  font-weight: 700;
+}
+.weight-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 9px;
+}
+.weight-bar-track {
+  height: 6px;
+  background: var(--navy-light);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.weight-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  width: 0;
+  transition: width 1.2s cubic-bezier(.22,1,.36,1);
+}
+.weight-bar-fill.w60 { background: linear-gradient(90deg, var(--gold), #F0B840); }
+.weight-bar-fill.w20a { background: linear-gradient(90deg, #7C6FCF, #A89FE0); }
+.weight-bar-fill.w20b { background: linear-gradient(90deg, #EF4444, #F87171); }
+
+.score-tiers { display: flex; flex-direction: column; gap: 14px; }
+.score-tier-title {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.tier-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--navy);
+  transition: border-color .2s, transform .2s;
+  cursor: default;
+}
+.tier-row:hover { border-color: var(--gold); transform: translateX(4px); }
+.tier-score-range {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  min-width: 52px;
+}
+.tier-score-range.hot { color: var(--gold); }
+.tier-score-range.good { color: var(--green); }
+.tier-score-range.fair { color: #94A3B8; }
+.tier-badge-wrap { flex: 0 0 auto; }
+.tier-info { flex: 1; }
+.tier-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.tier-label.hot { color: var(--gold); }
+.tier-label.good { color: var(--green); }
+.tier-label.fair { color: #94A3B8; }
+.tier-desc { font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; }
+.tier-indicator {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tier-indicator.hot { background: var(--gold); box-shadow: 0 0 8px rgba(232,160,32,0.6); }
+.tier-indicator.good { background: var(--green); box-shadow: 0 0 8px rgba(0,200,150,0.5); }
+.tier-indicator.fair { background: #475569; }
+
+.score-section-right { display: flex; flex-direction: column; gap: 32px; }
+.score-section-right .section-eyebrow { margin-bottom: 10px; }
+
+.example-score-card {
+  background: var(--navy);
+  border: 1px solid var(--border-light);
+  border-left: 3px solid var(--gold);
+  border-radius: 10px;
+  padding: 22px 24px;
+  position: relative;
+}
+.example-score-card::after {
+  content: 'EXAMPLE DEAL';
+  position: absolute;
+  top: 12px; right: 14px;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+.example-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.example-card-meta {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+.example-card-scores {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.ex-score-item {}
+.ex-score-val {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.ex-score-lbl { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+.example-card-final {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.final-score-num {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.final-score-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+
+@media (max-width: 900px) {
+  .score-layout { grid-template-columns: 1fr; gap: 40px; }
+}
+
 /* ── HEATMAP ──────────────────────────────────────────────────────────────── */
 .heatmap-section { background: var(--navy); }
 .heatmap-inner {
@@ -852,6 +1075,13 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 700; }
 }
 .inst-visual img { width: 100%; display: block; }
 
+.inst-use-case {
+  font-size:0.75rem;
+  color:var(--gold);
+  opacity:0.7;
+  margin-top:5px;
+  font-style:italic;
+}
 /* API Terminal mock if no image */
 .api-terminal {
   background: var(--navy-deep);
@@ -976,7 +1206,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 700; }
   color: #FFFFFF;
   line-height: 1.7;
 }
-.faq-item.open .faq-answer { max-height: 200px; padding-bottom: 20px; }
+.faq-item.open .faq-answer { max-height: 400px; padding-bottom: 20px; }
 
 /* ── FINAL CTA ────────────────────────────────────────────────────────────── */
 .final-cta {
@@ -1137,6 +1367,14 @@ footer {
   .timeline::before { display: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
+@media (max-width: 900px) {
+  /* Dashboard preview table — hide on small screens, show simplified */
+  .preview-table-grid { display: none; }
+  /* Charts — stack vertically */
+  .charts-grid-3 { grid-template-columns: 1fr !important; }
+  /* Email section — stack */
+  .email-intel-grid { grid-template-columns: 1fr !important; }
+}
 @media (max-width: 768px) {
   .navbar-links, .navbar-actions { display: none; }
   .hamburger { display: flex; }
@@ -1158,909 +1396,7 @@ footer {
   .timeline { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
 }
-</style>
-</head>
-<body>
 
-<!-- ── NAVBAR ──────────────────────────────────────────────────────────────── -->
-<nav class="navbar" id="navbar">
-  <div class="navbar-inner">
-    <a href="#" class="navbar-logo">intel<span>Estate</span></a>
-    <ul class="navbar-links">
-      <li><a href="#deals">Hot Deals</a></li>
-      <li><a href="#how">How It Works</a></li>
-      <li><a href="#pricing">Pricing</a></li>
-      <li><a href="#institutional">Enterprise</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-    </ul>
-    <div class="navbar-actions">
-      <button class="lang-toggle">PL / EN</button>
-      <a href="#pricing" class="btn btn-secondary" style="padding:8px 18px;font-size:0.82rem;">Log In</a>
-      <a href="#pricing" class="btn btn-primary" style="padding:8px 18px;font-size:0.82rem;">Get Free Access</a>
-    </div>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#deals">Hot Deals</a>
-  <a href="#how">How It Works</a>
-  <a href="#pricing">Pricing</a>
-  <a href="#institutional">Enterprise</a>
-  <a href="dashboard.html">Dashboard</a>
-  <a href="#pricing" class="btn btn-primary" style="margin-top:8px;">Get Free Access</a>
-</div>
-
-<!-- ── HERO ────────────────────────────────────────────────────────────────── -->
-<section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="container">
-    <div class="hero-inner">
-      <div class="hero-content">
-        <div class="hero-eyebrow">
-          <div class="pulse-dot"></div>
-          <span class="label">Live — 473 auctions tracked</span>
-        </div>
-        <h1 class="hero-title">
-          Professional Intelligence<br>for <span class="gold">Court Auctions</span>
-        </h1>
-        <p class="hero-sub">
-          Every court auction in Poland — analyzed, scored, and delivered before your competition. Properties at 30–60% below market value, ranked by investment potential.
-        </p>
-        <div class="hero-ctas">
-          <a href="#pricing" class="btn btn-primary" style="font-size:1rem;padding:14px 28px;">
-            Get Free Access →
-          </a>
-          <a href="dashboard.html" class="btn btn-ghost" style="font-size:1rem;padding:14px 28px;">
-            View Dashboard
-          </a>
-        </div>
-        <div class="hero-stats">
-          <div>
-            <div class="hero-stat-value" data-count="473">0</div>
-            <div class="hero-stat-label">Active Auctions</div>
-          </div>
-          <div>
-            <div class="hero-stat-value" data-count="33" data-suffix="%">0%</div>
-            <div class="hero-stat-label">Avg Discount</div>
-          </div>
-          <div>
-            <div class="hero-stat-value" data-count="18">0</div>
-            <div class="hero-stat-label">HOT Deals Today</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-visual">
-        <div class="hero-terminal hud-corners">
-          <div class="terminal-header">
-            <div class="terminal-dot red"></div>
-            <div class="terminal-dot yellow"></div>
-            <div class="terminal-dot green"></div>
-            <span class="terminal-title">INTELESTATE — LIVE AUCTION FEED</span>
-          </div>
-          <div class="terminal-body">
-            <div class="terminal-label">Today's Top Deals / 12 Mar 2026</div>
-
-            <div class="deal-card hot">
-              <div class="deal-info">
-                <div class="deal-location">Kraków, Małopolska</div>
-                <div class="deal-type">APARTMENT · 2ND ROUND</div>
-              </div>
-              <div class="deal-metrics">
-                <div>
-                  <div class="discount-badge">-41%</div>
-                </div>
-                <div>
-                  <div class="score-badge">92</div>
-                  <div style="font-size:0.55rem;color:var(--text-muted);text-align:center;margin-top:2px">SCORE</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="deal-card hot">
-              <div class="deal-info">
-                <div class="deal-location">Warszawa, Mazowieckie</div>
-                <div class="deal-type">COMMERCIAL · 1ST ROUND</div>
-              </div>
-              <div class="deal-metrics">
-                <div><div class="discount-badge">-38%</div></div>
-                <div>
-                  <div class="score-badge">88</div>
-                  <div style="font-size:0.55rem;color:var(--text-muted);text-align:center;margin-top:2px">SCORE</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="deal-card good">
-              <div class="deal-info">
-                <div class="deal-location">Wrocław, Dolnośląskie</div>
-                <div class="deal-type">HOUSE · 2ND ROUND</div>
-              </div>
-              <div class="deal-metrics">
-                <div><div class="discount-badge">-35%</div></div>
-                <div>
-                  <div class="score-badge" style="border-color:var(--green);color:var(--green);background:rgba(0,200,150,0.1)">79</div>
-                  <div style="font-size:0.55rem;color:var(--text-muted);text-align:center;margin-top:2px">SCORE</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="terminal-footer">
-              <div class="live-indicator">
-                <div class="pulse-dot"></div>
-                Updated 6:00 AM UTC
-              </div>
-              <a href="dashboard.html" class="terminal-cta">View all 473 auctions →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── TICKER ───────────────────────────────────────────────────────────────── -->
-<div class="ticker-section">
-  <div class="ticker-header">
-    <div class="ticker-label-box">🔥 Live Deals</div>
-    <div style="overflow:hidden;flex:1;">
-      <div class="ticker-track" id="tickerTrack">
-        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">92</span><span class="ticker-city">Kraków</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-41%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">88</span><span class="ticker-city">Warszawa</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-38%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">79</span><span class="ticker-city">Wrocław</span><span class="ticker-type">House</span><span class="ticker-discount">-35%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">91</span><span class="ticker-city">Gdańsk</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-44%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">76</span><span class="ticker-city">Łódź</span><span class="ticker-type">Land</span><span class="ticker-discount">-29%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">87</span><span class="ticker-city">Poznań</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-37%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">74</span><span class="ticker-city">Katowice</span><span class="ticker-type">House</span><span class="ticker-discount">-31%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">85</span><span class="ticker-city">Szczecin</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-40%</span></div>
-        <!-- Duplicate for seamless loop -->
-        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">92</span><span class="ticker-city">Kraków</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-41%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">88</span><span class="ticker-city">Warszawa</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-38%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">79</span><span class="ticker-city">Wrocław</span><span class="ticker-type">House</span><span class="ticker-discount">-35%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">91</span><span class="ticker-city">Gdańsk</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-44%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">76</span><span class="ticker-city">Łódź</span><span class="ticker-type">Land</span><span class="ticker-discount">-29%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">87</span><span class="ticker-city">Poznań</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-37%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">74</span><span class="ticker-city">Katowice</span><span class="ticker-type">House</span><span class="ticker-discount">-31%</span></div>
-        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">85</span><span class="ticker-city">Szczecin</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-40%</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── STATS BAR ─────────────────────────────────────────────────────────────── -->
-<div class="stats-bar">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat-item fade-up">
-        <div class="stat-number"><span data-count="473">473</span></div>
-        <div class="stat-desc">Auctions Indexed</div>
-      </div>
-      <div class="stat-item fade-up">
-        <div class="stat-number"><span data-count="33">33</span><span class="stat-unit">%</span></div>
-        <div class="stat-desc">Average Discount</div>
-      </div>
-      <div class="stat-item fade-up">
-        <div class="stat-number">€<span data-count="2">2</span>.5B</div>
-        <div class="stat-desc">Property Value Tracked</div>
-      </div>
-      <div class="stat-item fade-up">
-        <div class="stat-number"><span data-count="1200">1,200</span><span class="stat-unit">+</span></div>
-        <div class="stat-desc">Active Investors</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── PROBLEM / SOLUTION ────────────────────────────────────────────────────── -->
-<section class="section">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:48px;">
-      <div class="label section-eyebrow">The Problem</div>
-      <h2 class="section-title">Court auctions are<br><span class="gold">invisible to most investors</span></h2>
-    </div>
-    <div class="problem-solution">
-      <div class="ps-column">
-        <div class="ps-header">
-          <div class="ps-icon bad">❌</div>
-          <span class="ps-title" style="color:var(--text-muted);">Without intelEstate</span>
-        </div>
-        <ul class="ps-list">
-          <li><span class="icon">⏰</span> Manually checking dozens of court websites every day</li>
-          <li><span class="icon">📋</span> Missing second-round auctions with bigger discounts</li>
-          <li><span class="icon">📊</span> No easy way to compare deals across regions</li>
-          <li><span class="icon">🔢</span> Spreadsheets, inconsistent data, outdated prices</li>
-          <li><span class="icon">🐌</span> By the time you find a deal, it's already gone</li>
-        </ul>
-      </div>
-      <div class="ps-column solution">
-        <div class="ps-header">
-          <div class="ps-icon good">✦</div>
-          <span class="ps-title" style="color:var(--gold);">With intelEstate</span>
-        </div>
-        <ul class="ps-list">
-          <li><span class="icon" style="color:var(--green);">✓</span> Every Polish court auction in one dashboard, updated nightly</li>
-          <li><span class="icon" style="color:var(--green);">✓</span> Automatic deal scoring — HOT deals ranked and flagged</li>
-          <li><span class="icon" style="color:var(--green);">✓</span> Email digest delivered at 6AM before the market wakes up</li>
-          <li><span class="icon" style="color:var(--green);">✓</span> Filter by city, property type, discount %, and urgency</li>
-          <li><span class="icon" style="color:var(--green);">✓</span> Act first — before any other investor sees the deal</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── HOW IT WORKS ───────────────────────────────────────────────────────────── -->
-<section class="section how-it-works" id="how">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:8px;">
-      <div class="label section-eyebrow">The Process</div>
-      <h2 class="section-title">Fully automated.<br><span class="gold">Every single night.</span></h2>
-      <p class="section-sub">While you sleep, intelEstate scans, scores, and prepares your morning intelligence briefing.</p>
-    </div>
-    <div class="timeline">
-      <div class="timeline-step fade-up">
-        <div class="step-number">01</div>
-        <div class="step-time">01:00 AM</div>
-        <div class="step-title">Scan Portals</div>
-        <div class="step-desc">Make.com + BrowserAct scan every Polish court auction website for new listings</div>
-        <div class="step-badge">Make.com · BrowserAct</div>
-      </div>
-      <div class="timeline-step fade-up">
-        <div class="step-number">02</div>
-        <div class="step-time">02:00 AM</div>
-        <div class="step-title">Score Deals</div>
-        <div class="step-desc">Each auction scored 0–100 by discount depth, auction round, and urgency</div>
-        <div class="step-badge">Render · Supabase</div>
-      </div>
-      <div class="timeline-step fade-up">
-        <div class="step-number">03</div>
-        <div class="step-time">04:00 AM</div>
-        <div class="step-title">Assess Market</div>
-        <div class="step-desc">Prices compared to estimated values. HOT and GOOD deals flagged automatically</div>
-        <div class="step-badge">Algorithm</div>
-      </div>
-      <div class="timeline-step fade-up">
-        <div class="step-number">04</div>
-        <div class="step-time">06:00 AM</div>
-        <div class="step-title">Alert Investors</div>
-        <div class="step-desc">Personalised email digest sent — tailored to your subscription tier</div>
-        <div class="step-badge">Resend · Email</div>
-      </div>
-      <div class="timeline-step fade-up">
-        <div class="step-number">05</div>
-        <div class="step-time">All Day</div>
-        <div class="step-title">Live Dashboard</div>
-        <div class="step-desc">Full filtered dashboard available. Download, filter, track deals you're watching</div>
-        <div class="step-badge">intelestate.eu</div>
-      </div>
-    </div>
-    <div class="text-center" style="margin-top:40px;">
-      <div class="auto-badge">✓ Your role: nothing — fully automatic</div>
-    </div>
-  </div>
-</section>
-
-<!-- ── HOT DEALS ──────────────────────────────────────────────────────────────── -->
-<section class="section" id="deals">
-  <div class="container">
-    <div class="section-header">
-      <div>
-        <div class="label section-eyebrow">Today's Intelligence</div>
-        <h2 class="section-title">Best Opportunities<br><span class="gold">Right Now</span></h2>
-      </div>
-      <a href="dashboard.html" class="btn btn-secondary">View Full Dashboard →</a>
-    </div>
-    <div class="deals-grid">
-      <!-- Deal 1 — fully visible -->
-      <div class="deal-feature-card fade-up">
-        <div class="card-top">
-          <span class="hot-label">🔥 HOT DEAL</span>
-          <div style="text-align:right">
-            <div class="big-score">92</div>
-            <div class="score-sub">Score</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-location">Kraków, Małopolska</div>
-          <div class="card-type">Apartment · 2nd Round · KM 1234/24</div>
-          <div class="card-metrics">
-            <div class="metric">
-              <div class="metric-val">364,667 PLN</div>
-              <div class="metric-label">Starting Price</div>
-            </div>
-            <div class="metric">
-              <div class="metric-val green">-41%</div>
-              <div class="metric-label">Discount</div>
-            </div>
-          </div>
-          <div class="card-countdown">⏱ Auction in 5 days</div>
-        </div>
-        <div class="card-action">
-          <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);">FREE PREVIEW</span>
-          <span class="view-btn">View Details →</span>
-        </div>
-      </div>
-
-      <!-- Deal 2 — blurred -->
-      <div class="deal-feature-card fade-up">
-        <div class="card-top">
-          <span class="hot-label">🔥 HOT DEAL</span>
-          <div style="text-align:right">
-            <div class="big-score">88</div>
-            <div class="score-sub">Score</div>
-          </div>
-        </div>
-        <div class="blurred-overlay">
-          <div class="card-body">
-            <div class="card-location">Warszawa, Mazowieckie</div>
-            <div class="card-type">Commercial · 1st Round</div>
-            <div class="card-metrics">
-              <div class="metric">
-                <div class="metric-val">1,240,000 PLN</div>
-                <div class="metric-label">Starting Price</div>
-              </div>
-              <div class="metric">
-                <div class="metric-val green">-38%</div>
-                <div class="metric-label">Discount</div>
-              </div>
-            </div>
-            <div class="card-countdown">⏱ Auction in 3 days</div>
-          </div>
-        </div>
-        <div class="card-action">
-          <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--gold);">SPECIALIST+</span>
-          <a href="#pricing" class="btn btn-primary" style="padding:6px 14px;font-size:0.75rem;">Unlock →</a>
-        </div>
-      </div>
-
-      <!-- Deal 3 — blurred -->
-      <div class="deal-feature-card fade-up">
-        <div class="card-top">
-          <span class="good-label">✓ GOOD DEAL</span>
-          <div style="text-align:right">
-            <div class="big-score" style="color:var(--green)">79</div>
-            <div class="score-sub">Score</div>
-          </div>
-        </div>
-        <div class="blurred-overlay">
-          <div class="card-body">
-            <div class="card-location">Wrocław, Dolnośląskie</div>
-            <div class="card-type">House · 2nd Round</div>
-            <div class="card-metrics">
-              <div class="metric">
-                <div class="metric-val">580,000 PLN</div>
-                <div class="metric-label">Starting Price</div>
-              </div>
-              <div class="metric">
-                <div class="metric-val green">-35%</div>
-                <div class="metric-label">Discount</div>
-              </div>
-            </div>
-            <div class="card-countdown">⏱ Auction in 8 days</div>
-          </div>
-        </div>
-        <div class="card-action">
-          <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--gold);">SPECIALIST+</span>
-          <a href="#pricing" class="btn btn-primary" style="padding:6px 14px;font-size:0.75rem;">Unlock →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── HEATMAP ────────────────────────────────────────────────────────────────── -->
-<section class="section heatmap-section" id="heatmap">
-  <div class="container">
-    <div class="section-header">
-      <div>
-        <div class="label section-eyebrow">Auction Intelligence</div>
-        <h2 class="section-title">Where the Best Deals<br><span class="gold">Are This Week</span></h2>
-      </div>
-    </div>
-    <div class="heatmap-inner">
-      <div class="poland-map">
-        <svg class="map-svg" viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Simplified Poland outline -->
-          <path d="M80 80 L120 60 L180 50 L240 55 L290 65 L330 80 L350 110 L360 150 L355 190 L340 220 L320 260 L300 290 L270 310 L240 320 L210 315 L180 310 L160 300 L140 280 L120 260 L100 240 L80 210 L65 180 L60 150 L65 120 Z" stroke="rgba(232,160,32,0.3)" stroke-width="1.5" fill="rgba(232,160,32,0.04)"/>
-          <!-- City dots -->
-          <g class="city-dot" data-city="Warszawa">
-            <circle cx="235" cy="150" r="18" fill="rgba(232,160,32,0.1)" class="pulse-ring"/>
-            <circle cx="235" cy="150" r="8" fill="var(--gold)" opacity="0.9"/>
-            <text x="248" y="148" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Warszawa</text>
-            <text x="248" y="160" fill="#10B981" font-size="9" font-family="DM Mono">8 deals</text>
-          </g>
-          <g class="city-dot" data-city="Kraków">
-            <circle cx="210" cy="255" r="16" fill="rgba(232,160,32,0.1)"/>
-            <circle cx="210" cy="255" r="7" fill="var(--gold)" opacity="0.9"/>
-            <text x="222" y="252" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Kraków</text>
-            <text x="222" y="263" fill="#10B981" font-size="9" font-family="DM Mono">11 deals</text>
-          </g>
-          <g class="city-dot" data-city="Łódź">
-            <circle cx="185" cy="170" r="12" fill="rgba(232,160,32,0.1)"/>
-            <circle cx="185" cy="170" r="6" fill="rgba(200,168,75,0.7)"/>
-            <text x="196" y="167" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Łódź</text>
-            <text x="196" y="178" fill="#10B981" font-size="9" font-family="DM Mono">7 deals</text>
-          </g>
-          <g class="city-dot" data-city="Wrocław">
-            <circle cx="130" cy="220" r="13" fill="rgba(232,160,32,0.1)"/>
-            <circle cx="130" cy="220" r="6" fill="rgba(200,168,75,0.7)"/>
-            <text x="143" y="217" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Wrocław</text>
-            <text x="143" y="228" fill="#10B981" font-size="9" font-family="DM Mono">9 deals</text>
-          </g>
-          <g class="city-dot" data-city="Gdańsk">
-            <circle cx="210" cy="80" r="11" fill="rgba(232,160,32,0.1)"/>
-            <circle cx="210" cy="80" r="5" fill="rgba(200,168,75,0.6)"/>
-            <text x="222" y="78" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Gdańsk</text>
-            <text x="222" y="89" fill="#10B981" font-size="9" font-family="DM Mono">5 deals</text>
-          </g>
-          <g class="city-dot" data-city="Poznań">
-            <circle cx="125" cy="145" r="11" fill="rgba(232,160,32,0.1)"/>
-            <circle cx="125" cy="145" r="5" fill="rgba(200,168,75,0.6)"/>
-            <text x="136" y="142" fill="#C8A84B" font-size="10" font-family="DM Mono" opacity="0.8">Poznań</text>
-            <text x="136" y="153" fill="#10B981" font-size="9" font-family="DM Mono">6 deals</text>
-          </g>
-          <!-- Grid overlay -->
-          <line x1="0" y1="190" x2="400" y2="190" stroke="rgba(232,160,32,0.06)" stroke-width="1"/>
-          <line x1="200" y1="0" x2="200" y2="380" stroke="rgba(232,160,32,0.06)" stroke-width="1"/>
-        </svg>
-        <div class="map-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>10+ deals</div>
-          <div class="legend-item"><div class="legend-dot" style="background:rgba(200,168,75,0.6)"></div>5–9 deals</div>
-          <div class="legend-item"><div class="legend-dot" style="background:rgba(232,160,32,0.3)"></div>&lt; 5 deals</div>
-        </div>
-      </div>
-      <div>
-        <div class="label" style="margin-bottom:20px;">Top Cities by Deal Volume</div>
-        <div class="heatmap-list">
-          <div class="heatmap-city-row"><span class="city-rank">01</span><span class="city-name">Kraków</span><div class="city-bar-wrap"><div class="city-bar" style="width:100%"></div></div><span class="city-count">11</span></div>
-          <div class="heatmap-city-row"><span class="city-rank">02</span><span class="city-name">Warszawa</span><div class="city-bar-wrap"><div class="city-bar" style="width:80%"></div></div><span class="city-count">8</span></div>
-          <div class="heatmap-city-row"><span class="city-rank">03</span><span class="city-name">Wrocław</span><div class="city-bar-wrap"><div class="city-bar" style="width:75%"></div></div><span class="city-count">9</span></div>
-          <div class="heatmap-city-row"><span class="city-rank">04</span><span class="city-name">Łódź</span><div class="city-bar-wrap"><div class="city-bar" style="width:65%"></div></div><span class="city-count">7</span></div>
-          <div class="heatmap-city-row"><span class="city-rank">05</span><span class="city-name">Poznań</span><div class="city-bar-wrap"><div class="city-bar" style="width:55%"></div></div><span class="city-count">6</span></div>
-          <div class="heatmap-city-row"><span class="city-rank">06</span><span class="city-name">Gdańsk</span><div class="city-bar-wrap"><div class="city-bar" style="width:45%"></div></div><span class="city-count">5</span></div>
-          <div class="heatmap-city-row"><span class="city-rank">07</span><span class="city-name">Katowice</span><div class="city-bar-wrap"><div class="city-bar" style="width:35%"></div></div><span class="city-count">4</span></div>
-          <div class="heatmap-city-row"><span class="city-rank">08</span><span class="city-name">Szczecin</span><div class="city-bar-wrap"><div class="city-bar" style="width:30%"></div></div><span class="city-count">3</span></div>
-        </div>
-        <div style="margin-top:24px;padding:16px;background:var(--navy-light);border:1px solid var(--border);border-radius:8px;">
-          <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:4px;font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase;">Deal of the Week</div>
-          <div style="font-weight:700;margin-bottom:4px;">Apartment — Kraków</div>
-          <div style="font-size:0.82rem;color:var(--text-muted);">Starting: 364,667 PLN · Discount: <span style="color:var(--green);font-weight:700;">-41%</span> · Score: <span style="color:var(--gold);font-weight:700;">92</span></div>
-          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:6px;font-family:var(--font-mono);">Auction in 5 days</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── PRICING ────────────────────────────────────────────────────────────────── -->
-<section class="section" id="pricing">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:56px;">
-      <div class="label section-eyebrow">Pricing</div>
-      <h2 class="section-title">Find your edge.<br><span class="gold">Start for free.</span></h2>
-      <p class="section-sub">No credit card required. Upgrade or cancel anytime.</p>
-    </div>
-    <div class="pricing-grid">
-      <!-- FREE -->
-      <div class="pricing-card fade-up">
-        <div class="tier-label">Free</div>
-        <div class="tier-price"><span class="currency">€</span>0<span class="period">/mo</span></div>
-        <div class="tier-desc">Get a taste of court auction intelligence. No card needed.</div>
-        <ul class="tier-features">
-          <li><span class="feat-check">✓</span> Top 3 deals daily preview</li>
-          <li><span class="feat-check">✓</span> Deal 1 fully visible</li>
-          <li><span class="feat-check">✓</span> Weekly email digest</li>
-          <li><span class="feat-cross">✗</span> Full dashboard access</li>
-          <li><span class="feat-cross">✗</span> Deal score details</li>
-          <li><span class="feat-cross">✗</span> Filters & search</li>
-        </ul>
-        <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center;">Start Free</a>
-      </div>
-
-      <!-- SPECIALIST — featured -->
-      <div class="pricing-card featured hud-corners fade-up">
-        <div class="popular-badge">Most Popular</div>
-        <div class="tier-label">Specialist</div>
-        <div class="tier-price"><span class="currency">€</span>49<span class="period">/mo</span></div>
-        <div class="tier-desc">Full access for serious individual investors.</div>
-        <ul class="tier-features">
-          <li><span class="feat-check">✓</span> All HOT + GOOD deals</li>
-          <li><span class="feat-check">✓</span> Full deal score breakdown</li>
-          <li><span class="feat-check">✓</span> Discount % + estimated value</li>
-          <li><span class="feat-check">✓</span> Auction countdown timer</li>
-          <li><span class="feat-check">✓</span> City & property type filters</li>
-          <li><span class="feat-check">✓</span> Daily email digest</li>
-        </ul>
-        <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">Choose Specialist</a>
-      </div>
-
-      <!-- PRO -->
-      <div class="pricing-card fade-up">
-        <div class="tier-label">Pro</div>
-        <div class="tier-price"><span class="currency">€</span>149<span class="period">/mo</span></div>
-        <div class="tier-desc">For funds and serious portfolio builders.</div>
-        <ul class="tier-features">
-          <li><span class="feat-check">✓</span> Everything in Specialist</li>
-          <li><span class="feat-check">✓</span> Deposit amounts visible</li>
-          <li><span class="feat-check">✓</span> Early alert (≤3 days)</li>
-          <li><span class="feat-check">✓</span> CSV export</li>
-          <li><span class="feat-check">✓</span> 5 user seats</li>
-          <li><span class="feat-check">✓</span> Priority support</li>
-        </ul>
-        <a href="#" class="btn btn-secondary" style="width:100%;justify-content:center;">Choose Pro</a>
-      </div>
-
-      <!-- INSTITUTIONAL -->
-      <div class="pricing-card fade-up">
-        <div class="tier-label">Institutional</div>
-        <div class="tier-price"><span class="currency">€</span>999<span class="period">/mo</span></div>
-        <div class="tier-desc">API access and custom intelligence for professional firms.</div>
-        <ul class="tier-features">
-          <li><span class="feat-check">✓</span> Full REST API access</li>
-          <li><span class="feat-check">✓</span> Custom alert thresholds</li>
-          <li><span class="feat-check">✓</span> Historical data archive</li>
-          <li><span class="feat-check">✓</span> Bulk JSON/CSV export</li>
-          <li><span class="feat-check">✓</span> White-label reports</li>
-          <li><span class="feat-check">✓</span> Dedicated account manager</li>
-        </ul>
-        <a href="#institutional" class="btn btn-ghost" style="width:100%;justify-content:center;">Contact Sales</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── INSTITUTIONAL ──────────────────────────────────────────────────────────── -->
-<section class="section institutional" id="institutional">
-  <div class="container">
-    <div class="institutional-inner">
-      <div>
-        <div class="inst-eyebrow">Enterprise & Institutional</div>
-        <h2 class="section-title">Auction intelligence<br>for <span class="gold">professional firms</span></h2>
-        <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.7;margin:16px 0 0;">
-          Real estate funds, debt recovery firms, and law firms use intelEstate's institutional tier to monitor the entire Polish court auction market at scale.
-        </p>
-        <div class="inst-features">
-          <div class="inst-feature">
-            <div class="inst-icon">⚡</div>
-            <div>
-              <div class="inst-feature-title">REST API Access</div>
-              <div class="inst-feature-desc">Real-time JSON feed of all auctions, scores, and property data. Integrate directly into your systems.</div>
-            </div>
-          </div>
-          <div class="inst-feature">
-            <div class="inst-icon">🔔</div>
-            <div>
-              <div class="inst-feature-title">Custom Alert Rules</div>
-              <div class="inst-feature-desc">Set thresholds by city, property type, discount %, and deal score. Get notified instantly.</div>
-            </div>
-          </div>
-          <div class="inst-feature">
-            <div class="inst-icon">📊</div>
-            <div>
-              <div class="inst-feature-title">Bulk Data Exports</div>
-              <div class="inst-feature-desc">CSV and JSON exports of full auction database. Historical data archive included.</div>
-            </div>
-          </div>
-          <div class="inst-feature">
-            <div class="inst-icon">🏷️</div>
-            <div>
-              <div class="inst-feature-title">White-Label Reports</div>
-              <div class="inst-feature-desc">Branded PDF reports for client presentations. Custom templates available.</div>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="mailto:enterprise@intelestate.eu" class="btn btn-primary">Request Demo →</a>
-          <a href="#pricing" class="btn btn-ghost">See Pricing</a>
-        </div>
-      </div>
-      <div class="inst-visual">
-        <div class="api-terminal hud-corners">
-          <div class="api-terminal-header">
-            <div class="terminal-dot red"></div>
-            <div class="terminal-dot yellow"></div>
-            <div class="terminal-dot green"></div>
-            <span style="margin-left:8px;">INTELESTATE API · v1.0</span>
-          </div>
-          <div class="api-code">
-            <div><span class="api-comment">// GET /v1/auctions?score_min=85</span></div>
-            <div><span class="api-comment">// Authorization: Bearer YOUR_KEY</span></div>
-            <br>
-            <div>{</div>
-            <div>&nbsp;&nbsp;<span class="api-key">"auctions"</span>: [</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;{</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"id"</span>: <span class="api-str">"KM-1234-24"</span>,</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"city"</span>: <span class="api-str">"Kraków"</span>,</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"deal_score"</span>: <span class="api-val">92</span>,</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"discount_pct"</span>: <span class="api-val">41</span>,</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"starting_price"</span>: <span class="api-val">364667</span>,</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"estimated_value"</span>: <span class="api-val">618000</span>,</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"auction_date"</span>: <span class="api-str">"2026-03-17"</span>,</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"property_type"</span>: <span class="api-str">"APARTMENT"</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
-            <div>&nbsp;&nbsp;],</div>
-            <div>&nbsp;&nbsp;<span class="api-key">"total"</span>: <span class="api-val">473</span>,</div>
-            <div>&nbsp;&nbsp;<span class="api-key">"hot_deals"</span>: <span class="api-val">18</span></div>
-            <div>}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── TRUST ──────────────────────────────────────────────────────────────────── -->
-<section class="section-sm trust-section">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:8px;">
-      <div class="label">Trusted by property investors and legal professionals across Poland</div>
-    </div>
-    <div class="trust-logos">
-      <div class="trust-logo-item">Kancelaria Nowak</div>
-      <div class="trust-logo-item">PropInvest PL</div>
-      <div class="trust-logo-item">Debt Recovery EU</div>
-      <div class="trust-logo-item">RE Capital Fund</div>
-      <div class="trust-logo-item">LexProperty Sp.</div>
-    </div>
-    <div class="testimonials">
-      <div class="testimonial-card fade-up">
-        <div class="testimonial-quote">
-          "intelEstate surfaced a second-round apartment in Kraków we would have completely missed. We acquired it at 41% below estimated value. The ROI on the subscription is absurd."
-        </div>
-        <div class="testimonial-author">
-          <div class="author-avatar">MK</div>
-          <div>
-            <div class="author-name">Marek Kowalski</div>
-            <div class="author-role">Property Investor, Kraków</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card fade-up">
-        <div class="testimonial-quote">
-          "We track 50+ auctions per month for our fund. The API access and bulk export features save us 20+ hours a week in manual research. Institutional tier is worth every euro."
-        </div>
-        <div class="testimonial-author">
-          <div class="author-avatar">AW</div>
-          <div>
-            <div class="author-name">Anna Wiśniewska</div>
-            <div class="author-role">Fund Manager, Warszawa</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card fade-up">
-        <div class="testimonial-quote">
-          "As a debt recovery firm, court auction intelligence is essential. intelEstate gives us the data advantage we needed. The custom alert system is exactly what we asked for."
-        </div>
-        <div class="testimonial-author">
-          <div class="author-avatar">PZ</div>
-          <div>
-            <div class="author-name">Piotr Zając</div>
-            <div class="author-role">Director, Debt Recovery EU</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── FAQ ────────────────────────────────────────────────────────────────────── -->
-<section class="section">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:48px;">
-      <div class="label section-eyebrow">FAQ</div>
-      <h2 class="section-title">Common <span class="gold">Questions</span></h2>
-    </div>
-    <div class="faq-list">
-      <div class="faq-item">
-        <button class="faq-question">
-          Where does the auction data come from?
-          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">intelEstate scrapes official Polish court and bailiff (komornik) portals every night. Data is sourced directly from public judicial databases — not third-party aggregators.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">
-          How early do auctions appear in the system?
-          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">New auctions typically appear within 24 hours of being published on court portals. PRO subscribers get early alerts for auctions within 3 days of their date.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">
-          How does the deal scoring algorithm work?
-          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">Each auction is scored 0–100 based on three factors: discount vs estimated value (60% weight), auction round — second rounds are cheaper (20% weight), and urgency — days remaining (20% weight). HOT deals score 85+, GOOD deals score 70–84.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">
-          Which regions of Poland are covered?
-          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">Currently we cover all 16 Polish voivodeships, with strongest coverage in Małopolska, Mazowieckie, Dolnośląskie, and Śląskie. EU expansion to Czech Republic and Hungary is planned for 2026.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">
-          Can I cancel my subscription anytime?
-          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">Yes — cancel anytime with no penalty. Your subscription remains active until the end of the billing period. No hidden fees, no lock-in contracts.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">
-          What payment methods are accepted?
-          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">All major credit cards, SEPA bank transfer, and PayPal. Institutional customers can request invoice billing with 30-day payment terms.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── FINAL CTA ───────────────────────────────────────────────────────────────── -->
-<section class="final-cta">
-  <div class="container">
-    <div class="label" style="margin-bottom:16px;">Start Today</div>
-    <h2>Find your next deal<br><span class="gold">before anyone else does</span></h2>
-    <p>Join 1,200+ investors and professionals already using intelEstate.</p>
-    <a href="#pricing" class="btn btn-primary" style="font-size:1.05rem;padding:16px 36px;">
-      Get Free Access Now →
-    </a>
-    <div class="cta-note">
-      <span>✓ No credit card required</span>
-      <span>✓ Free tier forever</span>
-      <span>✓ Cancel anytime</span>
-    </div>
-  </div>
-</section>
-
-<!-- ── FOOTER ─────────────────────────────────────────────────────────────────── -->
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="footer-logo">intel<span class="gold">Estate</span></div>
-        <p class="footer-tagline">The Bloomberg Terminal for European court property auctions. Scan, score, and act — before the market does.</p>
-        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);letter-spacing:1px;">
-          INTELESTATE.EU · INTELESTATE.PL
-        </div>
-      </div>
-      <div>
-        <div class="footer-col-title">Product</div>
-        <ul class="footer-links">
-          <li><a href="dashboard.html">Dashboard</a></li>
-          <li><a href="#deals">Hot Deals</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#how">How It Works</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Company</div>
-        <ul class="footer-links">
-          <li><a href="#">About</a></li>
-          <li><a href="#institutional">Enterprise</a></li>
-          <li><a href="mailto:hello@intelestate.eu">Contact</a></li>
-          <li><a href="#">Blog</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Legal</div>
-        <ul class="footer-links">
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">Cookie Policy</a></li>
-          <li><a href="#">GDPR</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 intelEstate. All rights reserved.</span>
-      <span style="display:flex;gap:20px;">
-        <a href="#" style="color:var(--text-muted);text-decoration:none;">Privacy</a>
-        <a href="#" style="color:var(--text-muted);text-decoration:none;">Terms</a>
-        <a href="mailto:hello@intelestate.eu" style="color:var(--text-muted);text-decoration:none;">Contact</a>
-      </span>
-    </div>
-  </div>
-</footer>
-
-<!-- Scroll to top -->
-<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-
-<script>
-// ── NAVBAR SCROLL ────────────────────────────────────────────────────────────
-const navbar = document.getElementById('navbar');
-const scrollTopBtn = document.getElementById('scrollTop');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 20);
-  scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
-});
-
-// ── HAMBURGER MENU ───────────────────────────────────────────────────────────
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobileMenu');
-hamburger.addEventListener('click', () => {
-  mobileMenu.classList.toggle('open');
-});
-mobileMenu.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => mobileMenu.classList.remove('open'));
-});
-
-// ── COUNTER ANIMATIONS ───────────────────────────────────────────────────────
-function animateCounter(el, target, suffix = '') {
-  let start = 0;
-  const duration = 1800;
-  const step = target / (duration / 16);
-  const timer = setInterval(() => {
-    start = Math.min(start + step, target);
-    el.textContent = Math.floor(start).toLocaleString() + suffix;
-    if (start >= target) clearInterval(timer);
-  }, 16);
-}
-
-// ── INTERSECTION OBSERVER ─────────────────────────────────────────────────────
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      // Animate counters when stats bar enters view
-      if (entry.target.classList.contains('stats-bar') || entry.target.closest('.hero-stats')) {
-        document.querySelectorAll('[data-count]').forEach(el => {
-          const target = parseInt(el.dataset.count);
-          const suffix = el.dataset.suffix || '';
-          animateCounter(el, target, suffix);
-        });
-      }
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15 });
-
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-document.querySelector('.stats-bar')?.let(el => observer.observe(el));
-document.querySelector('.hero-stats')?.let(el => observer.observe(el));
-
-// Trigger hero counters after short delay
-setTimeout(() => {
-  document.querySelectorAll('.hero-stats [data-count]').forEach(el => {
-    const target = parseInt(el.dataset.count);
-    const suffix = el.dataset.suffix || '';
-    animateCounter(el, target, suffix);
-  });
-}, 800);
-
-// ── FAQ ACCORDION ─────────────────────────────────────────────────────────────
-document.querySelectorAll('.faq-question').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const item = btn.parentElement;
-    const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-    if (!isOpen) item.classList.add('open');
-  });
-});
-
-// ── SMOOTH SCROLL ─────────────────────────────────────────────────────────────
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
-
-// Fix for .let() which doesn't exist — run counters on scroll
-const statsBar = document.querySelector('.stats-bar');
-if (statsBar) observer.observe(statsBar);
-</script>
-</body>
-</html>
-<!-- INJECTED: Glow & HUD styles -->
-<style>
 /* ── GLOW ENHANCEMENTS ─────────────────────────────────────────────────────── */
 .hero-terminal,
 .deal-feature-card,
@@ -2164,3 +1500,1550 @@ if (statsBar) observer.observe(statsBar);
   100% { opacity: 0; transform: scale(2); }
 }
 </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">intel<span>Estate</span></a>
+    <ul class="navbar-links">
+      <li><a href="#deals">Hot Deals</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#institutional">Enterprise</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="how-court-auctions-work.html">Guide</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="lang-toggle">PL / EN</button>
+      <a href="dashboard.html" class="btn btn-secondary" style="padding:8px 18px;font-size:0.82rem;">Log In</a>
+      <a href="pricing.html" class="btn btn-primary" style="padding:8px 18px;font-size:0.82rem;">Get Free Access</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#deals">Hot Deals</a>
+  <a href="#how">How It Works</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#institutional">Enterprise</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="pricing.html" class="btn btn-primary" style="margin-top:8px;">Get Free Access</a>
+</div>
+
+<!-- ── HERO ────────────────────────────────────────────────────────────────── -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <div class="pulse-dot"></div>
+          <span class="label">Live — 473 auctions tracked</span>
+        </div>
+        <h1 class="hero-title">
+          Professional Intelligence<br>for <span class="gold">Court Auctions</span>
+        </h1>
+        <p class="hero-sub">
+          Discover distressed real estate before the market does. intelEstate analyses every Polish court auction and ranks opportunities by discount depth, urgency, and investment potential.
+        </p>
+        <div style="display:flex;gap:0;max-width:440px;margin-bottom:12px;">
+          <input type="email" placeholder="Enter your email address" style="flex:1;background:rgba(255,255,255,0.07);border:1px solid var(--border-light);border-right:none;border-radius:6px 0 0 6px;padding:13px 16px;font-size:0.88rem;color:var(--text-primary);font-family:var(--font-body);outline:none;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border-light)'">
+          <a href="pricing.html" style="background:var(--gold);color:var(--navy-deep);font-family:var(--font-heading);font-size:0.85rem;font-weight:700;padding:13px 22px;border-radius:0 6px 6px 0;white-space:nowrap;display:flex;align-items:center;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">Get Free Access →</a>
+        </div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:18px;">✓ No credit card &nbsp;·&nbsp; ✓ Free tier forever &nbsp;·&nbsp; ✓ Unsubscribe anytime</div>
+        <div class="hero-ctas">
+          <a href="dashboard.html" class="btn btn-ghost" style="font-size:0.9rem;padding:11px 24px;">
+            View Dashboard →
+          </a>
+          <a href="how-court-auctions-work.html" class="btn btn-ghost" style="font-size:0.9rem;padding:11px 24px;">
+            How Auctions Work
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-value" data-count="473">0</div>
+            <div class="hero-stat-label">Active Auctions</div>
+          </div>
+          <div>
+            <div class="hero-stat-value" data-count="33" data-suffix="%">0%</div>
+            <div class="hero-stat-label">Avg Discount</div>
+          </div>
+          <div>
+            <div class="hero-stat-value" data-count="18">0</div>
+            <div class="hero-stat-label">HOT Deals Today</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-terminal hud-corners">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span class="terminal-title">INTELESTATE — LIVE AUCTION FEED</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-label">Today's Top Deals / 12 Mar 2026</div>
+
+            <div class="deal-card hot">
+              <div class="deal-info">
+                <div class="deal-location">Kraków, Małopolska</div>
+                <div class="deal-type">APARTMENT · 2ND ROUND</div>
+              </div>
+              <div class="deal-metrics">
+                <div>
+                  <div class="discount-badge">-41%</div>
+                </div>
+                <div>
+                  <div class="score-badge">92</div>
+                  <div style="font-size:0.55rem;color:var(--text-muted);text-align:center;margin-top:2px">SCORE</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="deal-card hot">
+              <div class="deal-info">
+                <div class="deal-location">Warszawa, Mazowieckie</div>
+                <div class="deal-type">COMMERCIAL · 1ST ROUND</div>
+              </div>
+              <div class="deal-metrics">
+                <div><div class="discount-badge">-38%</div></div>
+                <div>
+                  <div class="score-badge">88</div>
+                  <div style="font-size:0.55rem;color:var(--text-muted);text-align:center;margin-top:2px">SCORE</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="deal-card good">
+              <div class="deal-info">
+                <div class="deal-location">Wrocław, Dolnośląskie</div>
+                <div class="deal-type">HOUSE · 2ND ROUND</div>
+              </div>
+              <div class="deal-metrics">
+                <div><div class="discount-badge">-35%</div></div>
+                <div>
+                  <div class="score-badge" style="border-color:var(--green);color:var(--green);background:rgba(0,200,150,0.1)">79</div>
+                  <div style="font-size:0.55rem;color:var(--text-muted);text-align:center;margin-top:2px">SCORE</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="terminal-footer">
+              <div class="live-indicator">
+                <div class="pulse-dot"></div>
+                Updated 6:00 AM UTC
+              </div>
+              <a href="dashboard.html" class="terminal-cta">View all 473 auctions →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TICKER ───────────────────────────────────────────────────────────────── -->
+<div class="ticker-section">
+  <div class="ticker-header">
+    <div class="ticker-label-box">🔥 Live Deals</div>
+    <div style="overflow:hidden;flex:1;">
+      <div class="ticker-track" id="tickerTrack">
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">92</span><span class="ticker-city">Kraków</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-41%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">88</span><span class="ticker-city">Warszawa</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-38%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">79</span><span class="ticker-city">Wrocław</span><span class="ticker-type">House</span><span class="ticker-discount">-35%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">91</span><span class="ticker-city">Gdańsk</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-44%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">76</span><span class="ticker-city">Łódź</span><span class="ticker-type">Land</span><span class="ticker-discount">-29%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">87</span><span class="ticker-city">Poznań</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-37%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">74</span><span class="ticker-city">Katowice</span><span class="ticker-type">House</span><span class="ticker-discount">-31%</span></div>
+        <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">85</span><span class="ticker-city">Szczecin</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-40%</span></div>
+        <!-- Duplicate for seamless loop -->
+        <div id="tickerDuplicate" style="display:contents;">
+          <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">92</span><span class="ticker-city">Kraków</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-41%</span></div>
+          <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">88</span><span class="ticker-city">Warszawa</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-38%</span></div>
+          <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">79</span><span class="ticker-city">Wrocław</span><span class="ticker-type">House</span><span class="ticker-discount">-35%</span></div>
+          <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">91</span><span class="ticker-city">Gdańsk</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-44%</span></div>
+          <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">76</span><span class="ticker-city">Łódź</span><span class="ticker-type">Land</span><span class="ticker-discount">-29%</span></div>
+          <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">87</span><span class="ticker-city">Poznań</span><span class="ticker-type">Apartment</span><span class="ticker-discount">-37%</span></div>
+          <div class="ticker-item"><div class="ticker-urgency urgency-good"></div><span class="ticker-score">74</span><span class="ticker-city">Katowice</span><span class="ticker-type">House</span><span class="ticker-discount">-31%</span></div>
+          <div class="ticker-item"><div class="ticker-urgency urgency-hot"></div><span class="ticker-score">85</span><span class="ticker-city">Szczecin</span><span class="ticker-type">Commercial</span><span class="ticker-discount">-40%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── STATS BAR ─────────────────────────────────────────────────────────────── -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-up">
+        <div class="stat-number"><span data-count="473">473</span></div>
+        <div class="stat-desc">Auctions Indexed</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-number"><span data-count="33">33</span><span class="stat-unit">%</span></div>
+        <div class="stat-desc">Average Discount</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-number">€<span data-count="2">2</span>.5B</div>
+        <div class="stat-desc">Property Value Tracked</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-number"><span data-count="1200">1,200</span><span class="stat-unit">+</span></div>
+        <div class="stat-desc">Active Investors</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROBLEM / SOLUTION ────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:48px;">
+      <div class="label section-eyebrow">The Problem</div>
+      <h2 class="section-title">Court auction opportunities<br><span class="gold">are hidden in plain sight</span></h2>
+    </div>
+    <div class="problem-solution">
+      <div class="ps-column">
+        <div class="ps-header">
+          <div class="ps-icon bad">❌</div>
+          <span class="ps-title" style="color:var(--text-muted);">Without intelEstate</span>
+        </div>
+        <ul class="ps-list">
+          <li><span class="icon">⏰</span> Reading hundreds of raw auction listings with no scoring or ranking</li>
+          <li><span class="icon">📋</span> Second-round auctions easy to miss — bigger discounts, shorter windows</li>
+          <li><span class="icon">📊</span> No way to compare deal quality across cities and property types</li>
+          <li><span class="icon">🔢</span> Manual research, fragmented data, no investment signal</li>
+          <li><span class="icon">🐌</span> By the time you find a deal, faster investors have already moved</li>
+        </ul>
+      </div>
+      <div class="ps-column solution">
+        <div class="ps-header">
+          <div class="ps-icon good">✦</div>
+          <span class="ps-title" style="color:var(--gold);">With intelEstate</span>
+        </div>
+        <ul class="ps-list">
+          <li><span class="icon" style="color:var(--green);">✓</span> Every court auction automatically analysed and scored 0–100</li>
+          <li><span class="icon" style="color:var(--green);">✓</span> HOT deals ranked by discount depth, round, and urgency — instantly</li>
+          <li><span class="icon" style="color:var(--green);">✓</span> Daily intelligence briefing at 06:00 — before other investors start searching</li>
+          <li><span class="icon" style="color:var(--green);">✓</span> Filter by city, property type, discount %, and auction round</li>
+          <li><span class="icon" style="color:var(--green);">✓</span> Act on distressed asset opportunities before the market prices them in</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ───────────────────────────────────────────────────────────── -->
+<section class="section how-it-works" id="how">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:8px;">
+      <div class="label section-eyebrow">Auction Intelligence Engine</div>
+      <h2 class="section-title">How intelEstate<br><span class="gold">surfaces the best deals</span></h2>
+      <p class="section-sub">A proprietary intelligence layer continuously monitors the Polish court auction market and delivers ranked opportunities every morning.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-step fade-up">
+        <div class="step-number">01</div>
+        <div class="step-time">Nightly</div>
+        <div class="step-title">Market Monitoring</div>
+        <div class="step-desc">intelEstate continuously tracks court auction listings from official Polish judicial sources, updated every night</div>
+        <div class="step-badge">Data Collection</div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="step-number">02</div>
+        <div class="step-time">Analysis</div>
+        <div class="step-title">Deal Analysis</div>
+        <div class="step-desc">Each auction is automatically evaluated on discount depth, auction round, and time remaining — scored 0 to 100</div>
+        <div class="step-badge">Intelligence Layer</div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="step-number">03</div>
+        <div class="step-time">Signals</div>
+        <div class="step-title">Opportunity Signals</div>
+        <div class="step-desc">High-value auctions are flagged as HOT (85+) or GOOD (70–84). Below-market pricing is validated against appraised values</div>
+        <div class="step-badge">Scoring Engine</div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="step-number">04</div>
+        <div class="step-time">06:00</div>
+        <div class="step-title">Intelligence Briefing</div>
+        <div class="step-desc">Investors receive a daily briefing at 06:00 highlighting the most attractive opportunities — before the market opens</div>
+        <div class="step-badge">Daily Delivery</div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="step-number">05</div>
+        <div class="step-time">Live</div>
+        <div class="step-title">Explore the Market</div>
+        <div class="step-desc">The intelEstate dashboard allows investors to filter, compare, and track auction deals across Poland in real time</div>
+        <div class="step-badge">Dashboard</div>
+      </div>
+    </div>
+    <div class="text-center" style="margin-top:40px;">
+      <div class="auto-badge">✓ Proprietary intelligence engine — fully automated</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DEAL SCORE BREAKDOWN ───────────────────────────────────────────────────── -->
+<section class="section score-section" id="scoring">
+  <div class="container">
+    <div class="score-layout">
+
+      <!-- LEFT: Formula + tier legend -->
+      <div>
+        <div class="score-formula fade-up">
+          <div class="score-formula-header">
+            <div class="score-formula-num">0–100</div>
+            <div>
+              <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:4px;">Deal Score</div>
+              <div class="score-formula-label">Investment Signal Index</div>
+            </div>
+          </div>
+
+          <div class="score-weights">
+            <div class="weight-row">
+              <div class="weight-meta">
+                <span class="weight-name">Discount Depth</span>
+                <span class="weight-pct">60%</span>
+              </div>
+              <div class="weight-desc">How far the starting price sits below the court-appraised value</div>
+              <div class="weight-bar-track">
+                <div class="weight-bar-fill w60" data-width="60"></div>
+              </div>
+            </div>
+
+            <div class="weight-row">
+              <div class="weight-meta">
+                <span class="weight-name">Auction Round</span>
+                <span class="weight-pct">20%</span>
+              </div>
+              <div class="weight-desc">Second-round auctions allow lower bids — deeper entry points</div>
+              <div class="weight-bar-track">
+                <div class="weight-bar-fill w20a" data-width="20"></div>
+              </div>
+            </div>
+
+            <div class="weight-row">
+              <div class="weight-meta">
+                <span class="weight-name">Urgency</span>
+                <span class="weight-pct">20%</span>
+              </div>
+              <div class="weight-desc">Days remaining to act — imminent auctions score higher</div>
+              <div class="weight-bar-track">
+                <div class="weight-bar-fill w20b" data-width="20"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Score tiers + example deal card -->
+      <div class="score-section-right fade-up">
+        <div>
+          <div class="label section-eyebrow">Score Tiers</div>
+          <h2 class="section-title" style="margin-bottom:8px;">Your moat is<br><span class="gold">the algorithm</span></h2>
+          <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.7;margin-bottom:28px;max-width:420px;">
+            Each auction is ranked before you see it. No spreadsheets. No manual research. Every deal pre-scored so you only review what matters.
+          </p>
+
+          <div class="score-tiers">
+            <div class="score-tier-title">Signal Thresholds</div>
+
+            <div class="tier-row">
+              <div class="tier-indicator hot"></div>
+              <div class="tier-score-range hot">85+</div>
+              <div class="tier-info">
+                <div class="tier-label hot">🔥 HOT DEAL</div>
+                <div class="tier-desc">Exceptional discount, strong round bonus, or auction imminent. Immediate action warranted.</div>
+              </div>
+            </div>
+
+            <div class="tier-row">
+              <div class="tier-indicator good"></div>
+              <div class="tier-score-range good">70–84</div>
+              <div class="tier-info">
+                <div class="tier-label good">✓ GOOD DEAL</div>
+                <div class="tier-desc">Above-average discount with solid investment fundamentals. Worth tracking closely.</div>
+              </div>
+            </div>
+
+            <div class="tier-row">
+              <div class="tier-indicator fair"></div>
+              <div class="tier-score-range fair">&lt;70</div>
+              <div class="tier-info">
+                <div class="tier-label fair">— STANDARD</div>
+                <div class="tier-desc">Market-rate or marginal discount. Monitored but not prioritised in daily briefings.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Example scored deal -->
+        <div class="example-score-card fade-up">
+          <div class="example-card-title">Apartment · Kraków, Małopolskie</div>
+          <div class="example-card-meta">2nd Round · Auction in 5 days · 74 m²</div>
+
+          <div class="example-card-scores">
+            <div class="ex-score-item">
+              <div class="ex-score-val" style="color:var(--gold);">−41%</div>
+              <div class="ex-score-lbl">Discount<br>vs appraised</div>
+            </div>
+            <div class="ex-score-item">
+              <div class="ex-score-val" style="color:#A89FE0;">2nd</div>
+              <div class="ex-score-lbl">Auction<br>round</div>
+            </div>
+            <div class="ex-score-item">
+              <div class="ex-score-val" style="color:#F87171;">5d</div>
+              <div class="ex-score-lbl">Days<br>remaining</div>
+            </div>
+          </div>
+
+          <div class="example-card-final">
+            <div>
+              <div class="final-score-num">94</div>
+              <div class="final-score-sub">Deal Score</div>
+            </div>
+            <div>
+              <span class="hot-label">🔥 HOT DEAL</span>
+              <div style="font-size:0.7rem;color:var(--text-muted);margin-top:6px;text-align:right;">Starting: 364,667 PLN</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── DEAL SCORE BREAKDOWN ───────────────────────────────────────────────────── -->
+<section class="section score-section">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:60px;">
+      <div class="label section-eyebrow">Scoring Methodology</div>
+      <h2 class="section-title">The Deal Score — <span class="gold">how it works</span></h2>
+      <p class="section-sub" style="max-width:540px;margin:0 auto;">Every auction is assigned a score from 0 to 100. Three factors determine the score — weighted by their impact on investment returns.</p>
+    </div>
+
+    <div class="score-layout">
+
+      <!-- Left: formula cards -->
+      <div class="score-factors">
+
+        <div class="score-factor fade-up">
+          <div class="factor-header">
+            <div class="factor-label">Discount Depth</div>
+            <div class="factor-weight gold">60%</div>
+          </div>
+          <div class="factor-bar-track">
+            <div class="factor-bar" style="width:60%;background:var(--gold);"></div>
+          </div>
+          <div class="factor-desc">How far below estimated (appraised) value the starting price sits. A 40% discount scores significantly higher than a 15% discount. The single most important signal.</div>
+        </div>
+
+        <div class="score-factor fade-up">
+          <div class="factor-header">
+            <div class="factor-label">Auction Round</div>
+            <div class="factor-weight" style="color:var(--green);">20%</div>
+          </div>
+          <div class="factor-bar-track">
+            <div class="factor-bar" style="width:20%;background:var(--green);"></div>
+          </div>
+          <div class="factor-desc">Second-round auctions start at ¾ of appraised value by law — a structural discount most investors miss. Round 2 scores meaningfully higher than Round 1.</div>
+        </div>
+
+        <div class="score-factor fade-up">
+          <div class="factor-header">
+            <div class="factor-label">Urgency</div>
+            <div class="factor-weight" style="color:#F0B840;">20%</div>
+          </div>
+          <div class="factor-bar-track">
+            <div class="factor-bar" style="width:20%;background:#F0B840;"></div>
+          </div>
+          <div class="factor-desc">Days remaining until auction. Imminent auctions score higher — this surfaces time-sensitive opportunities that reward fast decision-making.</div>
+        </div>
+
+      </div>
+
+      <!-- Right: score tiers -->
+      <div class="score-tiers fade-up">
+        <div class="tiers-label">Score Tiers</div>
+
+        <div class="tier-row tier-hot">
+          <div class="tier-range">85 – 100</div>
+          <div class="tier-info">
+            <div class="tier-badge-inline hot-badge">🔥 HOT DEAL</div>
+            <div class="tier-text">Exceptional discount + strong fundamentals. Act fast.</div>
+          </div>
+        </div>
+
+        <div class="tier-row tier-good">
+          <div class="tier-range">70 – 84</div>
+          <div class="tier-info">
+            <div class="tier-badge-inline good-badge">✓ GOOD DEAL</div>
+            <div class="tier-text">Above-average opportunity. Worth serious evaluation.</div>
+          </div>
+        </div>
+
+        <div class="tier-row tier-fair">
+          <div class="tier-range">50 – 69</div>
+          <div class="tier-info">
+            <div class="tier-badge-inline fair-badge">FAIR</div>
+            <div class="tier-text">Standard auction. Monitor for price movement.</div>
+          </div>
+        </div>
+
+        <div class="tier-row tier-watch">
+          <div class="tier-range">0 – 49</div>
+          <div class="tier-info">
+            <div class="tier-badge-inline watch-badge">WATCH</div>
+            <div class="tier-text">Weak discount or unfavourable conditions. Low priority.</div>
+          </div>
+        </div>
+
+        <div class="score-example">
+          <div class="score-ex-label">Example</div>
+          <div class="score-ex-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <span class="hot-label">🔥 HOT DEAL</span>
+              <span style="font-size:2rem;font-weight:700;color:var(--gold);font-family:var(--font-mono);">91</span>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono);line-height:1.8;">
+              <span style="color:var(--text-primary);">Apartment — Kraków</span><br>
+              Discount: <span style="color:var(--gold);">-41%</span> · Round 2 · 4 days left<br>
+              Starting: <span style="color:var(--text-primary);">364,667 PLN</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ── DASHBOARD PREVIEW ──────────────────────────────────────────────────────── -->
+<section class="section" style="background:var(--navy);" id="preview">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:48px;">
+      <div class="label section-eyebrow">Product Intelligence</div>
+      <h2 class="section-title">The Deal Intelligence<br><span class="gold">Dashboard</span></h2>
+      <p class="section-sub" style="max-width:560px;margin:0 auto;">Every court auction in Poland — ranked by investment potential. Sorted by deal score so the best opportunities are always at the top.</p>
+    </div>
+    <div style="background:var(--navy-deep);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 0 60px rgba(232,160,32,0.06);">
+      <!-- Table header bar -->
+      <div style="background:var(--navy-light);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:8px;">
+        <div class="terminal-dot red"></div>
+        <div class="terminal-dot yellow"></div>
+        <div class="terminal-dot green"></div>
+        <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);margin-left:8px;letter-spacing:1px;">INTELESTATE DASHBOARD · Poland · Updated nightly</span>
+        <span style="margin-left:auto;font-family:var(--font-mono);font-size:0.65rem;color:var(--gold);">473 auctions · 18 HOT today</span>
+      </div>
+      <!-- Column headers -->
+      <div style="display:grid;grid-template-columns:90px 80px 110px 130px 110px 90px 110px;gap:0;border-bottom:1px solid var(--border);padding:10px 24px;background:rgba(232,160,32,0.04);">
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;">Score</div>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;">Discount</div>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;">Property</div>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;">City</div>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;">Starting Price</div>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;">Auction</div>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;">Days Left</div>
+      </div>
+      <!-- Row 1 — fully visible -->
+      <div style="display:grid;grid-template-columns:90px 80px 110px 130px 110px 90px 110px;gap:0;border-bottom:1px solid var(--border);padding:14px 24px;align-items:center;transition:background 0.15s;" onmouseover="this.style.background='rgba(232,160,32,0.04)'" onmouseout="this.style.background='transparent'">
+        <div><span style="background:var(--gold);color:var(--navy-deep);font-size:0.7rem;font-weight:700;padding:3px 8px;border-radius:3px;">94 🔥</span></div>
+        <div style="font-size:0.9rem;font-weight:700;color:var(--gold);">–41%</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);">Apartment</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);">Kraków</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);font-family:var(--font-mono);">364,667 PLN</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono);">28 Mar</div>
+        <div><span style="color:#EF4444;font-size:0.8rem;font-family:var(--font-mono);">● 3 days</span></div>
+      </div>
+      <!-- Row 2 — fully visible -->
+      <div style="display:grid;grid-template-columns:90px 80px 110px 130px 110px 90px 110px;gap:0;border-bottom:1px solid var(--border);padding:14px 24px;align-items:center;transition:background 0.15s;" onmouseover="this.style.background='rgba(232,160,32,0.04)'" onmouseout="this.style.background='transparent'">
+        <div><span style="background:var(--gold);color:var(--navy-deep);font-size:0.7rem;font-weight:700;padding:3px 8px;border-radius:3px;">91 🔥</span></div>
+        <div style="font-size:0.9rem;font-weight:700;color:var(--gold);">–38%</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);">House</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);">Łódź</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);font-family:var(--font-mono);">580,000 PLN</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono);">30 Mar</div>
+        <div><span style="color:#F97316;font-size:0.8rem;font-family:var(--font-mono);">● 5 days</span></div>
+      </div>
+      <!-- Row 3 — blurred -->
+      <div style="display:grid;grid-template-columns:90px 80px 110px 130px 110px 90px 110px;gap:0;border-bottom:1px solid var(--border);padding:14px 24px;align-items:center;filter:blur(4px);user-select:none;pointer-events:none;">
+        <div><span style="background:var(--gold);color:var(--navy-deep);font-size:0.7rem;font-weight:700;padding:3px 8px;border-radius:3px;">87 🔥</span></div>
+        <div style="font-size:0.9rem;font-weight:700;color:var(--gold);">–36%</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);">Land</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);">Warszawa</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);font-family:var(--font-mono);">920,000 PLN</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono);">02 Apr</div>
+        <div><span style="color:#22C55E;font-size:0.8rem;font-family:var(--font-mono);">● 7 days</span></div>
+      </div>
+      <!-- Row 4 — blurred -->
+      <div style="display:grid;grid-template-columns:90px 80px 110px 130px 110px 90px 110px;gap:0;border-bottom:1px solid var(--border);padding:14px 24px;align-items:center;filter:blur(4px);user-select:none;pointer-events:none;">
+        <div><span style="background:#243048;color:var(--text-muted);font-size:0.7rem;font-weight:700;padding:3px 8px;border-radius:3px;">83</span></div>
+        <div style="font-size:0.9rem;font-weight:700;color:var(--gold);">–32%</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);">Apartment</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);">Gdańsk</div>
+        <div style="font-size:0.85rem;color:var(--text-primary);font-family:var(--font-mono);">410,000 PLN</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono);">05 Apr</div>
+        <div><span style="color:#22C55E;font-size:0.8rem;font-family:var(--font-mono);">● 10 days</span></div>
+      </div>
+      <!-- Unlock CTA row -->
+      <div style="padding:20px 24px;background:rgba(232,160,32,0.04);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <span style="font-size:0.85rem;color:var(--text-muted);">🔒 <strong style="color:var(--text-primary);">16 more HOT deals</strong> hidden — address, bailiff contact, deposit amount locked</span>
+        <a href="pricing.html" class="btn btn-primary" style="padding:8px 20px;font-size:0.8rem;">Unlock Full Dashboard →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARKET INTELLIGENCE ─────────────────────────────────────────────────────── -->
+<section class="section" style="background:var(--navy-deep);">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:48px;">
+      <div class="label section-eyebrow">Market Intelligence</div>
+      <h2 class="section-title">Understanding the<br><span class="gold">Polish Auction Market</span></h2>
+      <p class="section-sub" style="max-width:520px;margin:0 auto;">Context transforms numbers into decisions. See how a 38% discount ranks against the full market distribution.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:start;">
+      <!-- Discount distribution -->
+      <div style="background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:28px;">
+        <div style="font-size:0.7rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;">Discount Distribution</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);width:40px;text-align:right;">0–10%</div>
+            <div style="flex:1;background:var(--border);border-radius:2px;height:8px;overflow:hidden;"><div style="width:9%;height:100%;background:var(--border-light);border-radius:2px;"></div></div>
+            <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);width:24px;">15</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);width:40px;text-align:right;">10–20%</div>
+            <div style="flex:1;background:var(--border);border-radius:2px;height:8px;overflow:hidden;"><div style="width:25%;height:100%;background:var(--border-light);border-radius:2px;"></div></div>
+            <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);width:24px;">42</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);width:40px;text-align:right;">20–30%</div>
+            <div style="flex:1;background:var(--border);border-radius:2px;height:8px;overflow:hidden;"><div style="width:41%;height:100%;background:#E8A02066;border-radius:2px;"></div></div>
+            <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);width:24px;">68</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);width:40px;text-align:right;">30–40%</div>
+            <div style="flex:1;background:var(--border);border-radius:2px;height:8px;overflow:hidden;"><div style="width:22%;height:100%;background:var(--gold);border-radius:2px;"></div></div>
+            <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--gold);width:24px;">37</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);width:40px;text-align:right;">40%+</div>
+            <div style="flex:1;background:var(--border);border-radius:2px;height:8px;overflow:hidden;"><div style="width:7%;height:100%;background:var(--gold);border-radius:2px;"></div></div>
+            <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--gold);width:24px;">11</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:0.75rem;color:var(--text-muted);">HOT deals (30%+) represent <span style="color:var(--gold);font-weight:600;">10% of all auctions</span></div>
+      </div>
+      <!-- Property types -->
+      <div style="background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:28px;">
+        <div style="font-size:0.7rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;">Property Types</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <span style="font-size:0.82rem;color:var(--text-primary);">Apartments</span>
+              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--gold);">45%</span>
+            </div>
+            <div style="background:var(--border);border-radius:2px;height:6px;overflow:hidden;"><div style="width:45%;height:100%;background:var(--gold);border-radius:2px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <span style="font-size:0.82rem;color:var(--text-primary);">Houses</span>
+              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);">30%</span>
+            </div>
+            <div style="background:var(--border);border-radius:2px;height:6px;overflow:hidden;"><div style="width:30%;height:100%;background:#E8A02066;border-radius:2px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <span style="font-size:0.82rem;color:var(--text-primary);">Land</span>
+              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);">18%</span>
+            </div>
+            <div style="background:var(--border);border-radius:2px;height:6px;overflow:hidden;"><div style="width:18%;height:100%;background:var(--border-light);border-radius:2px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <span style="font-size:0.82rem;color:var(--text-primary);">Commercial</span>
+              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);">7%</span>
+            </div>
+            <div style="background:var(--border);border-radius:2px;height:6px;overflow:hidden;"><div style="width:7%;height:100%;background:var(--border-light);border-radius:2px;"></div></div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:0.75rem;color:var(--text-muted);">Apartments have <span style="color:var(--gold);font-weight:600;">highest liquidity</span> and fastest resale</div>
+      </div>
+      <!-- Auction timeline -->
+      <div style="background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:28px;">
+        <div style="font-size:0.7rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;">Upcoming Auctions</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:5px;">
+            <span style="font-size:0.82rem;color:var(--text-primary);">This week</span>
+            <span style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:#EF4444;">18</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.2);border-radius:5px;">
+            <span style="font-size:0.82rem;color:var(--text-primary);">Next week</span>
+            <span style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:#F97316;">27</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.15);border-radius:5px;">
+            <span style="font-size:0.82rem;color:var(--text-primary);">Next 30 days</span>
+            <span style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:#22C55E;">121</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--navy-light);border:1px solid var(--border);border-radius:5px;">
+            <span style="font-size:0.82rem;color:var(--text-muted);">2nd round auctions</span>
+            <span style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--gold);">61</span>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:0.75rem;color:var(--text-muted);">2nd round = <span style="color:var(--gold);font-weight:600;">deeper discounts, fewer bidders</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOT DEALS ──────────────────────────────────────────────────────────────── -->
+<section class="section" id="deals">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="label section-eyebrow">Today's Intelligence</div>
+        <h2 class="section-title">Best Opportunities<br><span class="gold">Right Now</span></h2>
+      </div>
+      <a href="dashboard.html" class="btn btn-secondary">View Full Dashboard →</a>
+    </div>
+    <div class="deals-grid">
+      <!-- Deal 1 — fully visible -->
+      <div class="deal-feature-card fade-up">
+        <div class="card-top">
+          <span class="hot-label">🔥 HOT DEAL</span>
+          <div style="text-align:right">
+            <div class="big-score">92</div>
+            <div class="score-sub">Score</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-location">Kraków, Małopolska</div>
+          <div class="card-type">Apartment · 2nd Round · KM 1234/24</div>
+          <div class="card-metrics">
+            <div class="metric">
+              <div class="metric-val">364,667 PLN</div>
+              <div class="metric-label">Starting Price</div>
+            </div>
+            <div class="metric">
+              <div class="metric-val green">-41%</div>
+              <div class="metric-label">Discount</div>
+            </div>
+          </div>
+          <div class="card-countdown">⏱ Auction in 5 days</div>
+        </div>
+        <div class="card-action">
+          <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);">FREE PREVIEW</span>
+          <span class="view-btn">View Details →</span>
+        </div>
+      </div>
+
+      <!-- Deal 2 — blurred -->
+      <div class="deal-feature-card fade-up">
+        <div class="card-top">
+          <span class="hot-label">🔥 HOT DEAL</span>
+          <div style="text-align:right">
+            <div class="big-score">88</div>
+            <div class="score-sub">Score</div>
+          </div>
+        </div>
+        <div class="blurred-overlay">
+          <div class="card-body">
+            <div class="card-location">Warszawa, Mazowieckie</div>
+            <div class="card-type">Commercial · 1st Round</div>
+            <div class="card-metrics">
+              <div class="metric">
+                <div class="metric-val">1,240,000 PLN</div>
+                <div class="metric-label">Starting Price</div>
+              </div>
+              <div class="metric">
+                <div class="metric-val green">-38%</div>
+                <div class="metric-label">Discount</div>
+              </div>
+            </div>
+            <div class="card-countdown">⏱ Auction in 3 days</div>
+          </div>
+        </div>
+        <div class="card-action">
+          <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--gold);">SPECIALIST+</span>
+          <a href="pricing.html" class="btn btn-primary" style="padding:6px 14px;font-size:0.75rem;">Unlock →</a>
+        </div>
+      </div>
+
+      <!-- Deal 3 — blurred -->
+      <div class="deal-feature-card fade-up">
+        <div class="card-top">
+          <span class="good-label">✓ GOOD DEAL</span>
+          <div style="text-align:right">
+            <div class="big-score" style="color:var(--green)">79</div>
+            <div class="score-sub">Score</div>
+          </div>
+        </div>
+        <div class="blurred-overlay">
+          <div class="card-body">
+            <div class="card-location">Wrocław, Dolnośląskie</div>
+            <div class="card-type">House · 2nd Round</div>
+            <div class="card-metrics">
+              <div class="metric">
+                <div class="metric-val">580,000 PLN</div>
+                <div class="metric-label">Starting Price</div>
+              </div>
+              <div class="metric">
+                <div class="metric-val green">-35%</div>
+                <div class="metric-label">Discount</div>
+              </div>
+            </div>
+            <div class="card-countdown">⏱ Auction in 8 days</div>
+          </div>
+        </div>
+        <div class="card-action">
+          <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--gold);">SPECIALIST+</span>
+          <a href="pricing.html" class="btn btn-primary" style="padding:6px 14px;font-size:0.75rem;">Unlock →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HEATMAP ────────────────────────────────────────────────────────────────── -->
+<section class="section heatmap-section" id="heatmap">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="label section-eyebrow">Auction Intelligence</div>
+        <h2 class="section-title">Where the Best Deals<br><span class="gold">Are This Week</span></h2>
+      </div>
+    </div>
+    <div class="heatmap-inner">
+      <div class="poland-map">
+        <svg class="map-svg" viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Simplified Poland outline -->
+          <path d="M80 80 L120 60 L180 50 L240 55 L290 65 L330 80 L350 110 L360 150 L355 190 L340 220 L320 260 L300 290 L270 310 L240 320 L210 315 L180 310 L160 300 L140 280 L120 260 L100 240 L80 210 L65 180 L60 150 L65 120 Z" stroke="rgba(232,160,32,0.3)" stroke-width="1.5" fill="rgba(232,160,32,0.04)"/>
+          <!-- City dots -->
+          <g class="city-dot" data-city="Warszawa">
+            <circle cx="235" cy="150" r="18" fill="rgba(232,160,32,0.1)" class="pulse-ring"/>
+            <circle cx="235" cy="150" r="8" fill="var(--gold)" opacity="0.9"/>
+            <text x="248" y="148" fill="#E8A020" font-size="10" font-family="DM Mono" opacity="0.8">Warszawa</text>
+            <text x="248" y="160" fill="#00C896" font-size="9" font-family="DM Mono">8 deals</text>
+          </g>
+          <g class="city-dot" data-city="Kraków">
+            <circle cx="210" cy="255" r="16" fill="rgba(232,160,32,0.1)"/>
+            <circle cx="210" cy="255" r="7" fill="var(--gold)" opacity="0.9"/>
+            <text x="222" y="252" fill="#E8A020" font-size="10" font-family="DM Mono" opacity="0.8">Kraków</text>
+            <text x="222" y="263" fill="#00C896" font-size="9" font-family="DM Mono">11 deals</text>
+          </g>
+          <g class="city-dot" data-city="Łódź">
+            <circle cx="185" cy="170" r="12" fill="rgba(232,160,32,0.1)"/>
+            <circle cx="185" cy="170" r="6" fill="rgba(232,160,32,0.7)"/>
+            <text x="196" y="167" fill="#E8A020" font-size="10" font-family="DM Mono" opacity="0.8">Łódź</text>
+            <text x="196" y="178" fill="#00C896" font-size="9" font-family="DM Mono">7 deals</text>
+          </g>
+          <g class="city-dot" data-city="Wrocław">
+            <circle cx="130" cy="220" r="13" fill="rgba(232,160,32,0.1)"/>
+            <circle cx="130" cy="220" r="6" fill="rgba(232,160,32,0.7)"/>
+            <text x="143" y="217" fill="#E8A020" font-size="10" font-family="DM Mono" opacity="0.8">Wrocław</text>
+            <text x="143" y="228" fill="#00C896" font-size="9" font-family="DM Mono">9 deals</text>
+          </g>
+          <g class="city-dot" data-city="Gdańsk">
+            <circle cx="210" cy="80" r="11" fill="rgba(232,160,32,0.1)"/>
+            <circle cx="210" cy="80" r="5" fill="rgba(232,160,32,0.6)"/>
+            <text x="222" y="78" fill="#E8A020" font-size="10" font-family="DM Mono" opacity="0.8">Gdańsk</text>
+            <text x="222" y="89" fill="#00C896" font-size="9" font-family="DM Mono">5 deals</text>
+          </g>
+          <g class="city-dot" data-city="Poznań">
+            <circle cx="125" cy="145" r="11" fill="rgba(232,160,32,0.1)"/>
+            <circle cx="125" cy="145" r="5" fill="rgba(232,160,32,0.6)"/>
+            <text x="136" y="142" fill="#E8A020" font-size="10" font-family="DM Mono" opacity="0.8">Poznań</text>
+            <text x="136" y="153" fill="#00C896" font-size="9" font-family="DM Mono">6 deals</text>
+          </g>
+          <!-- Grid overlay -->
+          <line x1="0" y1="190" x2="400" y2="190" stroke="rgba(232,160,32,0.06)" stroke-width="1"/>
+          <line x1="200" y1="0" x2="200" y2="380" stroke="rgba(232,160,32,0.06)" stroke-width="1"/>
+        </svg>
+        <div class="map-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>10+ deals</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(232,160,32,0.6)"></div>5–9 deals</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(232,160,32,0.3)"></div>&lt; 5 deals</div>
+        </div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom:20px;">Top Cities by Deal Volume</div>
+        <div class="heatmap-list">
+          <div class="heatmap-city-row"><span class="city-rank">01</span><span class="city-name">Kraków</span><div class="city-bar-wrap"><div class="city-bar" style="width:100%"></div></div><span class="city-count">11</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">02</span><span class="city-name">Warszawa</span><div class="city-bar-wrap"><div class="city-bar" style="width:80%"></div></div><span class="city-count">8</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">03</span><span class="city-name">Wrocław</span><div class="city-bar-wrap"><div class="city-bar" style="width:75%"></div></div><span class="city-count">9</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">04</span><span class="city-name">Łódź</span><div class="city-bar-wrap"><div class="city-bar" style="width:65%"></div></div><span class="city-count">7</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">05</span><span class="city-name">Poznań</span><div class="city-bar-wrap"><div class="city-bar" style="width:55%"></div></div><span class="city-count">6</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">06</span><span class="city-name">Gdańsk</span><div class="city-bar-wrap"><div class="city-bar" style="width:45%"></div></div><span class="city-count">5</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">07</span><span class="city-name">Katowice</span><div class="city-bar-wrap"><div class="city-bar" style="width:35%"></div></div><span class="city-count">4</span></div>
+          <div class="heatmap-city-row"><span class="city-rank">08</span><span class="city-name">Szczecin</span><div class="city-bar-wrap"><div class="city-bar" style="width:30%"></div></div><span class="city-count">3</span></div>
+        </div>
+        <div style="margin-top:24px;padding:16px;background:var(--navy-light);border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:4px;font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase;">Deal of the Week</div>
+          <div style="font-weight:700;margin-bottom:4px;">Apartment — Kraków</div>
+          <div style="font-size:0.82rem;color:var(--text-muted);">Starting: 364,667 PLN · Discount: <span style="color:var(--green);font-weight:700;">-41%</span> · Score: <span style="color:var(--gold);font-weight:700;">92</span></div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:6px;font-family:var(--font-mono);">Auction in 5 days</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ────────────────────────────────────────────────────────────────── -->
+
+<!-- LEARN BANNER -->
+<section style="background:var(--navy);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:40px 0;">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div style="width:48px;height:48px;background:rgba(232,160,32,0.1);border:1px solid rgba(232,160,32,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">🏛️</div>
+      <div>
+        <div style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:4px;">New to court auctions?</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.5;">Read our complete guide — how Polish licytacje komornicze work, why prices are 30–60% below market, and how to evaluate deals before bidding.</div>
+      </div>
+    </div>
+    <a href="how-court-auctions-work.html" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold);color:var(--gold);font-size:0.82rem;font-weight:700;padding:11px 22px;border-radius:5px;white-space:nowrap;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='rgba(232,160,32,0.1)'" onmouseout="this.style.background='transparent'">
+      Read the Complete Guide →
+    </a>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:56px;">
+      <div class="label section-eyebrow">Pricing</div>
+      <h2 class="section-title">Find your edge.<br><span class="gold">Start for free.</span></h2>
+      <p class="section-sub">No credit card required. Upgrade or cancel anytime.</p>
+    </div>
+    <div class="pricing-grid">
+      <!-- FREE -->
+      <div class="pricing-card fade-up">
+        <div class="tier-label">Free</div>
+        <div class="tier-price"><span class="currency">€</span>0<span class="period">/mo</span></div>
+        <div class="tier-desc">Get a taste of court auction intelligence. No card needed.</div>
+        <ul class="tier-features">
+          <li><span class="feat-check">✓</span> Top 3 deals daily preview</li>
+          <li><span class="feat-check">✓</span> Deal 1 fully visible</li>
+          <li><span class="feat-check">✓</span> Weekly email digest</li>
+          <li><span class="feat-cross">✗</span> Full dashboard access</li>
+          <li><span class="feat-cross">✗</span> Deal score details</li>
+          <li><span class="feat-cross">✗</span> Filters & search</li>
+        </ul>
+        <a href="pricing.html#plans" class="btn btn-secondary" style="width:100%;justify-content:center;">Start Free</a>
+      </div>
+
+      <!-- SPECIALIST — featured -->
+      <div class="pricing-card featured hud-corners fade-up">
+        <div class="popular-badge">Most Popular</div>
+        <div class="tier-label">Specialist</div>
+        <div class="tier-price"><span class="currency">€</span>49<span class="period">/mo</span></div>
+        <div class="tier-desc">Full access for serious individual investors.</div>
+        <ul class="tier-features">
+          <li><span class="feat-check">✓</span> All HOT + GOOD deals</li>
+          <li><span class="feat-check">✓</span> Full deal score breakdown</li>
+          <li><span class="feat-check">✓</span> Discount % + estimated value</li>
+          <li><span class="feat-check">✓</span> Auction countdown timer</li>
+          <li><span class="feat-check">✓</span> City & property type filters</li>
+          <li><span class="feat-check">✓</span> Daily email digest</li>
+        </ul>
+        <a href="pricing.html#plans" class="btn btn-primary" style="width:100%;justify-content:center;">Choose Specialist →</a>
+      </div>
+
+      <!-- PRO -->
+      <div class="pricing-card fade-up">
+        <div class="tier-label">Pro</div>
+        <div class="tier-price"><span class="currency">€</span>149<span class="period">/mo</span></div>
+        <div class="tier-desc">For funds and serious portfolio builders.</div>
+        <ul class="tier-features">
+          <li><span class="feat-check">✓</span> Everything in Specialist</li>
+          <li><span class="feat-check">✓</span> Deposit amounts visible</li>
+          <li><span class="feat-check">✓</span> Early alert (≤3 days)</li>
+          <li><span class="feat-check">✓</span> CSV export</li>
+          <li><span class="feat-check">✓</span> 5 user seats</li>
+          <li><span class="feat-check">✓</span> Priority support</li>
+        </ul>
+        <a href="pricing.html#plans" class="btn btn-secondary" style="width:100%;justify-content:center;">Choose Pro →</a>
+      </div>
+
+      <!-- INSTITUTIONAL -->
+      <div class="pricing-card fade-up">
+        <div class="tier-label">Institutional</div>
+        <div class="tier-price"><span class="currency">€</span>999<span class="period">/mo</span></div>
+        <div class="tier-desc">API access and custom intelligence for professional firms.</div>
+        <ul class="tier-features">
+          <li><span class="feat-check">✓</span> Full REST API access</li>
+          <li><span class="feat-check">✓</span> Custom alert thresholds</li>
+          <li><span class="feat-check">✓</span> Historical data archive</li>
+          <li><span class="feat-check">✓</span> Bulk JSON/CSV export</li>
+          <li><span class="feat-check">✓</span> White-label reports</li>
+          <li><span class="feat-check">✓</span> Dedicated account manager</li>
+        </ul>
+        <a href="pricing.html#plans" class="btn btn-secondary" style="width:100%;justify-content:center;">Contact Sales →</a>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:32px;">
+      <a href="pricing.html" style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:2px;transition:color 0.15s,border-color 0.15s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)'" onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)'">View full feature comparison + FAQ →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSTITUTIONAL ──────────────────────────────────────────────────────────── -->
+<section class="section institutional" id="institutional">
+  <div class="container">
+    <div class="institutional-inner">
+      <div>
+        <div class="inst-eyebrow">Enterprise & Institutional</div>
+        <h2 class="section-title">Auction intelligence<br>for <span class="gold">professional firms</span></h2>
+        <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.7;margin:16px 0 0;">
+          Real estate funds, debt recovery firms, and law firms use intelEstate's institutional tier to monitor the entire Polish court auction market at scale.
+        </p>
+        <div class="inst-features">
+          <div class="inst-feature">
+            <div class="inst-icon">⚡</div>
+            <div>
+              <div class="inst-feature-title">REST API Access</div>
+              <div class="inst-feature-desc">Real-time JSON feed of all auctions, scores, and property data. Integrate directly into your acquisition pipeline.</div>
+              <div class="inst-use-case">Ideal for funds integrating auction data into their CRM or portfolio systems.</div>
+            </div>
+          </div>
+          <div class="inst-feature">
+            <div class="inst-icon">🔔</div>
+            <div>
+              <div class="inst-feature-title">Custom Alert Rules</div>
+              <div class="inst-feature-desc">Set thresholds by city, property type, discount %, and deal score. Get notified the moment a match appears.</div>
+              <div class="inst-use-case">Ideal for law firms tracking high-value distressed assets across specific regions.</div>
+            </div>
+          </div>
+          <div class="inst-feature">
+            <div class="inst-icon">📊</div>
+            <div>
+              <div class="inst-feature-title">Bulk Data Exports</div>
+              <div class="inst-feature-desc">CSV and JSON exports of the full auction database. Historical data archive included for trend analysis.</div>
+              <div class="inst-use-case">Ideal for debt recovery firms running portfolio-level market analysis.</div>
+            </div>
+          </div>
+          <div class="inst-feature">
+            <div class="inst-icon">🏷️</div>
+            <div>
+              <div class="inst-feature-title">White-Label Reports</div>
+              <div class="inst-feature-desc">Branded PDF intelligence reports for client presentations. Custom templates and scheduling available.</div>
+              <div class="inst-use-case">Ideal for advisors presenting distressed acquisition opportunities to investors.</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <a href="/cdn-cgi/l/email-protection#93f6fde7f6e1e3e1fae0f6d3fafde7f6fff6e0e7f2e7f6bdf6e6" class="btn btn-primary">Request Institutional Demo →</a>
+          <a href="#pricing" class="btn btn-ghost">See Pricing</a>
+        </div>
+        <div style="margin-top:16px;">
+          <a href="/cdn-cgi/l/email-protection#aecbc0dacbdcdedcc7ddcbeec7c0dacbc2cbdddacfdacb80cbdb91dddbccc4cbcdda93effee78eeac1cddbc3cbc0dacfdac7c1c08efccbdfdbcbddda" style="color:var(--gold);font-size:0.8rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(232,160,32,0.3);padding-bottom:2px;">Explore API Docs →</a>
+        </div>
+      </div>
+      <div class="inst-visual">
+        <div class="api-terminal hud-corners">
+          <div class="api-terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span style="margin-left:8px;">INTELESTATE API · v1.0</span>
+          </div>
+          <div class="api-code">
+            <div><span class="api-comment">// GET /v1/auctions?score_min=85</span></div>
+            <div><span class="api-comment">// Authorization: Bearer YOUR_KEY</span></div>
+            <br>
+            <div>{</div>
+            <div>&nbsp;&nbsp;<span class="api-key">"auctions"</span>: [</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;{</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"id"</span>: <span class="api-str">"KM-1234-24"</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"city"</span>: <span class="api-str">"Kraków"</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"deal_score"</span>: <span class="api-val">92</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"discount_pct"</span>: <span class="api-val">41</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"starting_price"</span>: <span class="api-val">364667</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"estimated_value"</span>: <span class="api-val">618000</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"auction_date"</span>: <span class="api-str">"2026-03-17"</span>,</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="api-key">"property_type"</span>: <span class="api-str">"APARTMENT"</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+            <div>&nbsp;&nbsp;],</div>
+            <div>&nbsp;&nbsp;<span class="api-key">"total"</span>: <span class="api-val">473</span>,</div>
+            <div>&nbsp;&nbsp;<span class="api-key">"hot_deals"</span>: <span class="api-val">18</span></div>
+            <div>}</div>
+          </div>
+        </div>
+        <!-- API Endpoints table -->
+        <div style="margin-top:16px;background:rgba(10,14,26,0.6);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+          <div style="padding:10px 16px;border-bottom:1px solid var(--border);font-size:0.7rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;">Key Endpoints</div>
+          <table style="width:100%;border-collapse:collapse;font-size:0.78rem;">
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 16px;color:var(--gold);font-family:var(--font-mono);white-space:nowrap;">GET /v1/auctions</td>
+              <td style="padding:10px 16px;color:var(--text-muted);">List all auctions with filters: score_min, city, property_type, discount_min</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 16px;color:var(--gold);font-family:var(--font-mono);white-space:nowrap;">GET /v1/auctions/:id</td>
+              <td style="padding:10px 16px;color:var(--text-muted);">Full detail for a single auction including bailiff contact and deposit</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 16px;color:var(--gold);font-family:var(--font-mono);white-space:nowrap;">POST /v1/alerts</td>
+              <td style="padding:10px 16px;color:var(--text-muted);">Create custom alert rules. Triggered in real time when new matches appear</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 16px;color:var(--gold);font-family:var(--font-mono);white-space:nowrap;">GET /v1/export</td>
+              <td style="padding:10px 16px;color:var(--text-muted);">Bulk CSV/JSON export with date range, city, and score filters</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUST ──────────────────────────────────────────────────────────────────── -->
+<section class="section-sm trust-section">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:8px;">
+      <div class="label">Used by property investors, law firms, and real estate professionals across Poland</div>
+    </div>
+    <div class="trust-logos">
+      <div class="trust-logo-item">Kancelaria Nowak</div>
+      <div class="trust-logo-item">PropInvest PL</div>
+      <div class="trust-logo-item">Debt Recovery EU</div>
+      <div class="trust-logo-item">RE Capital Fund</div>
+      <div class="trust-logo-item">LexProperty Sp.</div>
+    </div>
+    <div class="testimonials">
+      <div class="testimonial-card fade-up">
+        <div class="testimonial-quote">
+          "intelEstate surfaced a second-round apartment in Kraków we would have completely missed. We acquired it at 41% below estimated value. The ROI on the subscription is absurd."
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">MK</div>
+          <div>
+            <div class="author-name">Marek Kowalski</div>
+            <div class="author-role">Property Investor, Kraków</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="testimonial-quote">
+          "We track 50+ auctions per month for our fund. The API access and bulk export features save us 20+ hours a week in manual research. Institutional tier is worth every euro."
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">AW</div>
+          <div>
+            <div class="author-name">Anna Wiśniewska</div>
+            <div class="author-role">Fund Manager, Warszawa</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="testimonial-quote">
+          "As a debt recovery firm, court auction intelligence is essential. intelEstate gives us the data advantage we needed. The custom alert system is exactly what we asked for."
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">PZ</div>
+          <div>
+            <div class="author-name">Piotr Zając</div>
+            <div class="author-role">Director, Debt Recovery EU</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EMAIL INTELLIGENCE ─────────────────────────────────────────────────────── -->
+<section class="section" style="background:var(--navy);" id="digest">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;">
+      <div>
+        <div class="label section-eyebrow">Daily Intelligence Briefing</div>
+        <h2 class="section-title">Delivered at <span class="gold">06:00</span><br>every morning</h2>
+        <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.7;margin:16px 0 24px;">
+          Before other investors open their laptops, intelEstate has already scanned, scored, and ranked every Polish court auction. Your personalised briefing arrives at 6AM with only the deals worth your attention.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:var(--gold);font-size:1rem;margin-top:2px;">✓</span>
+            <span style="font-size:0.9rem;color:var(--text-primary);">HOT deals ranked by score — highest opportunity first</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:var(--gold);font-size:1rem;margin-top:2px;">✓</span>
+            <span style="font-size:0.9rem;color:var(--text-primary);">Auctions ending within 7 days — flagged as urgent</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:var(--gold);font-size:1rem;margin-top:2px;">✓</span>
+            <span style="font-size:0.9rem;color:var(--text-primary);">New listings added overnight — never miss an opportunity</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:var(--gold);font-size:1rem;margin-top:2px;">✓</span>
+            <span style="font-size:0.9rem;color:var(--text-primary);">Personalised to your tier — SPECIALIST, PRO, or Institutional</span>
+          </div>
+        </div>
+        <a href="pricing.html" class="btn btn-primary">Get Free Access →</a>
+        <div style="margin-top:12px;font-size:0.78rem;color:var(--text-muted);">FREE tier included · No credit card required</div>
+      </div>
+      <!-- Email mockup -->
+      <div>
+        <div style="background:var(--navy-deep);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 0 40px rgba(232,160,32,0.08);">
+          <!-- Email header -->
+          <div style="background:var(--navy-light);border-bottom:2px solid var(--gold);padding:18px 24px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:0.65rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:4px;">Court Auction Intelligence</div>
+                <div style="font-size:1.1rem;font-weight:700;color:#FFFFFF;">intel<span style="color:var(--gold);">Estate</span></div>
+              </div>
+              <div style="background:var(--gold);color:var(--navy-deep);font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:3px;">SPECIALIST</div>
+            </div>
+          </div>
+          <!-- Date bar -->
+          <div style="background:var(--navy);padding:8px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;">
+            <span style="font-size:0.7rem;color:#FFFFFF;letter-spacing:1px;text-transform:uppercase;">12 Mar 2026 · Poland</span>
+            <span style="font-size:0.7rem;color:var(--text-muted);">473 auctions monitored</span>
+          </div>
+          <!-- Stats row -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--border);">
+            <div style="padding:12px 16px;text-align:center;border-right:1px solid var(--border);">
+              <div style="font-size:1.2rem;font-weight:700;color:var(--gold);">9</div>
+              <div style="font-size:0.6rem;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px;">HOT Deals</div>
+            </div>
+            <div style="padding:12px 16px;text-align:center;border-right:1px solid var(--border);">
+              <div style="font-size:1.2rem;font-weight:700;color:var(--green);">14</div>
+              <div style="font-size:0.6rem;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px;">GOOD Deals</div>
+            </div>
+            <div style="padding:12px 16px;text-align:center;">
+              <div style="font-size:1.2rem;font-weight:700;color:#FFFFFF;">33%</div>
+              <div style="font-size:0.6rem;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px;">Avg Discount</div>
+            </div>
+          </div>
+          <!-- Deal card 1 -->
+          <div style="padding:14px 24px;border-bottom:1px solid var(--border);border-left:3px solid var(--gold);">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+              <span style="background:var(--gold);color:var(--navy-deep);font-size:0.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:2px;">HOT DEAL</span>
+              <span style="font-size:0.7rem;color:var(--text-muted);font-family:var(--font-mono);">3 days left</span>
+            </div>
+            <div style="font-size:0.88rem;font-weight:600;color:#FFFFFF;margin-bottom:4px;">Apartment — Kraków</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;">
+              <div><div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Price</div><div style="font-size:0.82rem;font-weight:700;color:#FFFFFF;margin-top:2px;">364,667 PLN</div></div>
+              <div><div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Discount</div><div style="font-size:0.82rem;font-weight:700;color:var(--gold);margin-top:2px;">–41%</div></div>
+              <div><div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Score</div><div style="font-size:0.82rem;font-weight:700;color:var(--gold);margin-top:2px;">94</div></div>
+            </div>
+          </div>
+          <!-- Deal card 2 -->
+          <div style="padding:14px 24px;border-bottom:1px solid var(--border);border-left:3px solid var(--gold);">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+              <span style="background:var(--gold);color:var(--navy-deep);font-size:0.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:2px;">HOT DEAL</span>
+              <span style="font-size:0.7rem;color:var(--text-muted);font-family:var(--font-mono);">5 days left</span>
+            </div>
+            <div style="font-size:0.88rem;font-weight:600;color:#FFFFFF;margin-bottom:4px;">House — Łódź</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;">
+              <div><div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Price</div><div style="font-size:0.82rem;font-weight:700;color:#FFFFFF;margin-top:2px;">580,000 PLN</div></div>
+              <div><div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Discount</div><div style="font-size:0.82rem;font-weight:700;color:var(--gold);margin-top:2px;">–38%</div></div>
+              <div><div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Score</div><div style="font-size:0.82rem;font-weight:700;color:var(--gold);margin-top:2px;">91</div></div>
+            </div>
+          </div>
+          <!-- Footer -->
+          <div style="padding:12px 24px;text-align:center;">
+            <span style="font-size:0.72rem;color:var(--text-muted);">+ 7 more HOT deals and 14 GOOD deals in your dashboard</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ────────────────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:48px;">
+      <div class="label section-eyebrow">FAQ</div>
+      <h2 class="section-title">Common <span class="gold">Questions</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">
+          Where does the auction data come from?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">intelEstate pulls data directly from the official Polish bailiff portal (licytacje.komornik.pl) and regional court announcement systems — not from third-party aggregators or secondary sources. Every listing is tied to a real court case reference number (KM/KMP), which you can independently verify. This means the data is legally authoritative and traceable to its source.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          How early do auctions appear in the system?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">Our scraper runs every night and new listings typically appear in the system within 24 hours of being published on the official court portals. Polish law requires auctions to be publicly announced at least two weeks before the auction date, which gives you meaningful preparation time. PRO subscribers additionally receive early alerts for any HOT deal with an auction date within 3 days — so nothing slips through at the last minute.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          How does the deal scoring algorithm work?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">Every auction is scored 0–100 using three weighted factors: discount vs the court-appraised value (60%), auction round — second-round auctions start at a lower price and score higher (20%), and urgency — how many days remain until the auction date (20%). Scores of 85 or above are flagged as HOT, 70–84 as GOOD. Road shares and non-investable property types are automatically excluded from scoring so they never pollute your feed.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Which regions of Poland are covered?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">intelEstate covers all 16 Polish voivodeships, with the densest auction activity in Małopolska, Mazowieckie, Dolnośląskie, and Śląskie. Coverage is national — we do not focus only on major cities, which means you can find exceptional deals in secondary markets that most investors overlook. EU expansion to Czech Republic and Hungary is on the roadmap for 2026.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Do I need to be in Poland to participate in auctions?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">Most Polish court auctions take place in person at the district courthouse in the property's jurisdiction — remote or online bidding is not yet standard procedure. However, you can appoint a legal representative (pełnomocnik) with a notarised power of attorney to bid on your behalf. EU and non-EU investors can both participate; non-EU buyers may need a Ministry of Interior permit for certain property types such as agricultural land.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          What is a second-round auction and why does it matter?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">If a first-round court auction receives no qualified bids, it is rescheduled as a second-round auction with a lower starting price — reduced from 75% to 66.7% of the court-appraised value. This means the floor price is automatically 11% lower than the first round before any competition even begins. Second-round auctions also tend to attract fewer bidders, which further increases your chances of securing the property at or near the starting price.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Can I cancel my subscription anytime?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">Yes — you can cancel at any time with no penalty and no questions asked. Your subscription stays active until the end of the current billing period, and you will not be charged again after that. There are no lock-in contracts, no cancellation fees, and no automatic renewals hidden in fine print.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          What payment methods are accepted?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">We accept all major credit and debit cards (Visa, Mastercard, Amex), SEPA bank transfer, and PayPal. Annual plans can be paid upfront at a discounted rate — saving up to 20% versus monthly billing. Institutional customers can request invoice-based billing with 30-day payment terms and a dedicated account manager.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ───────────────────────────────────────────────────────────────── -->
+<section class="final-cta">
+  <div class="container">
+    <div class="label" style="margin-bottom:16px;">Start Today</div>
+    <h2>Find your next deal<br><span class="gold">before anyone else does</span></h2>
+    <p>Join a growing community of investors and professionals across Poland.</p>
+    <a href="pricing.html" class="btn btn-primary" style="font-size:1.05rem;padding:16px 36px;">
+      Get Free Access Now →
+    </a>
+    <div class="cta-note">
+      <span>✓ No credit card required</span>
+      <span>✓ Free tier forever</span>
+      <span>✓ Cancel anytime</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────────────────── -->
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top" style="position:fixed;bottom:28px;right:28px;z-index:200;width:40px;height:40px;border-radius:50%;background:var(--gold);color:var(--navy-deep);font-size:1rem;display:none;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(232,160,32,0.3);transition:opacity 0.2s,transform 0.2s;cursor:pointer;border:none;">↑</button>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">intel<span class="gold">Estate</span></div>
+        <p class="footer-tagline">The Bloomberg Terminal for European court property auctions. Scan, score, and act — before the market does.</p>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);letter-spacing:1px;">
+          INTELESTATE.EU · INTELESTATE.PL<br>
+          Data sourced from official Polish judicial auction portals
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Product</div>
+        <ul class="footer-links">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#deals">Hot Deals</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#how">How It Works</a></li>
+          <li><a href="pricing.html#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="/cdn-cgi/l/email-protection#dbb3beb7b7b49bb2b5afbeb7bea8afbaafbef5beae">About</a></li>
+          <li><a href="#institutional">Enterprise</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#e088858c8c8fa0898e94858c859394819485ce8595">Contact</a></li>
+          <li><a href="how-court-auctions-work.html">Blog / Guide</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Legal</div>
+        <ul class="footer-links">
+          <li><a href="legal.html#privacy">Privacy Policy</a></li>
+          <li><a href="legal.html#terms">Terms of Service</a></li>
+          <li><a href="legal.html#cookies">Cookie Policy</a></li>
+          <li><a href="legal.html#gdpr">GDPR</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="padding: 20px 0; border-top: 1px solid var(--border); margin-bottom: 0;">
+      <p style="font-size:0.68rem;color:var(--text-muted);line-height:1.7;max-width:800px;">
+        <strong style="color:var(--text-primary);">Disclaimer:</strong> intelEstate provides auction data and deal scoring for informational purposes only. Nothing on this platform constitutes financial, investment, or legal advice. Court auction investments carry risk including but not limited to occupancy disputes, title challenges, and property condition. Always conduct independent due diligence and consult qualified legal and financial advisors before making any investment decision. Past discount data does not guarantee future results.
+      </p>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 intelEstate OÜ (registration pending). All rights reserved.</span>
+      <span style="display:flex;gap:20px;">
+        <a href="legal.html#privacy" style="color:#FFFFFF;text-decoration:none;">Privacy</a>
+        <a href="legal.html#terms" style="color:#FFFFFF;text-decoration:none;">Terms</a>
+        <a href="/cdn-cgi/l/email-protection#167e737a7a79567f7862737a736562776273387363" style="color:#FFFFFF;text-decoration:none;">Contact</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll to top -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── NAVBAR SCROLL ────────────────────────────────────────────────────────────
+const navbar = document.getElementById('navbar');
+const scrollTopBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+  scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+});
+
+// ── HAMBURGER MENU ───────────────────────────────────────────────────────────
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('open');
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+});
+
+// ── COUNTER ANIMATIONS ───────────────────────────────────────────────────────
+function animateCounter(el, target, suffix = '') {
+  let start = 0;
+  const duration = 1800;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = Math.floor(start).toLocaleString() + suffix;
+    if (start >= target) clearInterval(timer);
+  }, 16);
+}
+
+// ── INTERSECTION OBSERVER ─────────────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Animate stats bar counters when scrolled into view
+      if (entry.target.classList.contains('stats-bar')) {
+        entry.target.querySelectorAll('[data-count]').forEach(el => {
+          const target = parseInt(el.dataset.count);
+          const suffix = el.dataset.suffix || '';
+          animateCounter(el, target, suffix);
+        });
+      }
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Trigger hero counters on page load
+setTimeout(() => {
+  document.querySelectorAll('.hero-stats [data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    animateCounter(el, target, suffix);
+  });
+}, 400);
+
+// ── FAQ ACCORDION ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// ── SMOOTH SCROLL ─────────────────────────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// ── PROFIT SLIDER ─────────────────────────────────────────────────────────────
+function updateProfitCalc() {
+  const capital = parseInt(document.getElementById('calc-capital')?.value) || 500000;
+  const paid    = Math.round(capital * 0.62);
+  const gain    = capital - paid;
+  const fmt     = n => n.toLocaleString('pl-PL') + ' PLN';
+  const el      = id => document.getElementById(id);
+  if (el('calc-capital-display')) el('calc-capital-display').textContent = fmt(capital);
+  if (el('calc-paid'))   el('calc-paid').textContent   = fmt(paid);
+  if (el('calc-gain'))   el('calc-gain').textContent   = fmt(gain);
+  if (el('calc-market')) el('calc-market').textContent = fmt(capital);
+}
+const capitalSlider = document.getElementById('calc-capital');
+if (capitalSlider) { capitalSlider.addEventListener('input', updateProfitCalc); updateProfitCalc(); }
+
+
+// ── LIVE TICKER FROM SUPABASE ─────────────────────────────────────────────────
+async function loadLiveTicker() {
+  const SUPABASE_URL = 'https://jvtuknygwtonykrccqmd.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_5i4ptLiVZmKRo2qn7splZg_-H9QfnNb';
+  try {
+    const res = await fetch(
+      SUPABASE_URL + '/rest/v1/auctions?select=deal_score,location_tier,property_type,discount_percent&deal_score=gte.70&order=deal_score.desc&limit=12',
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
+    );
+    if (!res.ok) return;
+    const deals = await res.json();
+    if (!deals || deals.length < 4) return;
+
+    const track = document.getElementById('tickerTrack');
+    const dup   = document.getElementById('tickerDuplicate');
+    if (!track || !dup) return;
+
+    const typeMap = { APARTMENT:'Apartment', HOUSE:'House', LAND:'Land', COMMERCIAL:'Commercial', OTHER:'Property' };
+    const cityMap = { TIER1:'Warsaw', TIER2:'Kraków', TIER3:'Wrocław', TIER4:'Gdańsk', TIER5:'Poznań' };
+
+    function makeItem(d) {
+      const isHot = (d.deal_score || 0) >= 85;
+      const div = document.createElement('div');
+      div.className = 'ticker-item';
+      div.innerHTML =
+        '<div class="ticker-urgency ' + (isHot ? 'urgency-hot' : 'urgency-good') + '"></div>' +
+        '<span class="ticker-score">' + (d.deal_score || '—') + '</span>' +
+        '<span class="ticker-city">' + (cityMap[d.location_tier] || 'Poland') + '</span>' +
+        '<span class="ticker-type">' + (typeMap[d.property_type] || 'Property') + '</span>' +
+        '<span class="ticker-discount">' + (d.discount_percent ? '-' + Math.round(d.discount_percent) + '%' : '—') + '</span>';
+      return div;
+    }
+
+    // Replace both track and duplicate with live data
+    track.innerHTML = '';
+    dup.innerHTML   = '';
+    deals.forEach(d => { track.appendChild(makeItem(d)); dup.appendChild(makeItem(d)); });
+
+  } catch(e) { /* silent fail — static fallback stays */ }
+}
+loadLiveTicker();
+
+</script>
+</body>
+</html>
