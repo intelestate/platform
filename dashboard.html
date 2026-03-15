@@ -884,6 +884,26 @@ input { font-family: inherit; }
         </div>
       </div>
     </div>
+    <div class="drawer-section" id="d-nbp-section" style="display:none;">
+      <div class="drawer-section-title">Market Intelligence · NBP Q4 2025</div>
+      <div class="drawer-grid">
+        <div class="drawer-field"><div class="drawer-field-label">NBP Market Rate</div><div class="drawer-field-value" id="d-nbp-rate" style="color:#CCCCCC;">—</div></div>
+        <div class="drawer-field"><div class="drawer-field-label">Auction Price/m²</div><div class="drawer-field-value" id="d-nbp-auction-m2" style="color:var(--gold);">—</div></div>
+        <div class="drawer-field"><div class="drawer-field-label">NBP Market Value</div><div class="drawer-field-value" id="d-nbp-market-val">—</div></div>
+        <div class="drawer-field"><div class="drawer-field-label">NBP Discount</div><div class="drawer-field-value" id="d-nbp-discount" style="color:var(--green);">—</div></div>
+        <div class="drawer-field" style="grid-column:span 2;">
+          <div class="drawer-field-label">Vs Market</div>
+          <div id="d-nbp-bar" style="margin-top:4px;height:6px;background:var(--navy);border-radius:3px;overflow:hidden;">
+            <div id="d-nbp-bar-fill" style="height:100%;background:var(--green);border-radius:3px;width:0%;transition:width 0.6s ease;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:3px;">
+            <span style="font-family:var(--font-m);font-size:0.55rem;color:#666;">Auction Price</span>
+            <span id="d-nbp-bar-label" style="font-family:var(--font-m);font-size:0.55rem;color:var(--green);">—</span>
+            <span style="font-family:var(--font-m);font-size:0.55rem;color:#666;">NBP Market</span>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="drawer-section">
       <div class="drawer-section-title">Case Reference</div>
       <div class="kw-row">
@@ -1188,6 +1208,62 @@ function openDrawer(row) {
 
   drawer._priceNum = parseInt(price.replace(/[^0-9]/g,'')) || 0;
   updateCalc();
+
+  // ── NBP Market Intelligence ──────────────────────────────────────────────
+  const NBP_PRICES = {
+    'warszawa': 16750, 'warsaw': 16750,
+    'kraków': 14898, 'krakow': 14898,
+    'gdańsk': 13392, 'gdansk': 13392,
+    'gdynia': 13000,
+    'wrocław': 12546, 'wroclaw': 12546,
+    'poznań': 10636, 'poznan': 10636,
+    'rzeszów': 10494, 'rzeszow': 10494,
+    'szczecin': 9200,
+    'lublin': 8800,
+    'białystok': 8500, 'bialystok': 8500,
+    'katowice': 8188,
+    'bydgoszcz': 8100,
+    'łódź': 8038, 'lodz': 8038,
+    'toruń': 7600, 'torun': 7600,
+    'olsztyn': 7400,
+    'kielce': 7000,
+    'opole': 6900
+  };
+
+  // Extract city from location (e.g. "Kraków, Małopolskie" → "kraków")
+  const cityRaw = (loc.split(',')[0] || '').trim().toLowerCase()
+    .replace(/ą/g,'a').replace(/ć/g,'c').replace(/ę/g,'e')
+    .replace(/ł/g,'l').replace(/ń/g,'n').replace(/ó/g,'o')
+    .replace(/ś/g,'s').replace(/ź/g,'z').replace(/ż/g,'z');
+
+  // Extract area from name (e.g. "Apartment · 72 m²" → 72)
+  const areaMatch = name.match(/(\d+)\s*m²/);
+  const areaSqm = areaMatch ? parseInt(areaMatch[1]) : 0;
+
+  const nbpRate = NBP_PRICES[cityRaw] || null;
+  const priceNum = drawer._priceNum;
+  const nbpSection = document.getElementById('d-nbp-section');
+
+  if (nbpRate && areaSqm > 0 && priceNum > 0) {
+    const nbpMarketVal = nbpRate * areaSqm;
+    const auctionPerM2 = Math.round(priceNum / areaSqm);
+    const nbpDiscPct = Math.round(((nbpMarketVal - priceNum) / nbpMarketVal) * 100);
+    const barPct = Math.max(0, Math.min(85, (priceNum / nbpMarketVal) * 100));
+
+    document.getElementById('d-nbp-rate').textContent = nbpRate.toLocaleString('pl-PL') + ' PLN/m²';
+    document.getElementById('d-nbp-auction-m2').textContent = auctionPerM2.toLocaleString('pl-PL') + ' PLN/m²';
+    document.getElementById('d-nbp-market-val').textContent = nbpMarketVal.toLocaleString('pl-PL') + ' PLN';
+    document.getElementById('d-nbp-discount').textContent = nbpDiscPct > 0 ? '-' + nbpDiscPct + '% vs market' : '+' + Math.abs(nbpDiscPct) + '% above market';
+    document.getElementById('d-nbp-discount').style.color = nbpDiscPct > 0 ? 'var(--green)' : 'var(--red)';
+    document.getElementById('d-nbp-bar-label').textContent = nbpDiscPct > 0 ? nbpDiscPct + '% below NBP' : 'above market';
+    document.getElementById('d-nbp-bar-label').style.color = nbpDiscPct > 0 ? 'var(--green)' : 'var(--red)';
+    setTimeout(() => {
+      document.getElementById('d-nbp-bar-fill').style.width = barPct + '%';
+    }, 100);
+    nbpSection.style.display = 'block';
+  } else {
+    nbpSection.style.display = 'none';
+  }
 
   const saveBtn = row.querySelector('.save-btn');
   const dSave   = document.getElementById('d-action-save');
