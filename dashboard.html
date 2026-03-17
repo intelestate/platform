@@ -320,6 +320,23 @@ input { font-family: inherit; }
 .deposit-locked { display: flex; align-items: center; gap: 8px; background: rgba(249,115,22,0.06); border: 1px solid rgba(249,115,22,0.2); border-radius: 5px; padding: 8px 12px; font-size: 0.72rem; color: var(--orange); }
 @media (max-width: 768px) { .drawer { width: 100%; max-width: 100%; } }
 
+/* Risk Shield */
+.risk-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 4px; font-family: var(--font-m); font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.risk-badge.critical { background: rgba(239,68,68,0.15); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
+.risk-badge.high     { background: rgba(245,158,11,0.15); color: #F59E0B; border: 1px solid rgba(245,158,11,0.3); }
+.risk-badge.medium   { background: rgba(232,160,32,0.12); color: var(--gold); border: 1px solid var(--gold-border); }
+.risk-badge.low      { background: rgba(0,200,150,0.10); color: var(--green); border: 1px solid rgba(0,200,150,0.25); }
+.risk-flag-list { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
+.risk-flag-item { display: flex; align-items: flex-start; gap: 7px; font-size: 0.75rem; color: var(--text-primary); line-height: 1.4; }
+.risk-flag-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.risk-flag-dot.critical { background: #EF4444; }
+.risk-flag-dot.high     { background: #F59E0B; }
+.risk-flag-dot.medium   { background: var(--gold); }
+.risk-flag-dot.low      { background: var(--green); }
+.risk-recommendation { font-size: 0.75rem; color: #CCCCCC; line-height: 1.5; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); font-style: italic; }
+.risk-confidence { font-family: var(--font-m); font-size: 0.58rem; color: var(--text-dim); margin-top: 6px; }
+.risk-loading { font-family: var(--font-m); font-size: 0.7rem; color: var(--text-dim); padding: 8px 0; }
+
 /* OVERLAY + SCROLLBAR */
 .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 55; backdrop-filter: blur(2px); }
 ::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -904,6 +921,16 @@ input { font-family: inherit; }
         </div>
       </div>
     </div>
+    <div class="drawer-section" id="d-risk-section" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div class="drawer-section-title" style="margin-bottom:0;">🛡 Legal Risk Assessment</div>
+        <span id="d-risk-badge" class="risk-badge low">LOW</span>
+      </div>
+      <div id="d-risk-loading" class="risk-loading" style="display:none;">Analyzing legal description…</div>
+      <div id="d-risk-flags" class="risk-flag-list"></div>
+      <div id="d-risk-recommendation" class="risk-recommendation" style="display:none;"></div>
+      <div id="d-risk-confidence" class="risk-confidence"></div>
+    </div>
     <div class="drawer-section">
       <div class="drawer-section-title">Case Reference</div>
       <div class="kw-row">
@@ -1263,6 +1290,79 @@ function openDrawer(row) {
     nbpSection.style.display = 'block';
   } else {
     nbpSection.style.display = 'none';
+  }
+
+  // ── Risk Shield ─────────────────────────────────────────────────────────
+  const riskSection = document.getElementById('d-risk-section');
+  const riskBadge   = document.getElementById('d-risk-badge');
+  const riskFlags   = document.getElementById('d-risk-flags');
+  const riskRec     = document.getElementById('d-risk-recommendation');
+  const riskConf    = document.getElementById('d-risk-confidence');
+  const riskLoad    = document.getElementById('d-risk-loading');
+
+  riskSection.style.display = 'none';
+  riskFlags.innerHTML = '';
+  riskRec.style.display = 'none';
+  riskRec.textContent = '';
+  riskConf.textContent = '';
+
+  const kmVal = document.getElementById('d-km')?.textContent || '';
+  if (kmVal && kmVal !== '—') {
+    riskSection.style.display = 'block';
+    riskLoad.style.display = 'block';
+
+    const SUPA_URL = 'https://jvtuknygwtonykrccqmd.supabase.co';
+    const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2dHVrbnlnd3RvbnlrcmNjcW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3Mjk3MTgsImV4cCI6MjA4ODMwNTcxOH0.KBTFX3PHKU_GJLfpLtSSHuFNIp2MiJy-CW9RI7bMSR4';
+
+    fetch(`${SUPA_URL}/rest/v1/auctions?km_case_number=eq.${encodeURIComponent(kmVal)}&select=risk_score,risk_flags,risk_recommendation,risk_confidence,risk_dozywocje,risk_sluzebnosc,risk_hipoteka,risk_lokator,risk_wspolwlasnosc,risk_zabytek,risk_wielka_plyta&limit=1`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    })
+    .then(r => r.json())
+    .then(data => {
+      riskLoad.style.display = 'none';
+      const d = data[0];
+      if (!d || !d.risk_score) { riskSection.style.display = 'none'; return; }
+
+      const scoreMap   = { CRITICAL: 'critical', HIGH: 'high', MEDIUM: 'medium', LOW: 'low' };
+      const scoreLabel = { CRITICAL: '🔴 Critical Risk', HIGH: '🟠 High Risk', MEDIUM: '🟡 Medium Risk', LOW: '🟢 Low Risk' };
+      const cls = scoreMap[d.risk_score] || 'low';
+      riskBadge.className = 'risk-badge ' + cls;
+      riskBadge.textContent = scoreLabel[d.risk_score] || d.risk_score;
+
+      const flagDefs = [
+        { key: 'risk_dozywocje',     label: 'Dożywocie — Lifetime habitation right',        sev: 'critical' },
+        { key: 'risk_zabytek',       label: 'Zabytek — Heritage monument, 3× reno costs',   sev: 'critical' },
+        { key: 'risk_hipoteka',      label: 'Hipoteka — Mortgage or lien on property',       sev: 'high'     },
+        { key: 'risk_lokator',       label: 'Lokator — Active tenant, eviction required',    sev: 'high'     },
+        { key: 'risk_sluzebnosc',    label: 'Służebność — Easement limits ownership',        sev: 'high'     },
+        { key: 'risk_wspolwlasnosc', label: 'Współwłasność — Fractional/shared ownership',  sev: 'medium'   },
+        { key: 'risk_wielka_plyta',  label: 'Wielka Płyta — Banks may refuse mortgage',      sev: 'medium'   },
+      ];
+
+      let hasFlags = false;
+      flagDefs.forEach(f => {
+        if (d[f.key]) {
+          hasFlags = true;
+          const item = document.createElement('div');
+          item.className = 'risk-flag-item';
+          item.innerHTML = `<div class="risk-flag-dot ${f.sev}"></div><span>${f.label}</span>`;
+          riskFlags.appendChild(item);
+        }
+      });
+
+      if (!hasFlags) {
+        riskFlags.innerHTML = `<div class="risk-flag-item"><div class="risk-flag-dot low"></div><span>No legal encumbrances detected in description</span></div>`;
+      }
+
+      if (d.risk_recommendation) {
+        riskRec.textContent = d.risk_recommendation;
+        riskRec.style.display = 'block';
+      }
+      if (d.risk_confidence) {
+        riskConf.textContent = `Analysis confidence: ${Math.round(d.risk_confidence * 100)}%`;
+      }
+    })
+    .catch(() => { riskLoad.style.display = 'none'; riskSection.style.display = 'none'; });
   }
 
   const saveBtn = row.querySelector('.save-btn');
