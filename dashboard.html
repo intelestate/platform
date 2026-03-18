@@ -1230,7 +1230,7 @@ function openDrawer(row) {
     riskLoad.style.display = 'block';
 
     const SUPA_URL = 'https://jvtuknygwtonykrccqmd.supabase.co';
-    const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2dHVrbnlnd3RvbnlrcmNjcW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3Mjk3MTgsImV4cCI6MjA4ODMwNTcxOH0.KBTFX3PHKU_GJLfpLtSSHuFNIp2MiJy-CW9RI7bMSR4';
+    const SUPA_KEY = 'sb_publishable_5i4ptLiVZmKRo2qn7splZg_-H9QfnNb';
 
     fetch(`${SUPA_URL}/rest/v1/auctions?km_case_number=eq.${encodeURIComponent(kmVal)}&select=risk_score,risk_flags,risk_recommendation,risk_confidence,risk_dozywocje,risk_sluzebnosc,risk_hipoteka,risk_lokator,risk_wspolwlasnosc,risk_zabytek,risk_wielka_plyta&limit=1`, {
       headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
@@ -1573,7 +1573,7 @@ window.addEventListener('load', () => {
 
 // ── LOAD REAL AUCTIONS FROM SUPABASE ─────────────────────────────────────
 const SUPA_URL_MAIN = 'https://jvtuknygwtonykrccqmd.supabase.co';
-const SUPA_KEY_MAIN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2dHVrbnlnd3RvbnlrcmNjcW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3Mjk3MTgsImV4cCI6MjA4ODMwNTcxOH0.KBTFX3PHKU_GJLfpLtSSHuFNIp2MiJy-CW9RI7bMSR4';
+const SUPA_KEY_MAIN = 'sb_publishable_5i4ptLiVZmKRo2qn7splZg_-H9QfnNb';
 
 async function loadAuctions() {
   const tbody = document.getElementById('deals-tbody');
